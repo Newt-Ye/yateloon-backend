@@ -3,9 +3,9 @@ import {
   Create,
   SimpleForm,
   TextInput,
-  useTranslate
+  /*useTranslate*/
 } from "react-admin"
-import { Box, Typography, Grid } from "@mui/material"
+import { /*Box, Typography, */Grid } from "@mui/material"
 
 const InventoryItemCategoryTitle = () => {
   return <span>{'新增品號類別'}</span>;
@@ -20,7 +20,6 @@ export const validateForm = values => {
 }
 
 const InventoryItemCategoryCreate = () => {
-  const translate = useTranslate()
   return (
     <Create title={<InventoryItemCategoryTitle/>}>
       <SimpleForm
@@ -43,17 +42,5 @@ const InventoryItemCategoryCreate = () => {
     </Create>
   )
 }
-
-const SectionTitle = ({ label }) => {
-  const translate = useTranslate()
-
-  return (
-    <Typography variant="h6" gutterBottom>
-      {translate(label)}
-    </Typography>
-  )
-}
-
-const Separator = () => <Box pt="1em" />
 
 export default InventoryItemCategoryCreate

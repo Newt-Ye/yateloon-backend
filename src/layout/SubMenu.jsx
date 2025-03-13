@@ -8,11 +8,11 @@ import {
   Tooltip
 } from "@mui/material"
 import ExpandMore from "@mui/icons-material/ExpandMore"
-import { useTranslate, useSidebarState } from "react-admin"
+import { /*useTranslate, */useSidebarState } from "react-admin"
 
 const SubMenu = props => {
   const { handleToggle, isOpen, name, icon, children, dense } = props
-  const translate = useTranslate()
+  // const translate = useTranslate()
 
   const [sidebarIsOpen] = useSidebarState()
 

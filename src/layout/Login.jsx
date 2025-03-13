@@ -3,26 +3,24 @@ import { useState } from "react"
 import { useLocation } from "react-router-dom"
 
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardActions,
   CircularProgress
 } from "@mui/material"
-import LockIcon from "@mui/icons-material/Lock"
 import {
   Form,
   required,
   TextInput,
-  useTranslate,
+  /*useTranslate,*/
   useLogin,
   useNotify
 } from "react-admin"
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
-  const translate = useTranslate()
+  // const translate = useTranslate()
 
   const notify = useNotify()
   const login = useLogin()

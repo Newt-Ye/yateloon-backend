@@ -1,4 +1,4 @@
-import { fetchUtils, useRedirect } from 'react-admin';
+import { fetchUtils } from 'react-admin';
 import simpleRestProvider from 'ra-data-simple-rest';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -14,135 +14,6 @@ const httpClient = (url, options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 const dataProvider = simpleRestProvider(apiUrl, httpClient);
-
-const createProductFormData = (params) => {
-  const formData = new FormData();
-  Object.entries(params.data).forEach(([key, value]) => {
-    if (key === 'otherImage' && Array.isArray(value)) {
-      // 處理多檔案上傳
-      value.forEach((file, index) => {
-        if (file.rawFile) {
-          formData.append(`otherImages`, file.rawFile);
-        }
-      });
-    } else if ((key === 'coverImage' || key === 'templateImage') && value?.rawFile) {
-      // 單檔案上傳
-      formData.append(key, value.rawFile);
-    } else if (key === 'colors' && Array.isArray(value)) {
-      value.forEach((item, index) => {
-        if (item.name) {
-          formData.append(`colors[${index}][name]`,item.name);  
-          formData.append(`colors[${index}][code]`,item.code || '');  
-          
-          if (item.image?.rawFile) {
-            formData.append(`colorImages`, item.image.rawFile);
-          }
-
-          if (item.navImage?.rawFile) {
-            formData.append(`colorNavImages`, item.navImage.rawFile);
-          }
-        }
-      });
-    } else if (key === 'specifications' && Array.isArray(value)) {
-      value.forEach((item, index) => {
-        formData.append(`specifications[${index}]`, item.name);  
-      });
-    } else if (key === 'quantityDiscounts' && Array.isArray(value)) {
-      value.forEach((item, index) => {
-        if (item.minQuantity && item.maxQuantity && (item.discountPercentage || item.leadTimeDays)) {
-          formData.append(`quantityDiscounts[${index}][minQuantity]`,item.minQuantity || '');  
-          formData.append(`quantityDiscounts[${index}][maxQuantity]`,item.maxQuantity || '');
-          formData.append(`quantityDiscounts[${index}][discountPercentage]`,item.discountPercentage || '');
-          formData.append(`quantityDiscounts[${index}][leadTimeDays]`,item.leadTimeDays || '');
-        }
-      });
-    } else if (key === 'categories' && Array.isArray(value)) {
-      value.forEach((value, index) => {
-        formData.append(`categories[${index}]`, value);  
-      });
-    }  else {
-      // 一般欄位
-      formData.append(key, value || '');
-    }
-  });
-
-  return formData;
-};
-
-const updateProductFormData = (params) => {
-  const formData = new FormData();
-  Object.entries(params.data).forEach(([key, value]) => {
-    if (key === 'otherImage' && Array.isArray(value)) {
-      let counter = 0
-      value.forEach((file, index) => {
-        // 如果是新上傳的檔案
-        if (file.rawFile) {
-          formData.append(`otherImages`, file.rawFile);
-        } else {
-          formData.append(`otherImageNames[${counter}]`, file.title);
-        }
-        counter++;
-      });
-    } else if ((key === 'coverImage' || key === 'templateImage')) {
-      // 如果是新上傳的檔案
-      if (value.rawFile) {
-        formData.append(key, value.rawFile);
-      } else {
-        formData.append(`${key}Name`, value[0].title);
-      }
-    } else if (key === 'colors' && Array.isArray(value)) {
-      let counter = 0
-      let navCounter = 0
-      value.forEach((item, index) => {
-        if (item.name) {
-          formData.append(`colors[${index}][name]`,item.name);  
-          formData.append(`colors[${index}][code]`,item.code || '');  
-
-          if (item.image) {
-            // 如果是新上傳的檔案
-            if (item.image.rawFile) {
-              formData.append(`colors[${index}][fileIndex]`, counter++);
-              formData.append(`colorImages`, item.image.rawFile);
-            } else if (item.image[0]?.title) {
-              formData.append(`colors[${index}][imageName]`, item.image[0].title);
-            }
-          }
-
-          if (item.navImage) {
-            // 如果是新上傳的檔案
-            if (item.navImage.rawFile) {
-              formData.append(`colors[${index}][navFileIndex]`, navCounter++);
-              formData.append(`colorNavImages`, item.navImage.rawFile);
-            } else if (item.navImage[0]?.title) {
-              formData.append(`colors[${index}][navImageName]`, item.navImage[0].title);
-            }
-          }
-        }
-      });
-    } else if (key === 'specifications' && Array.isArray(value)) {
-      value.forEach((item, index) => {
-        formData.append(`specifications[${index}]`, item.name);  
-      });
-    } else if (key === 'quantityDiscounts' && Array.isArray(value)) {
-      value.forEach((item, index) => {
-        if (item.minQuantity && item.maxQuantity && (item.discountPercentage || item.leadTimeDays)) {
-          formData.append(`quantityDiscounts[${index}][minQuantity]`,item.minQuantity || '');  
-          formData.append(`quantityDiscounts[${index}][maxQuantity]`,item.maxQuantity || '');
-          formData.append(`quantityDiscounts[${index}][discountPercentage]`,item.discountPercentage || '');
-          formData.append(`quantityDiscounts[${index}][leadTimeDays]`,item.leadTimeDays || '');
-        }
-      });
-    } else if (key === 'categories' && Array.isArray(value)) {
-      value.forEach((value, index) => {
-        formData.append(`categories[${index}]`, value);  
-      });
-    }  else {
-      // 一般欄位
-      formData.append(key, value || '');
-    }
-  });
-  return formData;
-};
 
 const customDataProvider = {
     ...dataProvider,
@@ -291,13 +162,6 @@ const customDataProvider = {
     getMany: (resource, params) => {
       const { filter } = params;
 
-      const resourceMap = {
-        'product-categories': 'categories',
-        'article-categories': 'categories',
-        'member-categories': 'categories'
-      }; 
-      const newResource = resourceMap[resource] || resource;
-
       // 轉換查詢參數為後端 API 所需格式
       const query = {
         ...(filter 
@@ -311,15 +175,10 @@ const customDataProvider = {
         )
       };
 
-      if (resource === 'product-categories'
-        || resource === 'article-categories'
-        || resource ==='member-categories') {
-        query.type = resource.split('-')[0];
-      }
-
-      const url = `${apiUrl}/${newResource}?${fetchUtils.queryParameters(query)}`;
+      const url = `${apiUrl}/${resource}?${fetchUtils.queryParameters(query)}`;
+      
       return httpClient(url).then(({ headers, json }) => {
-        const { rows, count } = json.data;
+        const { rows } = json.data;
 
         const data = rows.map(row => ({ ...row }));
         return {
@@ -339,80 +198,6 @@ const customDataProvider = {
         });
     },
     update: (resource, params) => {
-      if (resource === "products") {
-        const formData = updateProductFormData(params);
-        for (const [key, value] of formData.entries()) {
-          console.log(`Key: ${key}, Value: ${value}`);
-        }
-        return httpClient(`${apiUrl}/${resource}/${params.id}`, {
-              method: "PUT",
-              body: formData,
-            })
-            .then(({ json }) => { 
-              const data = json.data;
-              return {
-                data: data
-              };
-            });
-      }
-
-      if (resource === "logos") {
-        const formData = new FormData();
-        Object.entries(params.data).forEach(([key, value]) => {
-          if ((key === 'logoImage')) {
-            if (value.rawFile) {
-              formData.append(key, value.rawFile);
-            }
-          } else if (key === 'colors' && Array.isArray(value)) {
-            value.forEach((item, index) => {
-              if (item.colorHex) {
-                formData.append(`logoColors[${index}][hex]`, item.colorHex);
-              }
-              
-              if (item.c && item.m && item.y && item.k) {
-                const colorCmyk = {
-                  c: item.c,
-                  m: item.m,
-                  y: item.y,
-                  k: item.k,
-                }
-                formData.append(`logoColors[${index}][cmyk]`, JSON.stringify(colorCmyk));
-              }
-            });
-          } else if ((key === 'isPrimary')) {
-            formData.append(key, value || false);
-          } else {
-            formData.append(key, value || '');
-          }
-        });
-        return httpClient(`${apiUrl}/${resource}/${params.data.id}`, {
-          method: "PUT",
-          body: formData,
-        })
-        .then(({ json }) => { 
-          const data = json.data;
-          return {
-            data: data
-          };
-        });
-      }
-
-      const resourceMap = {
-        'product-categories': 'categories',
-        'article-categories': 'categories',
-        'member-categories': 'categories'
-      }; 
-
-      switch (resource) {
-        case 'product-categories':
-        case 'article-categories':
-        case 'member-categories':
-          params.data = { ...params.data, type: resource.split('-')[0]};
-          break;
-        default:
-      }
-      resource = resourceMap[resource] || resource;
-
       return dataProvider
         .update(resource, params)
         .then(response => {
@@ -424,13 +209,6 @@ const customDataProvider = {
         });
     },
     delete: (resource, params) => {
-      const resourceMap = {
-        'product-categories': 'categories',
-        'article-categories': 'categories',
-        'member-categories': 'categories'
-      }; 
-
-      resource = resourceMap[resource] || resource;
       return dataProvider.delete(resource, params).then(response => {
         // 將原始的 API 回應格式轉換
         const data = response.data.data;
@@ -440,15 +218,7 @@ const customDataProvider = {
       });
     },
     deleteMany: (resource, params) => {
-      const resourceMap = {
-        'product-categories': 'categories',
-        'article-categories': 'categories',
-        'member-categories': 'categories'
-      };
-    
-      const mappedResource = resourceMap[resource] || resource;
-    
-      return httpClient(`${apiUrl}/${mappedResource}`, {
+      return httpClient(`${apiUrl}/${resource}`, {
         method: 'DELETE',
         body: JSON.stringify({ ids: params.ids }),
       })

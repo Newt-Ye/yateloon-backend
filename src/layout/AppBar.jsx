@@ -2,7 +2,6 @@ import * as React from "react"
 import { AppBar, TitlePortal } from "react-admin"
 import { Box, useMediaQuery } from "@mui/material"
 
-import Logo from "./Logo"
 import { AppBarToolbar } from "./AppBarToolbar"
 
 const CustomAppBar = () => {

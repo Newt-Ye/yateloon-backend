@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { useStore, useTranslate, ToggleThemeButton } from "react-admin"
-import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
-import ColorLensIcon from "@mui/icons-material/ColorLens"
+import { /*IconButton, */Menu, MenuItem/*, Tooltip*/ } from "@mui/material"
+/*import ColorLensIcon from "@mui/icons-material/ColorLens"*/
 
 import { themes } from "./themes"
 
 export const ThemeSwapper = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const handleClick = event => {
+  /*const handleClick = event => {
     setAnchorEl(event.currentTarget)
-  }
+  }*/
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -24,9 +24,9 @@ export const ThemeSwapper = () => {
   const currentTheme = themes.find(theme => theme.name === themeName)
 
   const translate = useTranslate()
-  const toggleThemeTitle = translate("pos.action.change_theme", {
-    _: "Change Theme"
-  })
+  // const toggleThemeTitle = translate("pos.action.change_theme", {
+  //   _: "Change Theme"
+  // })
 
   return (
     <>

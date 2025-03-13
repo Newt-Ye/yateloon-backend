@@ -6,7 +6,6 @@ import {
   StoreContextProvider,
   defaultTheme
 } from "react-admin";
-import HealthCheck from "./HealthCheck";
 import customDataProvider from "./customDataProvider";
 import authProvider from './authProvider';
 import inventoryItemCategories from './inventoryItemCategories';
