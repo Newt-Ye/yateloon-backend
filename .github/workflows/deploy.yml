@@ -32,7 +32,7 @@ jobs:
         script: |
           if [ ! -d "/var/www/yateloon-backend" ]; then
             sudo mkdir -p /var/www/yateloon-backend
-            sudo chown ec2-user:ec2-user /var/www/yateloon-backend
+            sudo chown -R ec2-user:ec2-user /var/www/yateloon-backend
           fi
 
     - name: Deploy to EC2
@@ -44,6 +44,7 @@ jobs:
         source: "build/*"
         target: "/var/www/yateloon-backend"
         strip_components: 1
+        overwrite: true
 
     - name: Set Correct Permissions
       uses: appleboy/ssh-action@master
