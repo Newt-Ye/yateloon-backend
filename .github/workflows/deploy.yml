@@ -34,6 +34,7 @@ jobs:
             sudo mkdir -p /var/www/yateloon-backend
             sudo chown -R ec2-user:ec2-user /var/www/yateloon-backend
           fi
+          sudo rm -rf /var/www/yateloon-backend/*
 
     - name: Deploy to EC2
       uses: appleboy/scp-action@master
