@@ -14,8 +14,8 @@ import {
   /*useTranslate*/
 } from "react-admin"
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
-import { useState } from "react";
-import { useFormState } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useFormState, useWatch, useFormContext } from "react-hook-form";
 import { validateForm } from "./InventoryItemCreate"
 
 const InventoryItemTitle = () => {
@@ -142,6 +142,25 @@ const ChildTab = () => {
   );
 };
 
+const InventoryAmountInput = () => {
+  const { setValue } = useFormContext();
+
+  const inventory = useWatch({ name: "inventory" }) || 0;
+  const unitCost  = useWatch({ name: "unit_cost" }) || 0;
+
+  useEffect(() => {
+    const inventoryAmount = inventory * (Math.round(unitCost * 100) / 100);
+    setValue("inventory_amount", Math.round(inventoryAmount * 100) / 100);
+  }, [inventory, unitCost, setValue]);
+
+  return (
+    <NumberInput  source="inventory_amount" label="庫存金額"
+      InputProps={{
+        startAdornment: <InputAdornment position="start">$</InputAdornment>
+      }} />
+  );
+}
+
 const InventoryItemEdit = () => {
   return (
     <Edit title={<InventoryItemTitle/>}>
@@ -228,10 +247,7 @@ const InventoryItemEdit = () => {
                   }} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <NumberInput  source="inventory_amount" label="庫存金額"
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>
-                  }} />
+                <InventoryAmountInput />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <CustomReferenceInput label="主要庫別" source="warehouse_id" reference="warehouses" required={true} />
