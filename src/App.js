@@ -9,6 +9,7 @@ import {
 import customDataProvider from "./customDataProvider";
 import authProvider from './authProvider';
 import inventoryItemCategories from './inventoryItemCategories';
+import inventoryItems from './inventoryItems';
 import { Layout, Login } from "./layout"
 import en from './i18n/en';
 import zhTW from './i18n/zh-TW';
@@ -37,6 +38,7 @@ const App = () => {
       defaultTheme={defaultTheme}
     >
       <Resource name="inventory-item-categories" {...inventoryItemCategories} />
+      <Resource name="inventory-items" {...inventoryItems} />
     </Admin>
   )
 }

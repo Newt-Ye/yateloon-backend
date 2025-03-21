@@ -9,13 +9,13 @@ import {
 } from "react-admin"
 
 import inventoryItemCategories from "../inventoryItemCategories"
+import inventoryItems from "../inventoryItems"
 import SubMenu from "./SubMenu"
 
 const Menu = ({ dense = false }) => {
   const [state, setState] = useState({
-    menuCatalog: true,
-    menuSales: true,
-    menuCustomers: true
+    menuInventoryItemCategories: true,
+    menuInventoryItems: true
   })
   // const translate = useTranslate()
   const [open] = useSidebarState()
@@ -40,7 +40,6 @@ const Menu = ({ dense = false }) => {
       <SubMenu
         handleToggle={() => handleToggle("menuInventoryItemCategories")}
         isOpen={state.menuInventoryItemCategories}
-        // name="pos.menu.customers"
         name="庫存管理"
         icon={<inventoryItemCategories.icon />}
         dense={dense}
@@ -48,33 +47,18 @@ const Menu = ({ dense = false }) => {
         <MenuItemLink
           to="/inventory-item-categories"
           state={{ _scrollToTop: true }}
-          // primaryText={translate(`resources.customers.name`, {
-          //   smart_count: 2
-          // })}
           primaryText="品號類別"
           leftIcon={<inventoryItemCategories.icon />}
           dense={dense}
         />
-      </SubMenu>
-      {/* <SubMenu
-        handleToggle={() => handleToggle("menuUsers")}
-        isOpen={state.menuUsers}
-        // name="pos.menu.customers"
-        name="帳號管理"
-        icon={<users.icon />}
-        dense={dense}
-      >
         <MenuItemLink
-          to="/users"
+          to="/inventory-items"
           state={{ _scrollToTop: true }}
-          // primaryText={translate(`resources.customers.name`, {
-          //   smart_count: 2
-          // })}
-          primaryText="帳號"
-          leftIcon={<users.icon />}
+          primaryText="品號"
+          leftIcon={<inventoryItems.icon />}
           dense={dense}
         />
-      </SubMenu> */}
+      </SubMenu>
     </Box>
   )
 }

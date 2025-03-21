@@ -7,14 +7,16 @@ import {
   SearchInput,
   TopToolbar,
   TextField,
-  useListContext
+  useListContext,
+  DeleteWithConfirmButton,
+  EditButton
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
 
-import InventoryItemCategoryFilterForm from "./InventoryItemCategoryFilterForm"
+import InventoryItemFilterForm from "./InventoryItemFilterForm"
 
-const InventoryItemCategoryFilterButton = () => {
+const InventoryItemFilterButton = () => {
   const { showFilter } = useListContext()
   return (
     <Button
@@ -44,22 +46,22 @@ const visitorFilters = [
 const InventoryItemListActions = () => (
   <Box width="100%">
     <TopToolbar>
-      <InventoryItemCategoryFilterButton />
+      <InventoryItemFilterButton />
       <CreateButton />
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <InventoryItemCategoryFilterForm />
+    <InventoryItemFilterForm />
   </Box>
 )
 
-const InventoryItemCategoryList = () => {
+const InventoryItemList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        品號類別列表
+        品號列表
       </Typography>
       <List
         title={false}
@@ -76,14 +78,6 @@ const InventoryItemCategoryList = () => {
               "& .column-groups": {
                 md: { display: "none" },
                 lg: { display: "table-cell" }
-              },
-              "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
-                flex: "1 1 0",  // 設定每個欄位的彈性寬度
-                minWidth: "120px",  // 最小寬度，避免太窄
-                maxWidth: "200px",  // 最大寬度
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap"
               }
             }}
             omit={["id"]}
@@ -94,23 +88,31 @@ const InventoryItemCategoryList = () => {
               source="id"
               label="ID"
             />
+            <EditButton />
             <TextField
-              source="index"
-              label="序"
-              sortable={false}
+              source="code"
+              label="品號"
             />
             <TextField
               source="name"
-              label="品號類別名稱"
+              label="品名"
             />
             <TextField
-              source="code"
-              label="品號類別代碼"
+              source="specification"
+              label="規格"
+            />
+            <TextField
+              source="inventory"
+              label="庫存數量"
             />
             <DateField 
-              source="created_at" 
-              label="建立日期"  
+              source="effective_date" 
+              label="生效日期"  
               showTime
+            />
+            <DeleteWithConfirmButton
+              confirmTitle="確認刪除"
+              confirmContent="您確定要刪除此品號嗎？"
             />
           </DatagridConfigurable>
         )}
@@ -119,4 +121,4 @@ const InventoryItemCategoryList = () => {
   )
 }
 
-export default InventoryItemCategoryList
+export default InventoryItemList
