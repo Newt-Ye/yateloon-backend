@@ -81,7 +81,7 @@ const Login = () => {
           </Box> */}
           <Box
             component="img"
-            src="/assets/logo.jpg" // 設定 logo 路徑
+            src="/assets/logo.png" // 設定 logo 路徑
             alt="logo"
             sx={{ 
               height: 36, 
