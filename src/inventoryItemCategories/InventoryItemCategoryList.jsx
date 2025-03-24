@@ -88,7 +88,7 @@ const InventoryItemCategoryList = () => {
             }}
             omit={["id"]}
             bulkActionButtons={false}
-            rowClick={false}
+            rowClick="show"
           >
             <TextField
               source="id"

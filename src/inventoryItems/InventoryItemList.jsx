@@ -61,7 +61,7 @@ const InventoryItemList = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        品號列表
+        品號資料列表
       </Typography>
       <List
         title={false}

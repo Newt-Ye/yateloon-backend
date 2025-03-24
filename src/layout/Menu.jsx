@@ -8,7 +8,6 @@ import {
   useSidebarState
 } from "react-admin"
 
-import inventoryItemCategories from "../inventoryItemCategories"
 import inventoryItems from "../inventoryItems"
 import SubMenu from "./SubMenu"
 
@@ -41,21 +40,21 @@ const Menu = ({ dense = false }) => {
         handleToggle={() => handleToggle("menuInventoryItemCategories")}
         isOpen={state.menuInventoryItemCategories}
         name="庫存管理"
-        icon={<inventoryItemCategories.icon />}
+        icon={<inventoryItems.icon  />}
         dense={dense}
       >
         <MenuItemLink
           to="/inventory-item-categories"
           state={{ _scrollToTop: true }}
           primaryText="品號類別"
-          leftIcon={<inventoryItemCategories.icon />}
+          // leftIcon={<inventoryItemCategories.icon />}
           dense={dense}
         />
         <MenuItemLink
           to="/inventory-items"
           state={{ _scrollToTop: true }}
-          primaryText="品號"
-          leftIcon={<inventoryItems.icon />}
+          primaryText="品號資料"
+          // leftIcon={<inventoryItems.icon />}
           dense={dense}
         />
       </SubMenu>

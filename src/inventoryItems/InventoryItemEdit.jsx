@@ -162,193 +162,208 @@ const InventoryAmountInput = () => {
 }
 
 const InventoryItemEdit = () => {
-  return (
-    <Edit title={<InventoryItemTitle/>}>
-      <SimpleForm
-        defaultValues={{
-          inventory_item_category_id: "",
-          attribute: "",
-          name: "",
-          code: "",
-          specification: "",
-          unit_id: "",
-          inventory: 0,
-          unit_cost: 0,
-          inventory_amount: 0,
-          warehouse_id: 0,
-          inventory_manage: false,
-          over_delivery_manage: true,
-          over_receiving_manage: true,
-          edit_item_name: false,
-          effective_date: "",
-          expiration_date: "",
-          inspection_method: "",
-          last_storage_date: "",
-          currency_id: "",
-          latest_purchase_price: 0,
-          customer_code: "",
-          cost: 0,
-          unit_weight: "",
-          unit_std_material_cost: 0,
-          unit_std_labor_cost: 0,
-          unit_std_manufacturing_cost: 0,
-          unit_std_processing_cost: 0,
-          total_standard_cost: 0
-        }}
-        validate={validateForm}
-      >
-        <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
-          <Grid item xs={12} md={7}>
-            <Typography variant="h5" gutterBottom mb={2}>
-              {'基本資料'}
-            </Typography>
-            <Grid container spacing={2} rowSpacing={0.2}>
-              <Grid item xs={12} sm={6}>
-                <ReferenceInput source="inventory_item_category_id" 
-                  reference="inventory-item-categories" 
-                  sort={{ field: 'created_at', order: 'ASC' }}
-                >
-                  <SelectInput optionText="name" label="品號類別" isRequired />
-                </ReferenceInput>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <SelectInput source="attribute" label='品號屬性' isRequired choices={[
-                  { id: 'M', name: '自製件' },
-                  { id: 'P', name: '採購件' },
-                  { id: 'S', name: '委外加工件' }
-                ]} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextInput source="code" label="品號"  placeholder="15或18碼" isRequired />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextInput  source="name" label="品名" isRequired />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextInput source="specification" label="規格" inputProps={{ maxLength: 120 }} isRequired />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomReferenceInput label="單位" source="unit_id" reference="units" required={true} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <NumberInput 
-                  source="inventory" 
-                  label="庫存數量" 
-                  step={1}
-                  format={(v) => Math.round(v)} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <NumberInput  source="unit_cost" label="單位成本"
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>
-                  }}
-                  format={(v) => {
-                    return Math.round(v * 100) / 100;
-                  }} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <InventoryAmountInput />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomReferenceInput label="主要庫別" source="warehouse_id" reference="warehouses" required={true} />
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <BooleanInput label="庫存管理" source="inventory_manage" />
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <BooleanInput label="超交管理" source="over_delivery_manage" />
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <BooleanInput label="超收管理" source="over_receiving_manage" />
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <BooleanInput label="變更品名" source="edit_item_name" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <DateInput  source="effective_date" label="生效日期" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <DateInput  source="expiration_date" label="失效日期" />
-              </Grid>
-            </Grid>
-            <Card sx={{ mt: 0, bgcolor: 'text.disabled' }}>
-              <CardContent>
-                <Grid container spacing={2}>
-                  <Grid item xs={2}>
-                    <Typography variant="body2" align="left" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} >
-                      建立者：
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField source="creator_name" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="body2" align="left" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} >
-                      修改者：
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField source="modifier_name" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} />
-                  </Grid>
+  const [attribute, setAttribute] = useState("");
+  
+  const getMaxLength = attribute === "M" ? 18 : 15;
 
-                  <Grid item xs={2}>
-                    <Typography variant="body2" align="left" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} >
-                      建立日期：
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField source="created_at" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="body2" align="left" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} >
-                      修改日期：
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                  <TextField source="updated_at" sx={{ 
-                      color: 'black', 
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "center"}} />
-                  </Grid>
+  return (
+    <>
+      <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
+        品號資料
+      </Typography>
+      <Edit title={<InventoryItemTitle/>}>
+        <SimpleForm
+          defaultValues={{
+            inventory_item_category_id: "",
+            attribute: "",
+            name: "",
+            code: "",
+            specification: "",
+            unit_id: "",
+            inventory: 0,
+            unit_cost: 0,
+            inventory_amount: 0,
+            warehouse_id: 0,
+            inventory_manage: false,
+            over_delivery_manage: true,
+            over_receiving_manage: true,
+            edit_item_name: false,
+            effective_date: "",
+            expiration_date: "",
+            inspection_method: "",
+            last_storage_date: "",
+            currency_id: "",
+            latest_purchase_price: 0,
+            customer_code: "",
+            cost: 0,
+            unit_weight: "",
+            unit_std_material_cost: 0,
+            unit_std_labor_cost: 0,
+            unit_std_manufacturing_cost: 0,
+            unit_std_processing_cost: 0,
+            total_standard_cost: 0
+          }}
+          validate={validateForm}
+        >
+          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
+            <Grid item xs={12} md={7}>
+              <Typography variant="h5" gutterBottom mb={2}>
+                {'基本資料'}
+              </Typography>
+              <Grid container spacing={2} rowSpacing={0.2}>
+                <Grid item xs={12} sm={6}>
+                  <ReferenceInput source="inventory_item_category_id" 
+                    reference="inventory-item-categories" 
+                    sort={{ field: 'created_at', order: 'ASC' }}
+                  >
+                    <SelectInput optionText="name" label="品號類別" isRequired />
+                  </ReferenceInput>
                 </Grid>
-              </CardContent>
-            </Card>
+                <Grid item xs={12} sm={6}>
+                  <SelectInput source="attribute" label='品號屬性' isRequired choices={[
+                    { id: 'M', name: '自製件' },
+                    { id: 'P', name: '採購件' },
+                    { id: 'S', name: '委外加工件' }
+                  ]} onChange={(e) => setAttribute(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextInput source="code" label="品號"  placeholder="15或18碼" inputProps={{ maxLength: getMaxLength }} isRequired />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomReferenceInput label="主要庫別" source="warehouse_id" reference="warehouses" required={true} />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextInput  source="name" label="品名" isRequired />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextInput 
+                    source="specification" 
+                    label="規格" 
+                    inputProps={{ maxLength: 120 }}
+                    multiline
+                    rows={2} 
+                    isRequired />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomReferenceInput label="單位" source="unit_id" reference="units" required={true} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <NumberInput 
+                    source="inventory" 
+                    label="庫存數量" 
+                    step={1}
+                    format={(v) => Math.round(v)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <NumberInput  source="unit_cost" label="單位成本"
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>
+                    }}
+                    format={(v) => {
+                      return Math.round(v * 100) / 100;
+                    }} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <InventoryAmountInput />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <BooleanInput label="庫存管理" source="inventory_manage" />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <BooleanInput label="超交管理" source="over_delivery_manage" />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <BooleanInput label="超收管理" source="over_receiving_manage" />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <BooleanInput label="變更品名" source="edit_item_name" />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <DateInput  source="effective_date" label="生效日期" />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <DateInput  source="expiration_date" label="失效日期" />
+                </Grid>
+              </Grid>
+              <Card sx={{ mt: 0, bgcolor: 'text.disabled' }}>
+                <CardContent>
+                  <Grid container spacing={2}>
+                    <Grid item xs={2}>
+                      <Typography variant="body2" align="left" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} >
+                        建立者：
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField source="creator_name" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="body2" align="left" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} >
+                        修改者：
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField source="modifier_name" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} />
+                    </Grid>
+
+                    <Grid item xs={2}>
+                      <Typography variant="body2" align="left" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} >
+                        建立日期：
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField source="created_at" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="body2" align="left" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} >
+                        修改日期：
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                    <TextField source="updated_at" sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}} />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <ChildTab />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={5}>
-            <ChildTab />
-          </Grid>
-        </Grid>
-      </SimpleForm>
-    </Edit>
+        </SimpleForm>
+      </Edit>
+    </>
   )
 }
 
