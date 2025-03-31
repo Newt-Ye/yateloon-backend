@@ -7,7 +7,6 @@ import {
   Collapse,
   Tooltip
 } from "@mui/material"
-import ExpandMore from "@mui/icons-material/ExpandMore"
 import { /*useTranslate, */useSidebarState } from "react-admin"
 
 const SubMenu = props => {
