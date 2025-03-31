@@ -17,7 +17,7 @@ import { useState, useEffect } from "react";
 import { useFormState, useWatch, useFormContext } from "react-hook-form";
 
 const InventoryItemTitle = () => {
-  return <span>{'新增品號'}</span>;
+  return <span>{'新增品號資料'}</span>;
 };
 
 export const validateForm = values => {

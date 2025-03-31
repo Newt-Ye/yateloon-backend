@@ -11,7 +11,7 @@ import { Box, Button, InputAdornment } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import { useEffect } from "react"
 
-const UserFilterForm = () => {
+const DepartmentFilterForm = () => {
   const {
     displayedFilters,
     filterValues,
@@ -83,4 +83,4 @@ const UserFilterForm = () => {
   )
 }
 
-export default UserFilterForm;
+export default DepartmentFilterForm;

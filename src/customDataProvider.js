@@ -84,6 +84,7 @@ const customDataProvider = {
       });
     },
     create: (resource, params) => {
+      console.log(params);
       return dataProvider
         .create(resource, params)
         .then(response => {
@@ -91,6 +92,10 @@ const customDataProvider = {
           return {
             data
           };
+        })
+        .catch(error => {
+          const message = error.message || "發生錯誤";
+          throw new Error(message);
         });
     },
     update: (resource, params) => {
@@ -101,6 +106,10 @@ const customDataProvider = {
           return {
             data
           };
+        })
+        .catch(error => {
+          const message = error.message || "發生錯誤";
+          throw new Error(message);
         });
     },
     delete: (resource, params) => {

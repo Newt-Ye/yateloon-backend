@@ -8,15 +8,15 @@ import {
   TopToolbar,
   TextField,
   useListContext,
-  DeleteWithConfirmButton,
-  EditButton
+  EditButton,
+  FunctionField
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
 
-import InventoryItemFilterForm from "./InventoryItemFilterForm"
+import CompanyFilterForm from "./CompanyFilterForm"
 
-const InventoryItemFilterButton = () => {
+const CompanyFilterButton = () => {
   const { showFilter } = useListContext()
   return (
     <Button
@@ -43,32 +43,32 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const InventoryItemListActions = () => (
+const CompanyListActions = () => (
   <Box width="100%">
     <TopToolbar>
-      <InventoryItemFilterButton />
+      <CompanyFilterButton />
       <CreateButton />
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <InventoryItemFilterForm />
+    <CompanyFilterForm />
   </Box>
 )
 
-const InventoryItemList = () => {
+const CompanyList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        品號資料列表
+        公司資料列表
       </Typography>
       <List
         title={false}
         filters={isSmall ? visitorFilters : undefined}
         sort={{ field: "created_at", order: "ASC" }}
         perPage={10}
-        actions={<InventoryItemListActions />}
+        actions={<CompanyListActions />}
       >
         {isXsmall ? (
           <div></div>
@@ -78,11 +78,19 @@ const InventoryItemList = () => {
               "& .column-groups": {
                 md: { display: "none" },
                 lg: { display: "table-cell" }
+              },
+              "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
+                flex: "1 1 0",  // 設定每個欄位的彈性寬度
+                minWidth: "120px",  // 最小寬度，避免太窄
+                maxWidth: "200px",  // 最大寬度
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
               }
             }}
             omit={["id"]}
             bulkActionButtons={false}
-            rowClick={false}
+            rowClick="edit"
           >
             <EditButton />
             <TextField
@@ -91,28 +99,28 @@ const InventoryItemList = () => {
             />
             <TextField
               source="code"
-              label="品號"
+              label="公司代號"
             />
             <TextField
-              source="name"
-              label="品名"
+              source="short_name"
+              label="公司簡稱"
             />
-            <TextField
-              source="specification"
-              label="規格"
-            />
-            <TextField
-              source="inventory"
-              label="庫存數量"
+            <FunctionField
+              label="使用狀態"
+              render={(record) => {
+                const statusMapping = {
+                  0: "未啟用",
+                  1: "啟用中",
+                  9: "失效"
+                }
+                return statusMapping[record.status]
+              }}
+              sortBy="status"
             />
             <DateField 
-              source="effective_date" 
-              label="生效日期"  
+              source="created_at" 
+              label="建立日期"  
               showTime
-            />
-            <DeleteWithConfirmButton
-              confirmTitle="確認刪除"
-              confirmContent="您確定要刪除此品號嗎？"
             />
           </DatagridConfigurable>
         )}
@@ -121,4 +129,4 @@ const InventoryItemList = () => {
   )
 }
 
-export default InventoryItemList
+export default CompanyList

@@ -1,57 +1,42 @@
 import * as React from "react"
 import {
-  BooleanField,
   CreateButton,
   DatagridConfigurable,
-  DateField,
-  DateInput,
-  ExportButton,
   List,
-  NullableBooleanInput,
-  NumberField,
   SearchInput,
-  SelectColumnsButton,
   TopToolbar,
   TextField,
-  EmailField,
   useListContext,
-  DeleteButton,
   EditButton,
-  BulkUpdateButton, 
-  BulkDeleteButton, 
-  BulkExportButton
+  FunctionField,
+  DateField,
+  ArrayField,
+  SingleFieldList,
+  ChipField,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
-import { VisibilityOff } from "@mui/icons-material";
 
-// import SegmentsField from "./SegmentsField"
-// import SegmentInput from "./SegmentInput"
-// import UserLinkField from "./UserLinkField"
-// import ColoredNumberField from "./ColoredNumberField"
-// import MobileGrid from "./MobileGrid"
-import UserListAside from "./UserListAside"
 import UserFilterForm from "./UserFilterForm"
-import UserEmpty from "./UserEmpty"
 
 const UserFilterButton = () => {
-  const { showFilter } = useListContext();
+  const { showFilter } = useListContext()
   return (
-      <Button
-          size="small"
-          color="primary"
-          onClick={() => showFilter("main")}
-          startIcon={<ContentFilter />}
-          sx={{
-            height: '27.5px', // 調整按鈕高度
-            padding: '4px 5px', // 調整內邊距
-            fontSize: '13px', // 調整字型大小，這樣可以與 CreateButton 大小對齊
-          }}
-      >
-        篩選
-      </Button>
-  );
-};
+    <Button
+      size="small"
+      color="primary"
+      onClick={() => showFilter("main")}
+      startIcon={<ContentFilter />}
+      sx={{
+        height: '27.5px', // 調整按鈕高度
+        padding: '4px 5px', // 調整內邊距
+        fontSize: '13px', // 調整字型大小，這樣可以與 CreateButton 大小對齊
+      }}
+    >
+      篩選
+    </Button>
+  )
+}
 
 const visitorFilters = [
   <SearchInput source="q" alwaysOn />,
@@ -73,81 +58,82 @@ const UserListActions = () => (
   </Box>
 )
 
-const UserBulkActionButtons = () => (
-  <>
-      <BulkDeleteButton />
-      {/* <BulkExportButton /> */}
-  </>
-);
-
-const UserTitle = () => {
-  return <span>{'帳號'}</span>;
-};
-
-const Empty = () => (
-  <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-          No products available
-      </Typography>
-      <Typography variant="body1">
-          Create one or import from a file
-      </Typography>
-      <CreateButton />
-  </Box>
-);
-
 const UserList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   return (
-    <List
-      title={<UserTitle/>}
-      filters={isSmall ? visitorFilters : undefined}
-      sort={{ field: "createdAt", order: "ASC" }}
-      perPage={25}
-      // aside={<UserListAside />}
-      actions={<UserListActions />}
-    >
-      {isXsmall ? (
-        // <MobileGrid />
-        <div></div>
-      ) : (
-        <DatagridConfigurable
-          rowClick="edit"
-          bulkActionButtons={<UserBulkActionButtons />}
-          sx={{
-            "& .column-groups": {
-              md: { display: "none" },
-              lg: { display: "table-cell" }
-            }
-          }}
-          omit={["id"]}
-        >
-          <TextField
-            source="id"
-            label="ID"
-          />
-          <TextField
-            source="name"
-            label="名稱"
-          />
-          <EmailField
-            source="email"
-            label="Email"
-          />
-          <BooleanField
-            source="status"
-            label="起用狀態"
-          />
-          <DateField 
-            source="createdAt" 
-            label="建立時間"  
-            showTime
-          />
-          <DeleteButton />
-        </DatagridConfigurable>
-      )}
-    </List>
+    <>
+      <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
+        登入者代號列表
+      </Typography>
+      <List
+        title={false}
+        filters={isSmall ? visitorFilters : undefined}
+        sort={{ field: "created_at", order: "ASC" }}
+        perPage={10}
+        actions={<UserListActions />}
+      >
+        {isXsmall ? (
+          <div></div>
+        ) : (
+          <DatagridConfigurable
+            sx={{
+              "& .column-groups": {
+                md: { display: "none" },
+                lg: { display: "table-cell" }
+              },
+              "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
+                flex: "1 1 0",  // 設定每個欄位的彈性寬度
+                minWidth: "120px",  // 最小寬度，避免太窄
+                maxWidth: "200px",  // 最大寬度
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+              }
+            }}
+            omit={["id"]}
+            bulkActionButtons={false}
+            rowClick="edit"
+          >
+            <EditButton />
+            <TextField
+              source="id"
+              label="ID"
+            />
+            <TextField
+              source="account"
+              label="代號"
+            />
+            <TextField
+              source="name"
+              label="名稱"
+            />
+            <ArrayField source="companies" label="可登入公司別">
+              <SingleFieldList linkType={false}>
+                <ChipField source="name" size="small" />
+              </SingleFieldList>
+            </ArrayField>
+            <FunctionField
+              label="使用狀態"
+              render={(record) => {
+                const statusMapping = {
+                  0: "未啟用",
+                  1: "啟用中",
+                  9: "失效"
+                }
+                return statusMapping[record.status]
+              }}
+              sortBy="status"
+            />
+            <DateField 
+              source="created_at" 
+              label="建立日期"  
+              showTime
+            />
+          </DatagridConfigurable>
+        )}
+      </List>
+    </>
   )
 }
 

@@ -19,7 +19,7 @@ const SubMenu = props => {
   const header = (
     <MenuItem dense={dense} onClick={handleToggle}>
       <ListItemIcon sx={{ minWidth: 5 }}>
-        {isOpen ? <ExpandMore /> : icon}
+        {icon}
       </ListItemIcon>
       <Typography variant="inherit" color="textSecondary">
         {/* {translate(name)} */}
