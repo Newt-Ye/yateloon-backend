@@ -15,7 +15,9 @@ import {
   TextInput,
   /*useTranslate,*/
   useLogin,
-  useNotify
+  useNotify,
+  ReferenceInput,
+  SelectInput,
 } from "react-admin"
 
 const Login = () => {
@@ -112,6 +114,19 @@ const Login = () => {
                 disabled={loading}
                 validate={required()}
               />
+            </Box>
+            <Box sx={{ marginTop: "1em" }}>
+              <ReferenceInput 
+                source="company_id" 
+                reference="companies"
+              >
+                <SelectInput 
+                  optionText="name" 
+                  label="公司別" 
+                  disabled={loading}
+                  validate={required()}
+                />
+              </ReferenceInput>
             </Box>
           </Box>
           <CardActions sx={{ padding: "0 1em 1em 1em" }}>

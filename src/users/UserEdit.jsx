@@ -12,10 +12,14 @@ import {
   SaveButton,
   Toolbar,
   TextField,
+  useSimpleFormIteratorItem,
+  ArrayInput,
+  SimpleFormIterator,
+  BooleanInput,
   /*useTranslate*/
 } from "react-admin"
 import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useState, useEffect } from "react";
 
 const UserTitle = () => {
@@ -110,6 +114,43 @@ const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
   );
 }
 
+const DepartmentReferenceInput = () => {
+  const { index } = useSimpleFormIteratorItem();
+  const { setValue } = useFormContext();
+  const companies = useWatch({ name: "companies" }) || [];
+  const companyId = companies[index]?.company_id || undefined;
+  const [filter, setFilter] = useState({});
+  const [defaultSet, setDefaultSet] = useState(false);
+  const { record } = useEditContext();
+
+  useEffect(() => {
+    if (companyId) {
+      setFilter({ company_id: companyId });
+      setValue(`companies.${index}.department_ids`, []);
+    } else {
+      setFilter({});
+    }
+  }, [companyId, index, setValue]);
+
+  // 等待部門 options 載入後塞入預設值
+  useEffect(() => {
+    if (!defaultSet && record.companies?.[index]?.department_ids?.length > 0) {
+      setValue(`companies.${index}.department_ids`, record.companies[index].department_ids);
+      setDefaultSet(true);
+    }
+  }, [index, setValue, defaultSet, record?.companies]);
+
+  return (
+    <ReferenceInput
+      source="department_ids"
+      reference="departments"
+      filter={filter}
+    >
+      <SelectArrayInput optionText="name" label="隸屬部門" readOnly={!companyId} />
+    </ReferenceInput>
+  );
+};
+
 const CustomToolbar = () => (
   <Toolbar>
     <SaveButton />
@@ -125,7 +166,7 @@ const UserEdit = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         登入者代號
       </Typography>
-      <Edit title={<UserTitle/>} redirect={false} mutationMode="pessimistic">
+      <Edit title={<UserTitle/>} redirect={false} mutationMode="optimistic">
         <SimpleForm
           // Here for the GQL provider
           defaultValues={{
@@ -134,12 +175,22 @@ const UserEdit = () => {
             name: "",
             effective_date: "",
             password: "",
-            companies: []
+            companies: [
+              {
+                company_id: "",
+                employee_code: "",
+                department_ids: [],
+                status: 1,
+              }
+            ]
           }}
           validate={validateForm}
           toolbar={<CustomToolbar />}
         >
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
+          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
+            <Grid item xs={12}>
+              <BooleanInput label="超級使用者" source="is_admin" helperText={false} />
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextInput autoFocus source="account" label="登入者代號" readOnly isRequired />
             </Grid>
@@ -161,17 +212,28 @@ const UserEdit = () => {
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={12}>
-              <ReferenceInput source="companies" 
-                reference="companies"
-              >
-                <SelectArrayInput optionText="name" label="可登入公司別" isRequired />
-              </ReferenceInput>
+              <Typography variant="h6" gutterBottom mb={2}>
+                {'可登入公司別'}
+              </Typography>
+              <ArrayInput source="companies" label={false}>
+                <SimpleFormIterator inline>
+                  <ReferenceInput source="company_id" reference="companies">
+                    <SelectInput optionText="name" label="公司別" />
+                  </ReferenceInput>
+                  <TextInput source="employee_code" label="工號" />
+                  <DepartmentReferenceInput />
+                  <SelectInput source="status" choices={[
+                    { id: 1, name: '啟用' },
+                    { id: 0, name: '停用' },
+                  ]} label="狀態" />
+                </SimpleFormIterator>
+              </ArrayInput>
             </Grid>
           </Grid>
-          <Card sx={{ mt: 0, bgcolor: 'text.disabled' }}>
+          <Card sx={{ mt: 0, bgcolor: 'text.disabled', width: '100%' }} >
             <CardContent>
               <Grid container spacing={2}>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={1}>
                   <Typography variant="body2" align="left" sx={{ 
                     color: 'black', 
                     display: "flex",
@@ -180,31 +242,14 @@ const UserEdit = () => {
                     建立者：
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} sm={2}>
                   <TextField source="creator_name" sx={{ 
                     color: 'black', 
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center"}} />
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    修改者：
-                  </Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField source="modifier_name" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={1}>
                   <Typography variant="body2" align="left" sx={{ 
                     color: 'black', 
                     display: "flex",
@@ -213,14 +258,30 @@ const UserEdit = () => {
                     建立日期：
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} sm={2}>
                   <TextField source="created_at" sx={{ 
                     color: 'black', 
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center"}} />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={1}>
+                  <Typography variant="body2" align="left" sx={{ 
+                    color: 'black', 
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center"}} >
+                    修改者：
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <TextField source="modifier_name" sx={{ 
+                    color: 'black', 
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center"}} />
+                </Grid>
+                <Grid item xs={6} sm={1}>
                   <Typography variant="body2" align="left" sx={{ 
                     color: 'black', 
                     display: "flex",
@@ -229,8 +290,8 @@ const UserEdit = () => {
                     修改日期：
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
-                <TextField source="updated_at" sx={{ 
+                <Grid item xs={6} sm={2}>
+                  <TextField source="updated_at" sx={{ 
                     color: 'black', 
                     display: "flex",
                     justifyContent: "left",

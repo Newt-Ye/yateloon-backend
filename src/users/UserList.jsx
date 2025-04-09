@@ -13,6 +13,7 @@ import {
   ArrayField,
   SingleFieldList,
   ChipField,
+  usePermissions,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -46,11 +47,11 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const UserListActions = () => (
+const UserListActions = ({ permissions }) => (
   <Box width="100%">
     <TopToolbar>
       <UserFilterButton />
-      <CreateButton />
+      {(permissions === 'superuser' || permissions?.['permissions']?.create) ? (<CreateButton />) : null}
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
@@ -61,80 +62,84 @@ const UserListActions = () => (
 const UserList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
-  return (
-    <>
-      <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        登入者代號列表
-      </Typography>
-      <List
-        title={false}
-        filters={isSmall ? visitorFilters : undefined}
-        sort={{ field: "created_at", order: "ASC" }}
-        perPage={10}
-        actions={<UserListActions />}
-      >
-        {isXsmall ? (
-          <div></div>
-        ) : (
-          <DatagridConfigurable
-            sx={{
-              "& .column-groups": {
-                md: { display: "none" },
-                lg: { display: "table-cell" }
-              },
-              "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
-                flex: "1 1 0",  // 設定每個欄位的彈性寬度
-                minWidth: "120px",  // 最小寬度，避免太窄
-                maxWidth: "200px",  // 最大寬度
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap"
-              }
-            }}
-            omit={["id"]}
-            bulkActionButtons={false}
-            rowClick="edit"
+  const { isPending, permissions } = usePermissions();
+
+  return isPending
+      ? null
+      : (
+        <>
+          <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
+            登入者代號列表
+          </Typography>
+          <List
+            title={false}
+            filters={isSmall ? visitorFilters : undefined}
+            sort={{ field: "created_at", order: "ASC" }}
+            perPage={10}
+            actions={<UserListActions permissions={permissions} />}
           >
-            <EditButton />
-            <TextField
-              source="id"
-              label="ID"
-            />
-            <TextField
-              source="account"
-              label="代號"
-            />
-            <TextField
-              source="name"
-              label="名稱"
-            />
-            <ArrayField source="companies" label="可登入公司別">
-              <SingleFieldList linkType={false}>
-                <ChipField source="name" size="small" />
-              </SingleFieldList>
-            </ArrayField>
-            <FunctionField
-              label="使用狀態"
-              render={(record) => {
-                const statusMapping = {
-                  0: "未啟用",
-                  1: "啟用中",
-                  9: "失效"
-                }
-                return statusMapping[record.status]
-              }}
-              sortBy="status"
-            />
-            <DateField 
-              source="created_at" 
-              label="建立日期"  
-              showTime
-            />
-          </DatagridConfigurable>
-        )}
-      </List>
-    </>
-  )
+            {isXsmall ? (
+              <div></div>
+            ) : (
+              <DatagridConfigurable
+                sx={{
+                  "& .column-groups": {
+                    md: { display: "none" },
+                    lg: { display: "table-cell" }
+                  },
+                  "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
+                    flex: "1 1 0",  // 設定每個欄位的彈性寬度
+                    minWidth: "120px",  // 最小寬度，避免太窄
+                    maxWidth: "200px",  // 最大寬度
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                }}
+                omit={["id"]}
+                bulkActionButtons={false}
+                rowClick={false}
+              >
+                {(permissions === 'superuser' || permissions?.['permissions']?.create) ? (<EditButton />) : null}
+                <TextField
+                  source="id"
+                  label="ID"
+                />
+                <TextField
+                  source="account"
+                  label="代號"
+                />
+                <TextField
+                  source="name"
+                  label="名稱"
+                />
+                <ArrayField source="companies" label="可登入公司別">
+                  <SingleFieldList linkType={false}>
+                    <ChipField source="name" size="small" />
+                  </SingleFieldList>
+                </ArrayField>
+                <FunctionField
+                  label="使用狀態"
+                  render={(record) => {
+                    const statusMapping = {
+                      0: "未啟用",
+                      1: "啟用中",
+                      9: "失效"
+                    }
+                    return statusMapping[record.status]
+                  }}
+                  sortBy="status"
+                />
+                <DateField 
+                  source="created_at" 
+                  label="建立日期"  
+                  showTime
+                />
+              </DatagridConfigurable>
+            )}
+          </List>
+        </>
+      )
 }
 
 export default UserList

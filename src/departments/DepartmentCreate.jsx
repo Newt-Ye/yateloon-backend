@@ -3,13 +3,12 @@ import {
   Create,
   SimpleForm,
   TextInput,
-  SelectInput,
+  SelectArrayInput,
   ReferenceInput,
-  CheckboxGroupInput,
-  /*useTranslate*/
+  BooleanInput,
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
-import modules from '../assets/modules.json';
+import { Typography, Grid, Card, CardContent } from "@mui/material"
+import { menuItems } from '../menuData';
 
 const DepartmentTitle = () => {
   return <span>{'新增部門權限'}</span>;
@@ -22,6 +21,9 @@ export const validateForm = values => {
   }
   if (!values.name) {
     errors.name = "ra.validation.required"
+  }
+  if (!values.company_ids || values.company_ids.length === 0) {
+    errors.company_ids = "ra.validation.required"
   }
   return errors
 }
@@ -38,6 +40,7 @@ const DepartmentCreate = () => {
           defaultValues={{
             code: "",
             name: "",
+            company_ids: [],
           }}
           validate={validateForm}
         >
@@ -49,10 +52,11 @@ const DepartmentCreate = () => {
               <TextInput source="code" label="部門代號" isRequired />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <ReferenceInput source="companies" 
+              <ReferenceInput 
+                source="company_ids" 
                 reference="companies"
-                >
-                <SelectInput optionText="name" label="適用公司別" isRequired />
+              >
+                <SelectArrayInput optionText="name" label="適用公司別" isRequired />
               </ReferenceInput>
             </Grid>
           </Grid>
@@ -62,17 +66,9 @@ const DepartmentCreate = () => {
           <Card sx={{ mt: 1 }}>
             <CardContent>
               <Grid container  width={{ xs: "100%", xl: 1200 }} spacing={2}>
-                {modules.map((module) => (
+                {menuItems.map((module) => (
                   <Grid item xs={2} key={module.key}>
-                    <CheckboxGroupInput
-                      label={module.name}
-                      source={module.key}
-                      choices={[
-                        { id: 'edit', name: '可編輯' },
-                        { id: 'show', name: '可檢視' }
-                      ]}
-                      row={false}
-                    />
+                    <BooleanInput label={module.name} source={module.key} />
                   </Grid>
                 ))}
               </Grid>

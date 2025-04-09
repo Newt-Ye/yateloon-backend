@@ -9,7 +9,8 @@ import {
   TextField,
   useListContext,
   DeleteWithConfirmButton,
-  EditButton
+  EditButton,
+  usePermissions,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -43,11 +44,11 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const InventoryItemListActions = () => (
+const InventoryItemListActions = ({ permissions }) => (
   <Box width="100%">
     <TopToolbar>
       <InventoryItemFilterButton />
-      <CreateButton />
+      {(permissions === 'superuser' || permissions?.['inventory-items']?.create) ? (<CreateButton />) : null}
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
@@ -58,67 +59,73 @@ const InventoryItemListActions = () => (
 const InventoryItemList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
-  return (
-    <>
-      <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        品號資料列表
-      </Typography>
-      <List
-        title={false}
-        filters={isSmall ? visitorFilters : undefined}
-        sort={{ field: "created_at", order: "ASC" }}
-        perPage={10}
-        actions={<InventoryItemListActions />}
-      >
-        {isXsmall ? (
-          <div></div>
-        ) : (
-          <DatagridConfigurable
-            sx={{
-              "& .column-groups": {
-                md: { display: "none" },
-                lg: { display: "table-cell" }
-              }
-            }}
-            omit={["id"]}
-            bulkActionButtons={false}
-            rowClick={false}
+  const { isPending, permissions } = usePermissions();
+
+  return isPending
+      ? (<div>Waiting for permissions...</div>)
+      : (
+        <>
+          <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
+            品號資料列表
+          </Typography>
+          <List
+            title={false}
+            filters={isSmall ? visitorFilters : undefined}
+            sort={{ field: "created_at", order: "ASC" }}
+            perPage={10}
+            actions={<InventoryItemListActions permissions={permissions} />}
           >
-            <EditButton />
-            <TextField
-              source="id"
-              label="ID"
-            />
-            <TextField
-              source="code"
-              label="品號"
-            />
-            <TextField
-              source="name"
-              label="品名"
-            />
-            <TextField
-              source="specification"
-              label="規格"
-            />
-            <TextField
-              source="inventory"
-              label="庫存數量"
-            />
-            <DateField 
-              source="effective_date" 
-              label="生效日期"  
-              showTime
-            />
-            <DeleteWithConfirmButton
-              confirmTitle="確認刪除"
-              confirmContent="您確定要刪除此品號嗎？"
-            />
-          </DatagridConfigurable>
-        )}
-      </List>
-    </>
-  )
+            {isXsmall ? (
+              <div></div>
+            ) : (
+              <DatagridConfigurable
+                sx={{
+                  "& .column-groups": {
+                    md: { display: "none" },
+                    lg: { display: "table-cell" }
+                  }
+                }}
+                omit={["id"]}
+                bulkActionButtons={false}
+                rowClick={false}
+              >
+                {(permissions === 'superuser' || permissions?.['inventory-items']?.edit) ? (<EditButton />) : null}
+                <TextField
+                  source="id"
+                  label="ID"
+                />
+                <TextField
+                  source="code"
+                  label="品號"
+                />
+                <TextField
+                  source="name"
+                  label="品名"
+                />
+                <TextField
+                  source="specification"
+                  label="規格"
+                />
+                <TextField
+                  source="inventory"
+                  label="庫存數量"
+                />
+                <DateField 
+                  source="effective_date" 
+                  label="生效日期"  
+                  showTime
+                />
+                {(permissions === 'superuser' || permissions?.['inventory-items']?.delete) && (
+                  <DeleteWithConfirmButton
+                    confirmTitle="確認刪除"
+                    confirmContent="您確定要刪除此品號嗎？"
+                  />
+                )}
+              </DatagridConfigurable>
+            )}
+          </List>
+        </>
+      )
 }
 
 export default InventoryItemList

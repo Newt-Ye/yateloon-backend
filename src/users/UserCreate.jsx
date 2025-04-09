@@ -6,13 +6,17 @@ import {
   SelectInput,
   PasswordInput,
   DateInput,
+  ArrayInput,
+  SimpleFormIterator,
   ReferenceInput,
+  useSimpleFormIteratorItem,
   SelectArrayInput,
+  BooleanInput,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid } from "@mui/material"
-import { useFormContext } from "react-hook-form";
-import { useState } from "react";
+import { Typography, Grid, Card, CardContent } from "@mui/material"
+import { useFormContext, useWatch } from "react-hook-form";
+import { useState, useEffect } from "react";
 
 const UserTitle = () => {
   return <span>{'新增登入者代號'}</span>;
@@ -71,6 +75,33 @@ const EffectiveDateInput = ({setReadOnly, dateReadOnly}) => {
   );
 }
 
+const DepartmentReferenceInput = () => {
+  const { index } = useSimpleFormIteratorItem();
+  const { setValue } = useFormContext();
+  const companies = useWatch({ name: "companies" }) || [];
+  const companyId = companies[index]?.company_id || undefined;
+  const [filter, setFilter] = useState({});
+
+  useEffect(() => {
+    if (companyId) {
+      setFilter({ company_id: companyId });
+      setValue(`companies.${index}.department_ids`, []);
+    } else {
+      setFilter({});
+    }
+  }, [companyId, index, setValue]);
+
+  return (
+    <ReferenceInput
+      source="department_ids"
+      reference="departments"
+      filter={filter}
+    >
+      <SelectArrayInput optionText="name" label="隸屬部門" readOnly={!companyId} />
+    </ReferenceInput>
+  );
+};
+
 const UserCreate = () => {
   const [readOnly, setReadOnly] = useState(false);
   const [dateReadOnly, setDateReadOnly] = useState(false);
@@ -97,19 +128,35 @@ const UserCreate = () => {
             name: "",
             effective_date: "",
             password: "",
-            companies: []
+            companies: [
+              {
+                company_id: "",
+                employee_code: "",
+                department_ids: [],
+                status: 1,
+              }
+            ]
           }}
           validate={validateForm}
         >
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
+          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
+            <Grid item xs={12}>
+              <BooleanInput label="超級使用者" source="is_admin" helperText={false} />
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextInput autoFocus source="account" label="登入者代號" isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <SelectInput source="status" label='使用狀態' isRequired choices={[
-                { id: 0, name: '未啟用' },
-                { id: 1, name: '啟用中' }
-              ]}  readOnly={readOnly} onChange={(e) => handleStatusChange(e.target.value)} />
+              <SelectInput source="status" label='使用狀態' isRequired 
+                choices={[
+                  { id: 0, name: '未啟用' },
+                  { id: 1, name: '啟用中' }
+                ]}  
+                readOnly={readOnly} 
+                onChange={(e) => {
+                  const value = e.target.value;
+                  handleStatusChange(value);
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextInput source="name" label="登入者名稱" isRequired />
@@ -126,11 +173,26 @@ const UserCreate = () => {
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={12}>
-              <ReferenceInput source="companies" 
-                reference="companies"
-              >
-                <SelectArrayInput optionText="name" label="可登入公司別" isRequired />
-              </ReferenceInput>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom mb={2}>
+                    {'可登入公司別'}
+                  </Typography>
+                  <ArrayInput source="companies" label={false}>
+                    <SimpleFormIterator inline>
+                      <ReferenceInput source="company_id" reference="companies">
+                        <SelectInput optionText="name" label="公司別" />
+                      </ReferenceInput>
+                      <TextInput source="employee_code" label="工號" />
+                      <DepartmentReferenceInput />
+                      <SelectInput source="status" choices={[
+                        { id: 1, name: '啟用' },
+                        { id: 0, name: '停用' },
+                      ]} label="狀態" defaultValue={1} />
+                    </SimpleFormIterator>
+                  </ArrayInput>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </SimpleForm>

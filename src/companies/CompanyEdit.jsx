@@ -28,7 +28,7 @@ const CompanyEdit = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         公司資料
       </Typography>
-      <Edit title={<CompanyTitle/>} redirect={false} mutationMode="pessimistic"> 
+      <Edit title={<CompanyTitle/>} redirect={false} mutationMode="optimistic"> 
         <SimpleForm
           // Here for the GQL provider
           defaultValues={{
@@ -46,7 +46,7 @@ const CompanyEdit = () => {
         >
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="code" label="代號" isRequired />
+              <TextInput autoFocus source="code" label="代號" isRequired readOnly />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectInput source="status" label='使用狀態' isRequired choices={[
@@ -75,10 +75,10 @@ const CompanyEdit = () => {
               <TextInput source="address" label="登記地址" isRequired />
             </Grid>
           </Grid>
-          <Card sx={{ mt: 0, bgcolor: 'text.disabled' }}>
+          <Card sx={{ mt: 0, bgcolor: 'text.disabled', width: '100%' }} >
             <CardContent>
               <Grid container spacing={2}>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={1}>
                   <Typography variant="body2" align="left" sx={{ 
                     color: 'black', 
                     display: "flex",
@@ -87,31 +87,14 @@ const CompanyEdit = () => {
                     建立者：
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} sm={2}>
                   <TextField source="creator_name" sx={{ 
                     color: 'black', 
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center"}} />
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    修改者：
-                  </Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField source="modifier_name" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={1}>
                   <Typography variant="body2" align="left" sx={{ 
                     color: 'black', 
                     display: "flex",
@@ -120,14 +103,30 @@ const CompanyEdit = () => {
                     建立日期：
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} sm={2}>
                   <TextField source="created_at" sx={{ 
                     color: 'black', 
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center"}} />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={1}>
+                  <Typography variant="body2" align="left" sx={{ 
+                    color: 'black', 
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center"}} >
+                    修改者：
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <TextField source="modifier_name" sx={{ 
+                    color: 'black', 
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center"}} />
+                </Grid>
+                <Grid item xs={6} sm={1}>
                   <Typography variant="body2" align="left" sx={{ 
                     color: 'black', 
                     display: "flex",
@@ -136,8 +135,8 @@ const CompanyEdit = () => {
                     修改日期：
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
-                <TextField source="updated_at" sx={{ 
+                <Grid item xs={6} sm={2}>
+                  <TextField source="updated_at" sx={{ 
                     color: 'black', 
                     display: "flex",
                     justifyContent: "left",

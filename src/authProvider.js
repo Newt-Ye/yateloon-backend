@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const authProvider = {
-  login: ({ account, password }) => {
+  login: ({ account, password, company_id }) => {
     return axios.post(
           `${process.env.REACT_APP_API_URL}/auth/login`, 
-          { account, password },
+          { account, password, company_id },
           {
             headers: {
               'Accept': 'application/json'
@@ -18,6 +18,10 @@ const authProvider = {
           localStorage.setItem('auth_token', data.access_token);
           localStorage.setItem('auth_expires_at', expiresAt.getTime());
           localStorage.setItem('identity', JSON.stringify(data.user));
+          localStorage.setItem('permissions', JSON.stringify(data.permissions));
+          localStorage.setItem('companies', JSON.stringify(data.companies));
+          localStorage.setItem('current_company', JSON.stringify(data.current_company));
+          localStorage.setItem('super_user', data.user.super_user ? '1' : '0');
         })
         .catch(error => {
           throw new Error(error.response.data.message || 'Login failed'); 
@@ -27,6 +31,10 @@ const authProvider = {
     localStorage.removeItem("auth_token")
     localStorage.removeItem("auth_expires_at")
     localStorage.removeItem("identity")
+    localStorage.removeItem("permissions")
+    localStorage.removeItem("companies")
+    localStorage.removeItem("current_company")
+    localStorage.removeItem("super_user")
 
     return Promise.resolve()
   },
@@ -35,6 +43,11 @@ const authProvider = {
       localStorage.removeItem("auth_token")
       localStorage.removeItem("auth_expires_at")
       localStorage.removeItem("identity")
+      localStorage.removeItem("permissions")
+      localStorage.removeItem("companies")
+      localStorage.removeItem("current_company")
+      localStorage.removeItem("super_user")
+
 
       return Promise.reject({ redirectTo: "/login" });
     }
@@ -49,12 +62,25 @@ const authProvider = {
       localStorage.removeItem("auth_token")
       localStorage.removeItem("auth_expires_at")
       localStorage.removeItem("identity")
+      localStorage.removeItem("permissions")
+      localStorage.removeItem("companies")
+      localStorage.removeItem("current_company")
+      localStorage.removeItem("super_user")
+
 
       return Promise.reject({ redirectTo: "/login" });
     }
     return Promise.resolve();
   },
-  getPermissions: () => Promise.resolve(),
+  getPermissions: () => {
+    const isSuperuser = localStorage.getItem('super_user') === '1';
+    if (isSuperuser) {
+      return Promise.resolve('superuser');
+    }
+    const permissions = JSON.parse(localStorage.getItem('permissions') || '{}');
+    const currentCompany = localStorage.getItem('current_company');
+    return Promise.resolve(permissions[currentCompany] || {});
+  },
   getIdentity: () => {
     const identity = localStorage.getItem('identity');
     if (identity) {
@@ -62,7 +88,7 @@ const authProvider = {
       return Promise.resolve({
         id: user.id,
         fullName: user.name,
-        avatar: user.avatar || '' 
+        avatar: user.avatar || ''
       })
     }
   }

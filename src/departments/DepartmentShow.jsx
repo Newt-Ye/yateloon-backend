@@ -1,83 +1,100 @@
 import * as React from "react"
 import {
-  Edit,
-  SimpleForm,
-  TextInput,
-  SelectArrayInput,
-  ReferenceInput,
-  BooleanInput,
-  Toolbar,
-  SaveButton,
   TextField,
-  /*useTranslate*/
+  BooleanField,
+  SimpleShowLayout,
+  Show,
+  ArrayField,
+  SingleFieldList,
+  ChipField,
+  /*useRecordContext*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
+import { Typography, Grid, Card, CardContent } from "@mui/material"
 import { menuItems } from '../menuData';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-const DepartmentTitle = () => {
-  return <span>{'修改部門權限'}</span>;
-};
-
-export const validateForm = values => {
-  const errors = {}
-  if (!values.code) {
-    errors.code = "ra.validation.required"
-  }
-  if (!values.name) {
-    errors.name = "ra.validation.required"
-  }
-  return errors
-}
-
-const CustomToolbar = () => (
-  <Toolbar>
-    <SaveButton />
-  </Toolbar>
-);
-
-const DepartmentEdit = () => {
+const DepartmentShow = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         部門權限
       </Typography>
-      <Edit title={<DepartmentTitle/>} redirect={false} mutationMode="optimistic">
-        <SimpleForm
-          // Here for the GQL provider
-          defaultValues={{
-            code: "",
-            name: "",
-            company_ids: [],
-          }}
-          validate={validateForm}
-          toolbar={<CustomToolbar />}
-        >
-          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <TextInput autoFocus source="name" label="部門名稱" isRequired readOnly />
+      <Show>
+        <SimpleShowLayout>
+          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
+            <Grid item xs={6} sm={2}>
+              <Typography variant="body2" align="left" sx={{ 
+                color: 'black', 
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center"}} >
+                部門名稱：
+              </Typography>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextInput source="code" label="部門代號" isRequired readOnly />
+            <Grid item xs={6} sm={4}>
+              <TextField source="name" sx={{ 
+                color: 'black', 
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center"}} />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <ReferenceInput 
-                source="company_ids" 
-                reference="companies"
-              >
-                <SelectArrayInput optionText="name" label="適用公司別" isRequired readOnly />
-              </ReferenceInput>
+            <Grid item xs={6} sm={2}>
+              <Typography variant="body2" align="left" sx={{ 
+                color: 'black', 
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center"}} >
+                部門代號：
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={4}>
+              <TextField source="code" sx={{ 
+                color: 'black', 
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center"}} />
+            </Grid>
+            <Grid item xs={6} sm={2}>
+              <Typography variant="body2" align="left" sx={{ 
+                color: 'black', 
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center"}} >
+                適用公司別：
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={10}>
+              <ArrayField source="companies" label="適用公司別">
+                <SingleFieldList linkType={false}>
+                  <ChipField source="name" size="small" />
+                </SingleFieldList>
+              </ArrayField>
             </Grid>
           </Grid>
-          <Typography variant="subtitle1">
-            模組權限設定
-          </Typography>
-          <Card sx={{ mt: 1 }}>
+          <Card sx={{ mt: 2 }}>
             <CardContent>
               <Grid container  width={{ xs: "100%", xl: 1200 }} spacing={2}>
                 {menuItems.map((module) => (
-                <Grid item xs={2} key={module.key}>
-                    <BooleanInput label={module.name} source={module.key} />
-                </Grid>
+                  <>
+                    <Grid item xs={1} key={`module-${module.key}`}>
+                      <Typography variant="body1" align="left" sx={{ 
+                          color: 'black', 
+                          display: "flex",
+                          justifyContent: "left",
+                          alignItems: "center"}} >
+                          {module.name}
+                        </Typography>
+                      </Grid>
+                    <Grid item xs={1} key={module.key}>
+                      <BooleanField label={module.name} source={module.key} sx={{ 
+                        color: 'black', 
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "center"}}
+                        TrueIcon={CheckBoxIcon} FalseIcon={CheckBoxOutlineBlankIcon} />
+                    </Grid>
+                  </>
                 ))}
               </Grid>
             </CardContent>
@@ -152,10 +169,10 @@ const DepartmentEdit = () => {
               </Grid>
             </CardContent>
           </Card>
-        </SimpleForm>
-      </Edit>
+        </SimpleShowLayout>
+      </Show>
     </>
   )
 }
 
-export default DepartmentEdit
+export default DepartmentShow

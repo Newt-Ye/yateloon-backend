@@ -1,6 +1,5 @@
 import * as React from "react"
 import {
-  CreateButton,
   DatagridConfigurable,
   DateField,
   List,
@@ -8,14 +7,18 @@ import {
   TopToolbar,
   TextField,
   useListContext,
+  EditButton,
+  ArrayField,
+  SingleFieldList,
+  ChipField,
   usePermissions,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
 
-import InventoryItemCategoryFilterForm from "./InventoryItemCategoryFilterForm"
+import PermissionFilterForm from "./PermissionFilterForm"
 
-const InventoryItemCategoryFilterButton = () => {
+const UserPermissionFilterButton = () => {
   const { showFilter } = useListContext()
   return (
     <Button
@@ -42,36 +45,36 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const InventoryItemListActions = ({ permissions }) => (
+const UserPermissionListActions = () => (
   <Box width="100%">
     <TopToolbar>
-      <InventoryItemCategoryFilterButton />
-      {(permissions === 'superuser' || permissions?.[["inventory-item-categories"]]?.create) ? <CreateButton /> : null}
+      <UserPermissionFilterButton />
+      {/* <CreateButton /> */}
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <InventoryItemCategoryFilterForm />
+    <PermissionFilterForm />
   </Box>
 )
 
-const InventoryItemCategoryList = () => {
+const UserPermissionList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
 
   return isPending
-      ? (<div>Waiting for permissions...</div>)
+      ? null
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            品號類別列表
+            使用者權限列表
           </Typography>
           <List
             title={false}
             filters={isSmall ? visitorFilters : undefined}
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
-            actions={<InventoryItemListActions permissions={permissions} />}
+            actions={<UserPermissionListActions />}
           >
             {isXsmall ? (
               <div></div>
@@ -93,28 +96,30 @@ const InventoryItemCategoryList = () => {
                 }}
                 omit={["id"]}
                 bulkActionButtons={false}
-                rowClick="show"
+                rowClick={false}
               >
+                {(permissions === 'superuser' || permissions?.['permissions']?.create) ? (<EditButton />) : null}
                 <TextField
                   source="id"
                   label="ID"
                 />
                 <TextField
-                  source="index"
-                  label="序"
-                  sortable={false}
+                  source="account"
+                  label="使用者代號"
                 />
                 <TextField
                   source="name"
-                  label="品號類別名稱"
+                  label="使用者名稱"
+                  sortBy="user_id"
                 />
-                <TextField
-                  source="code"
-                  label="品號類別代碼"
-                />
+                <ArrayField source="companies" label="可登入公司別">
+                  <SingleFieldList linkType={false}>
+                    <ChipField source="name" size="small" />
+                  </SingleFieldList>
+                </ArrayField>
                 <DateField 
-                  source="created_at" 
-                  label="建立日期"  
+                  source="updated_at" 
+                  label="更新日期"  
                   showTime
                 />
               </DatagridConfigurable>
@@ -124,4 +129,4 @@ const InventoryItemCategoryList = () => {
       )
 }
 
-export default InventoryItemCategoryList
+export default UserPermissionList

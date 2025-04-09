@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useStore, useTranslate, ToggleThemeButton } from "react-admin"
+import { useStore,/* useTranslate,*/ ToggleThemeButton } from "react-admin"
 import { /*IconButton, */Menu, MenuItem/*, Tooltip*/ } from "@mui/material"
 /*import ColorLensIcon from "@mui/icons-material/ColorLens"*/
 
@@ -23,7 +23,7 @@ export const ThemeSwapper = () => {
   }
   const currentTheme = themes.find(theme => theme.name === themeName)
 
-  const translate = useTranslate()
+  // const translate = useTranslate()
   // const toggleThemeTitle = translate("pos.action.change_theme", {
   //   _: "Change Theme"
   // })

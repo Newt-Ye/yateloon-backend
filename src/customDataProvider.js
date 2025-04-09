@@ -84,7 +84,6 @@ const customDataProvider = {
       });
     },
     create: (resource, params) => {
-      console.log(params);
       return dataProvider
         .create(resource, params)
         .then(response => {

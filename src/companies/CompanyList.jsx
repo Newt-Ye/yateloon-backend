@@ -9,7 +9,8 @@ import {
   TextField,
   useListContext,
   EditButton,
-  FunctionField
+  FunctionField,
+  usePermissions,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -43,11 +44,11 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const CompanyListActions = () => (
+const CompanyListActions = ({ permissions }) => (
   <Box width="100%">
     <TopToolbar>
       <CompanyFilterButton />
-      <CreateButton />
+      {(permissions === 'superuser' || permissions?.['companies']?.create) ? (<CreateButton />) : null}
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
@@ -58,75 +59,79 @@ const CompanyListActions = () => (
 const CompanyList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
-  return (
-    <>
-      <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        公司資料列表
-      </Typography>
-      <List
-        title={false}
-        filters={isSmall ? visitorFilters : undefined}
-        sort={{ field: "created_at", order: "ASC" }}
-        perPage={10}
-        actions={<CompanyListActions />}
-      >
-        {isXsmall ? (
-          <div></div>
-        ) : (
-          <DatagridConfigurable
-            sx={{
-              "& .column-groups": {
-                md: { display: "none" },
-                lg: { display: "table-cell" }
-              },
-              "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
-                flex: "1 1 0",  // 設定每個欄位的彈性寬度
-                minWidth: "120px",  // 最小寬度，避免太窄
-                maxWidth: "200px",  // 最大寬度
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap"
-              }
-            }}
-            omit={["id"]}
-            bulkActionButtons={false}
-            rowClick="edit"
+  const { isPending, permissions } = usePermissions();
+
+  return isPending
+      ? null
+      : (
+        <>
+          <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
+            公司資料列表
+          </Typography>
+          <List
+            title={false}
+            filters={isSmall ? visitorFilters : undefined}
+            sort={{ field: "created_at", order: "ASC" }}
+            perPage={10}
+            actions={<CompanyListActions permissions={permissions} />}
           >
-            <EditButton />
-            <TextField
-              source="id"
-              label="ID"
-            />
-            <TextField
-              source="code"
-              label="公司代號"
-            />
-            <TextField
-              source="short_name"
-              label="公司簡稱"
-            />
-            <FunctionField
-              label="使用狀態"
-              render={(record) => {
-                const statusMapping = {
-                  0: "未啟用",
-                  1: "啟用中",
-                  9: "失效"
-                }
-                return statusMapping[record.status]
-              }}
-              sortBy="status"
-            />
-            <DateField 
-              source="created_at" 
-              label="建立日期"  
-              showTime
-            />
-          </DatagridConfigurable>
-        )}
-      </List>
-    </>
-  )
+            {isXsmall ? (
+              <div></div>
+            ) : (
+              <DatagridConfigurable
+                sx={{
+                  "& .column-groups": {
+                    md: { display: "none" },
+                    lg: { display: "table-cell" }
+                  },
+                  "& .RaDatagrid-headerCell, & .RaDatagrid-cell": {
+                    flex: "1 1 0",  // 設定每個欄位的彈性寬度
+                    minWidth: "120px",  // 最小寬度，避免太窄
+                    maxWidth: "200px",  // 最大寬度
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                }}
+                omit={["id"]}
+                bulkActionButtons={false}
+                rowClick="show"
+              >
+                {(permissions === 'superuser' || permissions?.['companies']?.edit) ? (<EditButton />) : null}
+                <TextField
+                  source="id"
+                  label="ID"
+                />
+                <TextField
+                  source="code"
+                  label="公司代號"
+                />
+                <TextField
+                  source="short_name"
+                  label="公司簡稱"
+                />
+                <FunctionField
+                  label="使用狀態"
+                  render={(record) => {
+                    const statusMapping = {
+                      0: "未啟用",
+                      1: "啟用中",
+                      9: "失效"
+                    }
+                    return statusMapping[record.status]
+                  }}
+                  sortBy="status"
+                />
+                <DateField 
+                  source="created_at" 
+                  label="建立日期"  
+                  showTime
+                />
+              </DatagridConfigurable>
+            )}
+          </List>
+        </>
+      )
 }
 
 export default CompanyList
