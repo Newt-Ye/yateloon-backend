@@ -37,7 +37,7 @@ const App = () => {
     authProvider.getPermissions().then(setAccesses);
   }, []);
 
-  // if (!accesses) return null
+  if (!accesses) return null
 
   return (
     <Admin
@@ -50,11 +50,7 @@ const App = () => {
       layout={Layout}
       defaultTheme={defaultTheme}
     >
-      {!accesses ? (
-        <Resource name="placeholder" list={() => null} />
-      ) : (
-        <>
-      {(accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view) && (
+      {/* {(accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view) && (
         <Resource
           name="inventory-item-categories"
           list={
@@ -183,15 +179,13 @@ const App = () => {
               : null
           }
         />
-      )}
-      </>
-      )}
-      {/* <Resource name="inventory-item-categories" {...inventoryItemCategories} /> */}
-      {/* <Resource name="inventory-items" {...inventoryItems} /> */}
-      {/* <Resource name="companies" {...companies} /> */}
-      {/* <Resource name="users" {...users} /> */}
-      {/* <Resource name="departments" {...departments} /> */}
-      {/* <Resource name="permissions" {...permissions} /> */}
+      )} */}
+      <Resource name="inventory-item-categories" {...inventoryItemCategories} />
+      <Resource name="inventory-items" {...inventoryItems} />
+      <Resource name="companies" {...companies} />
+      <Resource name="users" {...users} />
+      <Resource name="departments" {...departments} />
+      <Resource name="permissions" {...permissions} />
     </Admin>
   )
 }
