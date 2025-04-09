@@ -9,11 +9,11 @@ import {
 import customDataProvider from "./customDataProvider";
 import authProvider from './authProvider';
 import inventoryItemCategories from './inventoryItemCategories';
-import inventoryItems from './inventoryItems';
-import companies from './companies';
-import departments from './departments';
-import users from './users';
-import permissions from './permissions';
+// import inventoryItems from './inventoryItems';
+// import companies from './companies';
+// import departments from './departments';
+// import users from './users';
+// import permissions from './permissions';
 import { Layout, Login } from "./layout"
 import en from './i18n/en';
 import zhTW from './i18n/zh-TW';
@@ -50,7 +50,7 @@ const App = () => {
       layout={Layout}
       defaultTheme={defaultTheme}
     >
-      {(accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view) && (
+      {/* {(accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view) && (
         <Resource
           name="inventory-item-categories"
           list={
@@ -179,8 +179,8 @@ const App = () => {
               : null
           }
         />
-      )}
-      {/* <Resource name="inventory-item-categories" {...inventoryItemCategories} /> */}
+      )} */}
+      <Resource name="inventory-item-categories" {...inventoryItemCategories} />
       {/* <Resource name="inventory-items" {...inventoryItems} /> */}
       {/* <Resource name="companies" {...companies} /> */}
       {/* <Resource name="users" {...users} /> */}
