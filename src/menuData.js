@@ -1,4 +1,3 @@
-// menuData.js
 import InventoryIcon from '@mui/icons-material/Inventory';
 import SettingsIcon from '@mui/icons-material/Settings';
 
