@@ -37,7 +37,7 @@ const App = () => {
     authProvider.getPermissions().then(setAccesses);
   }, []);
 
-  if (!accesses) return null
+  // if (!accesses) return null
 
   return (
     <Admin
