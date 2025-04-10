@@ -16,7 +16,7 @@ import {
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
 import { useState, useEffect } from "react";
 import { useFormState, useWatch, useFormContext } from "react-hook-form";
-import { validateForm } from "./InventoryItemCreate"
+import { validateForm, InventoryItemCodeInput } from "./InventoryItemCreate"
 
 const InventoryItemTitle = () => {
   return <span>{'修改品號'}</span>;
@@ -162,10 +162,6 @@ const InventoryAmountInput = () => {
 }
 
 const InventoryItemEdit = () => {
-  const [attribute, setAttribute] = useState("");
-  
-  const getMaxLength = attribute === "M" ? 18 : 15;
-
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
@@ -175,7 +171,7 @@ const InventoryItemEdit = () => {
         <SimpleForm
           defaultValues={{
             inventory_item_category_id: "",
-            attribute: "",
+            attribute: "M",
             name: "",
             code: "",
             specification: "",
@@ -224,10 +220,10 @@ const InventoryItemEdit = () => {
                     { id: 'M', name: '自製件' },
                     { id: 'P', name: '採購件' },
                     { id: 'S', name: '委外加工件' }
-                  ]} onChange={(e) => setAttribute(e.target.value)} />
+                  ]} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextInput source="code" label="品號"  placeholder="15或18碼" inputProps={{ maxLength: getMaxLength }} isRequired />
+                  <InventoryItemCodeInput />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <CustomReferenceInput label="主要庫別" source="warehouse_id" reference="warehouses" required={true} />

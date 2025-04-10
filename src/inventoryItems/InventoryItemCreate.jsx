@@ -206,11 +206,38 @@ const InventoryAmountInput = () => {
   );
 }
 
-const InventoryItemCreate = () => {
-  const [attribute, setAttribute] = useState("");
+export const InventoryItemCodeInput = () => {
+  const { setError, clearErrors } = useFormContext();
+
+  const code = useWatch({ name: "code" });
+  const attribute = useWatch({ name: "attribute" });
 
   const getMaxLength = attribute === "M" ? 18 : 15;
 
+  useEffect(() => {
+    if (code) {
+      if (attribute === "M" && code.length !== 18) {
+        setError("code", { type: "required", message: "品號長度必須為18碼" });
+      } else if (attribute !== "M" && code.length !== 15) {
+        setError("code", { type: "required", message: "品號長度必須為15碼" });
+      } else {
+        clearErrors("code");
+      }
+    }
+  }, [code, attribute, setError, clearErrors]);
+
+  return (
+    <TextInput
+      source="code"
+      label="品號"
+      placeholder="15或18碼"
+      inputProps={{ maxLength: getMaxLength }} 
+      isRequired
+    />
+  );
+};
+
+const InventoryItemCreate = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
@@ -220,7 +247,7 @@ const InventoryItemCreate = () => {
         <SimpleForm
           defaultValues={{
             inventory_item_category_id: "",
-            attribute: "",
+            attribute: "M",
             name: "",
             code: "",
             specification: "",
@@ -269,10 +296,10 @@ const InventoryItemCreate = () => {
                     { id: 'M', name: '自製件' },
                     { id: 'P', name: '採購件' },
                     { id: 'S', name: '委外加工件' }
-                  ]} onChange={(e) => setAttribute(e.target.value)} />
+                  ]} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextInput source="code" label="品號"  placeholder="15或18碼" inputProps={{ maxLength: getMaxLength }} isRequired />
+                  <InventoryItemCodeInput />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <CustomReferenceInput label="主要庫別" source="warehouse_id" reference="warehouses" required={true} />
