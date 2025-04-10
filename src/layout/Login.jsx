@@ -7,7 +7,9 @@ import {
   Button,
   Card,
   CardActions,
-  CircularProgress
+  CircularProgress,
+  Checkbox, 
+  FormControlLabel,
 } from "@mui/material"
 import {
   Form,
@@ -22,6 +24,8 @@ import {
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState(localStorage.getItem("remember_me") ? localStorage.getItem("username") || "" : "");
+  const [rememberMe, setRememberMe] = useState(!!localStorage.getItem("remember_me"));
   // const translate = useTranslate()
 
   const notify = useNotify()
@@ -29,6 +33,7 @@ const Login = () => {
   const location = useLocation()
 
   const handleSubmit = auth => {
+    console.log(auth);
     setLoading(true)
     login(auth, location.state ? location.state.nextPathname : "/").catch(
       error => {
@@ -53,6 +58,14 @@ const Login = () => {
         )
       }
     )
+
+    if (rememberMe) {
+      localStorage.setItem("remember_me", "true");
+      localStorage.setItem("username", auth.account);
+    } else {
+      localStorage.removeItem("remember_me");
+      localStorage.removeItem("username");
+    }
   }
 
   return (
@@ -103,6 +116,7 @@ const Login = () => {
                 label="帳號"
                 disabled={loading}
                 validate={required()}
+                defaultValue={username}
               />
             </Box>
             <Box sx={{ marginTop: "1em" }}>
@@ -127,6 +141,17 @@ const Login = () => {
                   validate={required()}
                 />
               </ReferenceInput>
+            </Box>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={rememberMe}
+                    onChange={e => setRememberMe(e.target.checked)}
+                  />
+                }
+                label="記住我"
+              />
             </Box>
           </Box>
           <CardActions sx={{ padding: "0 1em 1em 1em" }}>
