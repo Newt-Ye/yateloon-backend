@@ -33,7 +33,6 @@ const Login = () => {
   const location = useLocation()
 
   const handleSubmit = auth => {
-    console.log(auth);
     setLoading(true)
     login(auth, location.state ? location.state.nextPathname : "/").catch(
       error => {
@@ -117,6 +116,7 @@ const Login = () => {
                 disabled={loading}
                 validate={required()}
                 defaultValue={username}
+                onChange={e => setUsername(e.target.value)}
               />
             </Box>
             <Box sx={{ marginTop: "1em" }}>
