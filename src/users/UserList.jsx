@@ -98,7 +98,7 @@ const UserList = () => {
                 }}
                 omit={["id"]}
                 bulkActionButtons={false}
-                rowClick={false}
+                rowClick="show"
               >
                 {(permissions === 'superuser' || permissions?.['permissions']?.create) ? (<EditButton />) : null}
                 <TextField
