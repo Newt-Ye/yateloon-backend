@@ -22,6 +22,10 @@ const customDataProvider = {
       const { page, perPage } = pagination;
       const { field, order } = sort;
 
+      if (resource === 'inventory-items') {
+        filter['company_id'] = localStorage.getItem('current_company');
+      }
+
       // 轉換查詢參數為後端 API 所需格式
       const query = {
         ...Object.keys(filter).reduce((acc, key) => {
@@ -84,6 +88,10 @@ const customDataProvider = {
       });
     },
     create: (resource, params) => {
+      if (resource === 'inventory-items') {
+        params['data']['company_id'] = parseInt(localStorage.getItem('current_company')) || '';
+      }
+
       return dataProvider
         .create(resource, params)
         .then(response => {
