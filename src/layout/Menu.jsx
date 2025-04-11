@@ -7,7 +7,8 @@ import {
   /*useTranslate,*/
   MenuItemLink,
   useSidebarState,
-  usePermissions
+  usePermissions,
+  DashboardMenuItem
 } from "react-admin"
 
 import SubMenu from "./SubMenu"
@@ -55,6 +56,7 @@ const Menu = ({ dense = false }) => {
             })
         }}
       >
+        <DashboardMenuItem />
         {menuItems.map((menu) => 
           (permissions === 'superuser' || Object.values(permissions).some(p => p.module === menu.key)) && (
           <SubMenu
