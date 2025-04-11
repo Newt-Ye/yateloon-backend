@@ -4,9 +4,10 @@ import {
   SimpleForm,
   TextInput,
   SelectInput,
+  SaveButton,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid } from "@mui/material"
+import { /*Box,*/Typography, Grid, Box } from "@mui/material"
 import { useFormContext } from "react-hook-form";
 
 const CompanyTitle = () => {
@@ -75,7 +76,11 @@ const CompanyCreate = () => {
             address: ""
           }}
           validate={validateForm}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextInput autoFocus source="code" label="代號" isRequired />

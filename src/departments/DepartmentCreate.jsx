@@ -6,8 +6,9 @@ import {
   SelectArrayInput,
   ReferenceInput,
   BooleanInput,
+  SaveButton,
 } from "react-admin"
-import { Typography, Grid, Card, CardContent } from "@mui/material"
+import { Typography, Grid, Card, CardContent, Box } from "@mui/material"
 import { menuItems } from '../menuData';
 
 const DepartmentTitle = () => {
@@ -43,7 +44,11 @@ const DepartmentCreate = () => {
             company_ids: [],
           }}
           validate={validateForm}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={4}>
               <TextInput autoFocus source="name" label="部門名稱" isRequired />
@@ -59,21 +64,23 @@ const DepartmentCreate = () => {
                 <SelectArrayInput optionText="name" label="適用公司別" isRequired />
               </ReferenceInput>
             </Grid>
-          </Grid>
-          <Typography variant="subtitle1">
-            模組權限設定
-          </Typography>
-          <Card sx={{ mt: 1 }}>
-            <CardContent>
-              <Grid container  width={{ xs: "100%", xl: 1200 }} spacing={2}>
-                {menuItems.map((module) => (
-                  <Grid item xs={2} key={module.key}>
-                    <BooleanInput label={module.name} source={module.key} />
+            <Grid item xs={12} sm={12}>
+              <Typography variant="subtitle1">
+                模組權限設定
+              </Typography>
+              <Card sx={{ mt: 1 }}>
+                <CardContent>
+                  <Grid container width={{ xs: "100%" }} spacing={2}>
+                    {menuItems.map((module) => (
+                    <Grid item xs={2} key={module.key}>
+                        <BooleanInput label={module.name} source={module.key} />
+                    </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </SimpleForm>
       </Create>
     </>

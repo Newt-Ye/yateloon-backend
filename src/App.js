@@ -49,6 +49,7 @@ const App = () => {
       i18nProvider={i18nProvider}
       layout={Layout}
       defaultTheme={defaultTheme}
+      dashboard={() => <div></div>}
     >
       {/* {(accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view) && (
         <Resource

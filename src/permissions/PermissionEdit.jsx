@@ -5,7 +5,7 @@ import {
   TextInput,
   CheckboxGroupInput,
   useRecordContext,
-  Toolbar,
+  /*Toolbar,*/
   SaveButton,
   /*useTranslate*/
 } from "react-admin"
@@ -106,20 +106,25 @@ const PermissionsInput = ({company}) => {
   )
 }
 
+/*
 const CustomToolbar = () => (
     <Toolbar>
       <SaveButton alwaysEnable />
     </Toolbar>
 );
+*/
 
 const PermissionEdit = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        登入者權限
+        使用者權限
       </Typography>
       <Edit title={<PermissionTitle/>} redirect={false} mutationMode="optimistic">
-        <SimpleForm toolbar={<CustomToolbar />} >
+        <SimpleForm toolbar={false} >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton alwaysEnable />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextInput source="account" label='登入者代號' readOnly />
@@ -127,8 +132,8 @@ const PermissionEdit = () => {
             <Grid item xs={12} sm={6}>
               <TextInput source="name" label='登入者名稱' readOnly />
             </Grid>
-            <Grid item xs={12}>
-              <Card>
+            <Grid item xs={12} sm={12}>
+              <Card width={{ xs: "100%", xl: 1200 }}>
                 <CardContent>
                   <CompanyPermissionTabs />
                 </CardContent>

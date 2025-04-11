@@ -4,23 +4,25 @@ import {
   SimpleForm,
   TextInput,
   SelectInput,
-  Toolbar,
+  /*Toolbar,*/
   SaveButton,
   TextField,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
+import { /*Box,*/Typography, Grid, Card, CardContent, Box } from "@mui/material"
 import { validateForm, ShortNameInput } from "./CompanyCreate"
 
 const CompanyTitle = () => {
   return <span>{'修改公司資料'}</span>;
 };
 
+/*
 const CustomToolbar = () => (
   <Toolbar>
     <SaveButton />
   </Toolbar>
 );
+*/
 
 const CompanyEdit = () => {
   return (
@@ -42,8 +44,11 @@ const CompanyEdit = () => {
             address: ""
           }}
           validate={validateForm}
-          toolbar={<CustomToolbar />}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextInput autoFocus source="code" label="代號" isRequired readOnly />

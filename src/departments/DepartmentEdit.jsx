@@ -6,12 +6,12 @@ import {
   SelectArrayInput,
   ReferenceInput,
   BooleanInput,
-  Toolbar,
+  /*Toolbar,*/
   SaveButton,
   TextField,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
+import { /*Box,*/Typography, Grid, Card, CardContent, Box } from "@mui/material"
 import { menuItems } from '../menuData';
 
 const DepartmentTitle = () => {
@@ -29,11 +29,13 @@ export const validateForm = values => {
   return errors
 }
 
+/*
 const CustomToolbar = () => (
   <Toolbar>
     <SaveButton />
   </Toolbar>
 );
+*/
 
 const DepartmentEdit = () => {
   return (
@@ -50,8 +52,11 @@ const DepartmentEdit = () => {
             company_ids: [],
           }}
           validate={validateForm}
-          toolbar={<CustomToolbar />}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={4}>
               <TextInput autoFocus source="name" label="部門名稱" isRequired readOnly />
@@ -67,21 +72,23 @@ const DepartmentEdit = () => {
                 <SelectArrayInput optionText="name" label="適用公司別" isRequired readOnly />
               </ReferenceInput>
             </Grid>
+            <Grid item xs={12} sm={12}>
+              <Typography variant="subtitle1">
+                模組權限設定
+              </Typography>
+              <Card sx={{ mt: 1 }}>
+                <CardContent>
+                  <Grid container width={{ xs: "100%" }} spacing={2}>
+                    {menuItems.map((module) => (
+                    <Grid item xs={2} key={module.key}>
+                        <BooleanInput label={module.name} source={module.key} />
+                    </Grid>
+                    ))}
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          <Typography variant="subtitle1">
-            模組權限設定
-          </Typography>
-          <Card sx={{ mt: 1 }}>
-            <CardContent>
-              <Grid container  width={{ xs: "100%", xl: 1200 }} spacing={2}>
-                {menuItems.map((module) => (
-                <Grid item xs={2} key={module.key}>
-                    <BooleanInput label={module.name} source={module.key} />
-                </Grid>
-                ))}
-              </Grid>
-            </CardContent>
-          </Card>
           <Card sx={{ mt: 4, bgcolor: 'text.disabled', width: '100%' }} >
             <CardContent>
               <Grid container spacing={2}>

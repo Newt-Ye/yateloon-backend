@@ -34,7 +34,7 @@ export const menuItems = [
     items: [
       { 
         resource: "users", 
-        primaryText: "使用者代號",
+        primaryText: "登入者代號",
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },

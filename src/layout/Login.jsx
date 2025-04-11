@@ -25,6 +25,7 @@ import {
 const Login = () => {
   const [loading, setLoading] = useState(false)
   const [username, setUsername] = useState(localStorage.getItem("remember_me") ? localStorage.getItem("username") || "" : "");
+  const [company, setCompany] = useState(localStorage.getItem("remember_me") ? parseInt(localStorage.getItem("company")) || "" : "");
   const [rememberMe, setRememberMe] = useState(!!localStorage.getItem("remember_me"));
   // const translate = useTranslate()
 
@@ -61,9 +62,11 @@ const Login = () => {
     if (rememberMe) {
       localStorage.setItem("remember_me", "true");
       localStorage.setItem("username", auth.account);
+      localStorage.setItem("company", auth.company_id);
     } else {
       localStorage.removeItem("remember_me");
       localStorage.removeItem("username");
+      localStorage.removeItem("company");
     }
   }
 
@@ -139,6 +142,8 @@ const Login = () => {
                   label="公司別" 
                   disabled={loading}
                   validate={required()}
+                  defaultValue={company}
+                  onChange={e => setCompany(e.target.value)}
                 />
               </ReferenceInput>
             </Box>

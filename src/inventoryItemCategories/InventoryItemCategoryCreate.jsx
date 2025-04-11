@@ -3,9 +3,10 @@ import {
   Create,
   SimpleForm,
   TextInput,
+  SaveButton,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid } from "@mui/material"
+import { Box, Typography, Grid } from "@mui/material"
 
 const InventoryItemCategoryTitle = () => {
   return <span>{'新增品號類別'}</span>;
@@ -33,7 +34,11 @@ const InventoryItemCategoryCreate = () => {
             code: ""
           }}
           validate={validateForm}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
               <Grid item xs={12}>
                 <TextInput autoFocus source="code" label="類別代號" isRequired />

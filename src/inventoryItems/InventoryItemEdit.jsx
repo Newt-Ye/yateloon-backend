@@ -10,7 +10,8 @@ import {
   ReferenceInput,
   AutocompleteInput,
   useDataProvider,
-  TextField
+  TextField,
+  SaveButton,
   /*useTranslate*/
 } from "react-admin"
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
@@ -200,7 +201,11 @@ const InventoryItemEdit = () => {
             total_standard_cost: 0
           }}
           validate={validateForm}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} md={7}>
               <Typography variant="h5" gutterBottom mb={2}>

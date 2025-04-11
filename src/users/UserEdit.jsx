@@ -10,7 +10,7 @@ import {
   SelectArrayInput,
   useEditContext,
   SaveButton,
-  Toolbar,
+  /*Toolbar,*/
   TextField,
   useSimpleFormIteratorItem,
   ArrayInput,
@@ -18,7 +18,7 @@ import {
   BooleanInput,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
+import { /*Box,*/Typography, Grid, Card, CardContent, Box } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
 import { useState, useEffect } from "react";
 
@@ -151,11 +151,13 @@ const DepartmentReferenceInput = () => {
   );
 };
 
+/*
 const CustomToolbar = () => (
   <Toolbar>
     <SaveButton />
   </Toolbar>
 );
+*/
 
 const UserEdit = () => {
   const [readOnly, setReadOnly] = useState(false);
@@ -185,8 +187,11 @@ const UserEdit = () => {
             ]
           }}
           validate={validateForm}
-          toolbar={<CustomToolbar />}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12}>
               <BooleanInput label="超級使用者" source="is_admin" helperText={false} />

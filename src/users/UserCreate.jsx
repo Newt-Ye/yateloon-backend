@@ -12,9 +12,10 @@ import {
   useSimpleFormIteratorItem,
   SelectArrayInput,
   BooleanInput,
+  SaveButton,
   /*useTranslate*/
 } from "react-admin"
-import { Typography, Grid, Card, CardContent } from "@mui/material"
+import { Typography, Grid, Card, CardContent, Box } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
 import { useState, useEffect } from "react";
 
@@ -138,7 +139,11 @@ const UserCreate = () => {
             ]
           }}
           validate={validateForm}
+          toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12}>
               <BooleanInput label="超級使用者" source="is_admin" helperText={false} />
