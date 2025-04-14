@@ -414,10 +414,10 @@ const customChineseMessages = {
         reviewer: "評論者"
       }
     },
-    members: {
+    users: {
       errors: {
-        email_exists: "電子郵件已存在",
-        default_exists: "該會員已有其他 LOGO 設定成預設圖片"
+        duplicate_company_department_warning: "此公司與部門設定已重複加入",
+        company_already_assigned: "此公司已被設定"
       }
     }
   }

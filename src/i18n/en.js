@@ -225,6 +225,12 @@ const customEnglishMessages = {
         returns: "Returns",
         reviewer: "Reviewer"
       }
+    },
+    users: {
+      errors: {
+        duplicate_company_department_warning: "This company and department setting has already been added",
+        company_already_assigned: "This company has already been assigned"
+      }
     }
   }
 }

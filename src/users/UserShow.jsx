@@ -104,10 +104,10 @@ const UserShow = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom mt={2}>
-                {'可登入公司別'}
+                {'公司與部門設定'}
               </Typography>
               <ArrayField source="companies">
-                <Datagrid bulkActionButtons={false}>
+                <Datagrid bulkActionButtons={false} rowClick={false}>
                   <TextField source="company_name" label="公司別" />
                   <TextField source="employee_code" label="工號" />
                   <ArrayField source="departments" label="隸屬部門">

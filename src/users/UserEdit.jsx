@@ -177,6 +177,7 @@ const UserEdit = () => {
             name: "",
             effective_date: "",
             password: "",
+            email: "",
             companies: [
               {
                 company_id: "",
@@ -209,30 +210,36 @@ const UserEdit = () => {
               <EffectiveDateInput setReadOnly={setReadOnly} dateReadOnly={dateReadOnly} setDateReadOnly={setDateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <PasswordInput source="password" label="密碼" />
+              <TextInput type="email" source="email" label="電子郵件"  isRequired />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={6}>
+              <PasswordInput source="password" label="密碼" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <PasswordInput source="confirm_password" label="再次輸入密碼" />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={12}>
-              <Typography variant="h6" gutterBottom mb={2}>
-                {'可登入公司別'}
-              </Typography>
-              <ArrayInput source="companies" label={false}>
-                <SimpleFormIterator inline>
-                  <ReferenceInput source="company_id" reference="companies">
-                    <SelectInput optionText="name" label="公司別" />
-                  </ReferenceInput>
-                  <TextInput source="employee_code" label="工號" />
-                  <DepartmentReferenceInput />
-                  <SelectInput source="status" choices={[
-                    { id: 1, name: '啟用' },
-                    { id: 0, name: '停用' },
-                  ]} label="狀態" />
-                </SimpleFormIterator>
-              </ArrayInput>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom mb={2}>
+                    {'公司與部門設定'}
+                  </Typography>
+                  <ArrayInput source="companies" label={false}>
+                    <SimpleFormIterator inline>
+                      <ReferenceInput source="company_id" reference="companies">
+                        <SelectInput optionText="name" label="公司別" />
+                      </ReferenceInput>
+                      <TextInput source="employee_code" label="工號" />
+                      <DepartmentReferenceInput />
+                      <SelectInput source="status" choices={[
+                        { id: 1, name: '啟用' },
+                        { id: 0, name: '停用' },
+                      ]} label="狀態" />
+                    </SimpleFormIterator>
+                  </ArrayInput>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
           <Card sx={{ mt: 0, bgcolor: 'text.disabled', width: '100%' }} >
