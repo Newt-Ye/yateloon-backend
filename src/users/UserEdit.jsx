@@ -16,6 +16,7 @@ import {
   ArrayInput,
   SimpleFormIterator,
   BooleanInput,
+  useNotify,
   /*useTranslate*/
 } from "react-admin"
 import { /*Box,*/Typography, Grid, Card, CardContent, Box } from "@mui/material"
@@ -42,6 +43,22 @@ export const validateForm = values => {
   }
   if (values.password && values.password !== values.confirm_password) {
     errors.confirm_password = "resources.customers.errors.password_mismatch"
+  }
+  if (values.companies) {
+    errors.companies = [];
+  
+    values.companies.forEach((item, index) => {
+      if (item.company_id) { 
+        if (!item.employee_code) {
+          errors.companies[index] = errors.companies[index] || {}; 
+          errors.companies[index].employee_code = "ra.validation.required";
+        }
+        if (item.department_ids.length === 0) {
+          errors.companies[index] = errors.companies[index] || {}; 
+          errors.companies[index].department_ids = "ra.validation.required";
+        }
+      }
+    });
   }
   return errors
 }
@@ -114,6 +131,35 @@ const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
   );
 }
 
+const CompanyReferenceInput = () => {
+  const { index } = useSimpleFormIteratorItem();
+  const { getValues, setValue } = useFormContext();
+  const notify = useNotify();
+  const companies = useWatch({ name: "companies" });
+  const isDialog = companies[index]?.is_dialog || false;
+
+  return (
+    <ReferenceInput source="company_id" reference="companies">
+      <SelectInput 
+        optionText="name" 
+        label="公司別" 
+        readOnly={isDialog} 
+        onChange={(e) => {
+          if (e.target.value) {
+            const companies = getValues('companies');
+
+            const alreadyExists = companies.some((item, i) => item.company_id === e.target.value && index !== i);
+            if (alreadyExists) {
+              notify("resources.users.errors.company_already_assigned", { type: 'error' });
+              setValue(`companies.${index}.company_id`, "")
+            }
+          }
+        }} 
+      />
+    </ReferenceInput>
+  );
+};
+
 const DepartmentReferenceInput = () => {
   const { index } = useSimpleFormIteratorItem();
   const { setValue } = useFormContext();
@@ -126,10 +172,10 @@ const DepartmentReferenceInput = () => {
   useEffect(() => {
     if (companyId) {
       setFilter({ company_id: companyId });
-      setValue(`companies.${index}.department_ids`, []);
     } else {
       setFilter({});
     }
+    setValue(`companies.${index}.department_ids`, []);
   }, [companyId, index, setValue]);
 
   // 等待部門 options 載入後塞入預設值
@@ -227,9 +273,7 @@ const UserEdit = () => {
                   </Typography>
                   <ArrayInput source="companies" label={false}>
                     <SimpleFormIterator inline>
-                      <ReferenceInput source="company_id" reference="companies">
-                        <SelectInput optionText="name" label="公司別" />
-                      </ReferenceInput>
+                      <CompanyReferenceInput />
                       <TextInput source="employee_code" label="工號" />
                       <DepartmentReferenceInput />
                       <SelectInput source="status" choices={[
