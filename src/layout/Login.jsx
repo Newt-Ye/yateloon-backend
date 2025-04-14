@@ -20,6 +20,7 @@ import {
   useNotify,
   ReferenceInput,
   SelectInput,
+  PasswordInput,
 } from "react-admin"
 
 const Login = () => {
@@ -123,11 +124,10 @@ const Login = () => {
               />
             </Box>
             <Box sx={{ marginTop: "1em" }}>
-              <TextInput
+              <PasswordInput
                 source="password"
                 // label={translate("ra.auth.password")}
                 label="密碼"
-                type="password"
                 disabled={loading}
                 validate={required()}
               />
