@@ -2,13 +2,13 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import { Box } from "@mui/material"
 import { menuItems } from '../menuData';
+import HomeIcon from '@mui/icons-material/Home';
 
 import {
   /*useTranslate,*/
   MenuItemLink,
   useSidebarState,
   usePermissions,
-  DashboardMenuItem
 } from "react-admin"
 
 import SubMenu from "./SubMenu"
@@ -56,7 +56,11 @@ const Menu = ({ dense = false }) => {
             })
         }}
       >
-        <DashboardMenuItem />
+        <MenuItemLink
+          to="/"
+          primaryText="首頁"
+          leftIcon={<HomeIcon />}
+        />
         {menuItems.map((menu) => 
           (permissions === 'superuser' || Object.values(permissions).some(p => p.module === menu.key)) && (
           <SubMenu
