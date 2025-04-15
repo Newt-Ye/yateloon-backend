@@ -51,10 +51,10 @@ const DepartmentCreate = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={4}>
-              <TextInput autoFocus source="name" label="部門名稱" isRequired />
+              <TextInput autoFocus source="code" label="部門代號" isRequired />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextInput source="code" label="部門代號" isRequired />
+              <TextInput source="name" label="部門名稱" isRequired />
             </Grid>
             <Grid item xs={12} sm={4}>
               <ReferenceInput 
