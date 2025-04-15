@@ -22,7 +22,8 @@ const customDataProvider = {
       const { page, perPage } = pagination;
       const { field, order } = sort;
 
-      if (resource === 'inventory-items') {
+      if (resource === 'inventory-item-categories' 
+        || resource === 'inventory-items') {
         filter['company_id'] = localStorage.getItem('current_company');
       }
 
@@ -64,6 +65,11 @@ const customDataProvider = {
     getMany: (resource, params) => {
       const { filter } = params;
 
+      if (resource === 'inventory-item-categories' 
+        || resource === 'inventory-items') {
+        filter['company_id'] = localStorage.getItem('current_company');
+      }
+
       // 轉換查詢參數為後端 API 所需格式
       const query = {
         ...(filter 
@@ -88,7 +94,8 @@ const customDataProvider = {
       });
     },
     create: (resource, params) => {
-      if (resource === 'inventory-items') {
+      if (resource === 'inventory-item-categories' 
+        || resource === 'inventory-items') {
         params['data']['company_id'] = parseInt(localStorage.getItem('current_company')) || '';
       }
 

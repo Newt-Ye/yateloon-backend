@@ -299,7 +299,7 @@ const UserEdit = () => {
               </Card>
             </Grid>
           </Grid>
-          <Card sx={{ mt: 0, bgcolor: 'text.disabled', width: '100%' }} >
+          <Card sx={{ mt: 4, bgcolor: 'text.disabled', width: '100%' }} >
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6} sm={1}>
