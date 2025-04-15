@@ -110,6 +110,7 @@ const EffectiveDateInput = ({setReadOnly, dateReadOnly, setDateReadOnly}) => {
 }
 
 const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
+  const { getValues, setValue } = useFormContext();
   const { record } = useEditContext();
   const defaultReadOnly = Boolean(record?.effective_date) && record.status === 0;
 
@@ -129,6 +130,12 @@ const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
   const handleStatusChange = (status) => {
     if (status !== 0) {
       setDateReadOnly(true);
+      if (status === 9) {
+        const companies = getValues('companies');
+        for (let i=0; i<companies.length; i++) {
+          setValue(`companies.${i}.status`, 0);
+        }
+      }
     } else {
       setDateReadOnly(false);
     }

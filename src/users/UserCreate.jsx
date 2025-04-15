@@ -280,7 +280,7 @@ const CopyCompanyDialog = ({ open, handleClose }) => {
           status: item.status,
           dialog_department_ids: item.department_ids,
           is_dialog: item.is_dialog,
-          user_id: item.user_id,
+          source_user_id: item.source_user_id,
           employee_name: item.employee_name
         }
     })
@@ -298,7 +298,7 @@ const CopyCompanyDialog = ({ open, handleClose }) => {
       status: 1,
       dialog_department_ids: departmentIds,
       is_dialog: true,
-      user_id: userId,
+      source_user_id: userId,
       employee_name: userName
     })
 
