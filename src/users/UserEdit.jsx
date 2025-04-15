@@ -21,7 +21,8 @@ import {
 } from "react-admin"
 import { /*Box,*/Typography, Grid, Card, CardContent, Box } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { EmployeeCodeInput, StatusInput as CompanyStatusInput } from "./UserCreate"
 
 const UserTitle = () => {
   return <span>{'修改登入者代號'}</span>;
@@ -34,6 +35,9 @@ export const validateForm = values => {
   }
   if (!values.name) {
     errors.name = "ra.validation.required"
+  }
+  if (!values.email) {
+    errors.email = "ra.validation.required"
   }
   if (values.status === undefined) {
     errors.status = "ra.validation.required"
@@ -56,6 +60,10 @@ export const validateForm = values => {
         if (item.department_ids.length === 0) {
           errors.companies[index] = errors.companies[index] || {}; 
           errors.companies[index].department_ids = "ra.validation.required";
+        }
+        if (item.status === null) {
+          errors.companies[index] = errors.companies[index] || {}; 
+          errors.companies[index].status = "ra.validation.required";
         }
       }
     });
@@ -135,15 +143,12 @@ const CompanyReferenceInput = () => {
   const { index } = useSimpleFormIteratorItem();
   const { getValues, setValue } = useFormContext();
   const notify = useNotify();
-  const companies = useWatch({ name: "companies" });
-  const isDialog = companies[index]?.is_dialog || false;
 
   return (
     <ReferenceInput source="company_id" reference="companies">
       <SelectInput 
         optionText="name" 
-        label="公司別" 
-        readOnly={isDialog} 
+        label="公司別"
         onChange={(e) => {
           if (e.target.value) {
             const companies = getValues('companies');
@@ -162,9 +167,12 @@ const CompanyReferenceInput = () => {
 
 const DepartmentReferenceInput = () => {
   const { index } = useSimpleFormIteratorItem();
-  const { setValue } = useFormContext();
-  const companies = useWatch({ name: "companies" }) || [];
+  const { setValue, setError, clearErrors } = useFormContext();
+  const companies = useWatch({ name: "companies" });
   const companyId = companies[index]?.company_id || undefined;
+  const departmentIds = useMemo(() => {
+    return companies[index]?.department_ids || [];
+  }, [companies, index]);
   const [filter, setFilter] = useState({});
   const [defaultSet, setDefaultSet] = useState(false);
   const { record } = useEditContext();
@@ -185,6 +193,14 @@ const DepartmentReferenceInput = () => {
       setDefaultSet(true);
     }
   }, [index, setValue, defaultSet, record?.companies]);
+
+  useEffect(() => {
+      if (companyId && departmentIds.length === 0) {
+        setError(`companies.${index}.department_ids`, { type: "required", message: "ra.validation.required" });
+      } else {
+        clearErrors(`companies.${index}.department_ids`)
+      }
+    }, [departmentIds, companyId, index, setError, clearErrors]);
 
   return (
     <ReferenceInput
@@ -274,12 +290,9 @@ const UserEdit = () => {
                   <ArrayInput source="companies" label={false}>
                     <SimpleFormIterator inline>
                       <CompanyReferenceInput />
-                      <TextInput source="employee_code" label="工號" />
+                      <EmployeeCodeInput />
                       <DepartmentReferenceInput />
-                      <SelectInput source="status" choices={[
-                        { id: 1, name: '啟用' },
-                        { id: 0, name: '停用' },
-                      ]} label="狀態" />
+                      <CompanyStatusInput />
                     </SimpleFormIterator>
                   </ArrayInput>
                 </CardContent>

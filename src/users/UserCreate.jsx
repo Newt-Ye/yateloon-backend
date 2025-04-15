@@ -20,7 +20,7 @@ import {
 } from "react-admin"
 import { Typography, Grid, Card, CardContent, Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo} from "react";
 
 const UserTitle = () => {
   return <span>{'新增登入者代號'}</span>;
@@ -33,6 +33,9 @@ export const validateForm = values => {
   }
   if (!values.name) {
     errors.name = "ra.validation.required"
+  }
+  if (!values.email) {
+    errors.email = "ra.validation.required"
   }
   if (values.status === undefined) {
     errors.status = "ra.validation.required"
@@ -55,6 +58,10 @@ export const validateForm = values => {
         if (item.department_ids.length === 0) {
           errors.companies[index] = errors.companies[index] || {}; 
           errors.companies[index].department_ids = "ra.validation.required";
+        }
+        if (item.status === null) {
+          errors.companies[index] = errors.companies[index] || {}; 
+          errors.companies[index].status = "ra.validation.required";
         }
       }
     });
@@ -124,11 +131,34 @@ const CompanyReferenceInput = () => {
   );
 };
 
-const DepartmentReferenceInput = () => {
+export const EmployeeCodeInput = () => {
   const { index } = useSimpleFormIteratorItem();
-  const { setValue } = useFormContext();
+  const { setError, clearErrors } = useFormContext();
   const companies = useWatch({ name: "companies" });
   const companyId = companies[index]?.company_id || undefined;
+  const employeeCode = companies[index]?.employee_code || "";
+
+  useEffect(() => {
+    if (companyId && !employeeCode) {
+      setError(`companies.${index}.employee_code`, { type: "required", message: "ra.validation.required" });
+    } else {
+      clearErrors(`companies.${index}.employee_code`)
+    }
+  }, [companyId, employeeCode, index, setError, clearErrors]);
+
+  return (
+    <TextInput source="employee_code" label="工號" /> 
+  )
+}
+
+const DepartmentReferenceInput = () => {
+  const { index } = useSimpleFormIteratorItem();
+  const { setValue, setError, clearErrors } = useFormContext();
+  const companies = useWatch({ name: "companies" });
+  const companyId = companies[index]?.company_id || undefined;
+  const departmentIds = useMemo(() => {
+    return companies[index]?.department_ids || [];
+  }, [companies, index]);
   const isDialog = companies[index]?.is_dialog || false;
   const [filter, setFilter] = useState({});
   const [defaultSet, setDefaultSet] = useState(false);
@@ -149,6 +179,14 @@ const DepartmentReferenceInput = () => {
     }
   }, [index, setValue, defaultSet, companies]);
 
+  useEffect(() => {
+    if (companyId && departmentIds.length === 0) {
+      setError(`companies.${index}.department_ids`, { type: "required", message: "ra.validation.required" });
+    } else {
+      clearErrors(`companies.${index}.department_ids`)
+    }
+  }, [departmentIds, companyId, index, setError, clearErrors]);
+
   return (
     <ReferenceInput
       source="department_ids"
@@ -159,6 +197,29 @@ const DepartmentReferenceInput = () => {
     </ReferenceInput>
   );
 };
+
+export const StatusInput = () => {
+  const { index } = useSimpleFormIteratorItem();
+  const { setError, clearErrors } = useFormContext();
+  const companies = useWatch({ name: "companies" });
+  const companyId = companies[index]?.company_id || undefined;
+  const status = companies[index]?.status;
+
+  useEffect(() => {
+    if (companyId && status === null) {
+      setError(`companies.${index}.status`, { type: "required", message: "ra.validation.required" });
+    } else {
+      clearErrors(`companies.${index}.status`)
+    }
+  }, [companyId, status, index, setError, clearErrors]);
+
+  return (
+    <SelectInput source="status" choices={[
+      { id: 1, name: '啟用' },
+      { id: 0, name: '停用' },
+    ]} label="狀態" />
+  )
+}
 
 const CopyCompanyDialog = ({ open, handleClose }) => {
   const dataProvider = useDataProvider();
@@ -459,12 +520,9 @@ const UserCreate = () => {
                     <SimpleFormIterator inline>
                       <CompanyReferenceInput />
                       <TextInput source="employee_name" label="欲複製對象權限" readOnly/>
-                      <TextInput source="employee_code" label="工號" />
+                      <EmployeeCodeInput />
                       <DepartmentReferenceInput />
-                      <SelectInput source="status" choices={[
-                        { id: 1, name: '啟用' },
-                        { id: 0, name: '停用' },
-                      ]} label="狀態" defaultValue={1} />
+                      <StatusInput />
                     </SimpleFormIterator>
                   </ArrayInput>
                 </CardContent>
