@@ -159,7 +159,6 @@ const DepartmentReferenceInput = () => {
   const departmentIds = useMemo(() => {
     return companies[index]?.department_ids || [];
   }, [companies, index]);
-  const isDialog = companies[index]?.is_dialog || false;
   const [filter, setFilter] = useState({});
   const [defaultSet, setDefaultSet] = useState(false);
 
@@ -193,7 +192,7 @@ const DepartmentReferenceInput = () => {
       reference="departments"
       filter={filter}
     >
-      <SelectArrayInput optionText="name" label="隸屬部門" readOnly={!companyId || isDialog} />
+      <SelectArrayInput optionText="name" label="隸屬部門" readOnly={!companyId} />
     </ReferenceInput>
   );
 };
