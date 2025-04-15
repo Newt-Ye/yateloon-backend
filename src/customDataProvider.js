@@ -63,7 +63,7 @@ const customDataProvider = {
       });
     },
     getMany: (resource, params) => {
-      const { filter } = params;
+      let filter = { ...params.filter };
 
       if (resource === 'inventory-item-categories' 
         || resource === 'inventory-items') {
