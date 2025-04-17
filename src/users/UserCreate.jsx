@@ -220,7 +220,7 @@ export const StatusInput = () => {
   )
 }
 
-const CopyCompanyDialog = ({ open, handleClose }) => {
+export const CopyCompanyDialog = ({ open, handleClose }) => {
   const dataProvider = useDataProvider();
   const notify = useNotify();
   const { setValue, getValues } = useFormContext();
@@ -518,10 +518,10 @@ const UserCreate = () => {
                   <ArrayInput source="companies" label={false}>
                     <SimpleFormIterator inline>
                       <CompanyReferenceInput />
-                      <TextInput source="employee_name" label="欲複製對象權限" readOnly/>
                       <EmployeeCodeInput />
                       <DepartmentReferenceInput />
                       <StatusInput />
+                      <TextInput source="employee_name" label="欲複製對象權限" readOnly/>
                     </SimpleFormIterator>
                   </ArrayInput>
                 </CardContent>

@@ -19,10 +19,10 @@ import {
   useNotify,
   /*useTranslate*/
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent, Box } from "@mui/material"
+import { /*Box,*/Typography, Grid, Card, CardContent, Box, Button } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
 import { useState, useEffect, useMemo } from "react";
-import { EmployeeCodeInput, StatusInput as CompanyStatusInput } from "./UserCreate"
+import { EmployeeCodeInput, StatusInput as CompanyStatusInput, CopyCompanyDialog } from "./UserCreate"
 
 const UserTitle = () => {
   return <span>{'修改登入者代號'}</span>;
@@ -231,6 +231,10 @@ const CustomToolbar = () => (
 const UserEdit = () => {
   const [readOnly, setReadOnly] = useState(false);
   const [dateReadOnly, setDateReadOnly] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -291,15 +295,25 @@ const UserEdit = () => {
             <Grid item xs={12} sm={12}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom mb={2}>
-                    {'公司與部門設定'}
-                  </Typography>
+                  <Box sx={{ 
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "center",
+                    mb: 2 }} >
+                    <Typography variant="h6" gutterBottom>
+                      {'公司與部門設定'}
+                    </Typography>
+                    <Button variant="contained" onClick={handleOpen} sx={{ ml: 5 }}>
+                      {'複製其他使用者設定(權限)'}
+                    </Button>
+                  </Box>
                   <ArrayInput source="companies" label={false}>
                     <SimpleFormIterator inline>
                       <CompanyReferenceInput />
                       <EmployeeCodeInput />
                       <DepartmentReferenceInput />
                       <CompanyStatusInput />
+                      <TextInput source="employee_name" label="欲複製對象權限" readOnly/>
                     </SimpleFormIterator>
                   </ArrayInput>
                 </CardContent>
@@ -376,6 +390,7 @@ const UserEdit = () => {
               </Grid>
             </CardContent>
           </Card>
+          <CopyCompanyDialog open={open} handleClose={handleClose} />
         </SimpleForm>
       </Edit>
     </>
