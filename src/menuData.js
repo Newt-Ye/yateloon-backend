@@ -1,5 +1,6 @@
 import InventoryIcon from '@mui/icons-material/Inventory';
 import SettingsIcon from '@mui/icons-material/Settings';
+import TuneIcon from '@mui/icons-material/Tune';
 
 export const menuItems = [
   {
@@ -62,6 +63,21 @@ export const menuItems = [
       { 
         resource: "permissions",
         primaryText: "使用者權限",
+        permissions: [
+          { id: 'view', name: '檢視' },
+          { id: 'edit', name: '修改' }
+        ]
+      }
+    ]
+  },
+  {
+    key: "menuBasic",
+    name: "基本設定",
+    icon: <TuneIcon />,
+    items: [
+      { 
+        resource: "settings/1/basic-settings", 
+        primaryText: "共同參數設定",
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'edit', name: '修改' }

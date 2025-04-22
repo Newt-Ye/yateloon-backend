@@ -14,6 +14,7 @@ import companies from './companies';
 import departments from './departments';
 import users from './users';
 import permissions from './permissions';
+import settings from './settings';
 import { Layout, Login } from "./layout"
 import en from './i18n/en';
 import zhTW from './i18n/zh-TW';
@@ -187,6 +188,7 @@ const App = () => {
       <Resource name="users" {...users} />
       <Resource name="departments" {...departments} />
       <Resource name="permissions" {...permissions} />
+      <Resource name="settings" {...settings} />
     </Admin>
   )
 }
