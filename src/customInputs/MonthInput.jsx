@@ -45,7 +45,7 @@ export const MonthInput = ({
     variant = 'outlined',
     disabled,
     readOnly,
-    ...rest // 這邊保留是為了 useInput 傳進去
+    ...rest
 }) => {
     const {
         field,
@@ -115,7 +115,7 @@ export const MonthInput = ({
                     padding: '10.5px 14px',
                 },
             }}
-            required={isRequired} // ✅ 正確地傳給 MUI 的 required 屬性
+            {...rest}
         />
     );
 };

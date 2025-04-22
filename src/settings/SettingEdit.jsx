@@ -44,8 +44,8 @@ const validateForm = values => {
   if (!values.tax_rate_precision) {
     errors.tax_rate_precision = "ra.validation.required"
   }
-  if (!values.product_classification_method) {
-    errors.product_classification_method = "ra.validation.required"
+  if (!values.inventory_item_class_method) {
+    errors.inventory_item_class_method = "ra.validation.required"
   }
   if (!values.costing_method) {
     errors.costing_method = "ra.validation.required"
