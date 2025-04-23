@@ -274,7 +274,8 @@ const InventoryItemCreate = () => {
             unit_std_labor_cost: 0,
             unit_std_manufacturing_cost: 0,
             unit_std_processing_cost: 0,
-            total_standard_cost: 0
+            total_standard_cost: 0,
+            effective_date: new Date().toISOString().split('T')[0],
           }}
           validate={validateForm}
           toolbar={false}
