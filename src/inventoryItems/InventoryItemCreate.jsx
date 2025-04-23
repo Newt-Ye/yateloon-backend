@@ -261,7 +261,7 @@ const InventoryItemCreate = () => {
             over_delivery_manage: true,
             over_receiving_manage: true,
             edit_item_name: false,
-            effective_date: "",
+            effective_date: new Date().toISOString().split('T')[0],
             expiration_date: "",
             inspection_method: "",
             last_storage_date: "",
@@ -275,7 +275,6 @@ const InventoryItemCreate = () => {
             unit_std_manufacturing_cost: 0,
             unit_std_processing_cost: 0,
             total_standard_cost: 0,
-            effective_date: new Date().toISOString().split('T')[0],
           }}
           validate={validateForm}
           toolbar={false}
