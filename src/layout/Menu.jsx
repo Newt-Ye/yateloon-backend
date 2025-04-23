@@ -72,15 +72,15 @@ const Menu = ({ dense = false }) => {
             dense={dense}
           >
             {menu.items.map((item) => 
-              hasPermissionForResource(item.resource) && (
+              hasPermissionForResource(item.resource) ? (
                 <MenuItemLink
                   key={item.resource}
-                  to={`/${item.resource}`}
+                  to={item.resource === "settings" ? `/${item.resource}/1/basic-settings` : `/${item.resource}`}
                   state={{ _scrollToTop: true }}
                   primaryText={item.primaryText}
                   dense={dense}
                 />
-              )
+              ) : null
             )}
           </SubMenu>
         ))}

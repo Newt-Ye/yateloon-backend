@@ -71,12 +71,12 @@ export const menuItems = [
     ]
   },
   {
-    key: "menuBasic",
+    key: "menuBasics",
     name: "基本設定",
     icon: <TuneIcon />,
     items: [
       { 
-        resource: "settings/1/basic-settings", 
+        resource: "settings", 
         primaryText: "共同參數設定",
         permissions: [
           { id: 'view', name: '檢視' },

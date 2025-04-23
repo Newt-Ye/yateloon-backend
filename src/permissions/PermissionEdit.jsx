@@ -8,10 +8,11 @@ import {
   /*Toolbar,*/
   SaveButton,
   /*useTranslate*/
+  useEditController,
 } from "react-admin"
 import { Typography, Grid, Box, Tabs, Tab, Card, CardContent } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { menuItems } from '../menuData';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -41,6 +42,37 @@ const CompanyPermissionTabs = () => {
     </>
   );
 }
+
+const AutoSelectCheckboxGroupInput = ({ source, companyId, moduleKey, resource, ...props }) => {
+  const { setValue } = useFormContext();
+  const currentValue = useWatch({ name: source });
+  const prevValueRef = useRef([]);
+
+  useEffect(() => {
+    const prevValue = prevValueRef.current;
+    const justCheckedEdit = !prevValue?.includes('edit') && currentValue?.includes('edit');
+
+    if (justCheckedEdit) {
+      const newPermissions = new Set(currentValue);
+      if (!currentValue.includes('view')) newPermissions.add('view');
+      if (!currentValue.includes('create')) newPermissions.add('create');
+
+      setValue(source, Array.from(newPermissions), {
+        shouldValidate: false,
+        shouldDirty: true,
+      });
+    }
+
+    prevValueRef.current = currentValue;
+  }, [currentValue, setValue, source]);
+
+  return (
+    <CheckboxGroupInput
+      source={source}
+      {...props}
+    />
+  );
+};
 
 const PermissionsInput = ({company}) => {
   const { setValue } = useFormContext();
@@ -89,14 +121,14 @@ const PermissionsInput = ({company}) => {
             {module.items.map(item => (
               <Box key={item.resource} sx={{ ml: 2 }}>
                 <Typography variant="body2">{item.primaryText}</Typography>
-                <CheckboxGroupInput
+                <AutoSelectCheckboxGroupInput 
                   source={`permissions.${company.id}.${module.key}.${item.resource}`}
                   choices={item.permissions.map(p => ({
                     id: p.id,
                     name: p.name
                   }))}
                   label={false}
-                />
+                 />
               </Box>
             ))}
           </Box>
@@ -106,22 +138,46 @@ const PermissionsInput = ({company}) => {
   )
 }
 
-/*
-const CustomToolbar = () => (
-    <Toolbar>
-      <SaveButton alwaysEnable />
-    </Toolbar>
-);
-*/
+const getDefaultValues = (record) => {
+  if (!record) return {};
+
+  const defaultPermissions = {};
+
+  record.companies?.forEach(company => {
+    const companyId = company.id;
+    defaultPermissions[companyId] = {};
+
+    menuItems.forEach(module => {
+      if (company.modules?.includes(module.key)) {
+        defaultPermissions[companyId][module.key] = {};
+        module.items.forEach(item => {
+          defaultPermissions[companyId][module.key][item.resource] = ['view'];
+        });
+      }
+    });
+  });
+  
+  return {
+    account: record.account,
+    name: record.name,
+    permissions: {
+      ...defaultPermissions,
+    }
+  };
+};
+
 
 const PermissionEdit = () => {
+  const controllerProps = useEditController();
+  const record = controllerProps.record;
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         使用者權限
       </Typography>
       <Edit title={<PermissionTitle/>} redirect={false} mutationMode="optimistic">
-        <SimpleForm toolbar={false} >
+        <SimpleForm toolbar={false} defaultValues={getDefaultValues(record)} >
           <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
             <SaveButton alwaysEnable />
           </Box>
