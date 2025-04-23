@@ -156,12 +156,13 @@ const getDefaultValues = (record) => {
       }
     });
   });
-  
+
   return {
     account: record.account,
     name: record.name,
     permissions: {
       ...defaultPermissions,
+      ...(record.permissions || {}),
     }
   };
 };
