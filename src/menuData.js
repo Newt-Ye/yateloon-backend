@@ -82,6 +82,15 @@ export const menuItems = [
           { id: 'view', name: '檢視' },
           { id: 'edit', name: '修改' }
         ]
+      },
+      { 
+        resource: "factories", 
+        primaryText: "廠別資料",
+        permissions: [
+          { id: 'view', name: '檢視' },
+          { id: 'create', name: '新增' },
+          { id: 'edit', name: '修改' }
+        ]
       }
     ]
   }
