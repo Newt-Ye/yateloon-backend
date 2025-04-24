@@ -150,12 +150,15 @@ const CompanyReferenceInput = () => {
   const { index } = useSimpleFormIteratorItem();
   const { getValues, setValue } = useFormContext();
   const notify = useNotify();
+  const companies = useWatch({ name: "companies" });
+  const isDialog = companies[index]?.is_dialog || false;
 
   return (
     <ReferenceInput source="company_id" reference="companies">
       <SelectInput 
         optionText="name" 
         label="公司別"
+        readOnly={isDialog}
         onChange={(e) => {
           if (e.target.value) {
             const companies = getValues('companies');
@@ -182,6 +185,7 @@ const DepartmentReferenceInput = () => {
   }, [companies, index]);
   const [filter, setFilter] = useState({});
   const [defaultSet, setDefaultSet] = useState(false);
+  const [dialogSet, setDialogSet] = useState(false);
   const { record } = useEditContext();
 
   useEffect(() => {
@@ -199,7 +203,11 @@ const DepartmentReferenceInput = () => {
       setValue(`companies.${index}.department_ids`, record.companies[index].department_ids);
       setDefaultSet(true);
     }
-  }, [index, setValue, defaultSet, record?.companies]);
+    if (!dialogSet && companies?.[index]?.dialog_department_ids?.length > 0) {
+      setValue(`companies.${index}.department_ids`, companies[index].dialog_department_ids);
+      setDialogSet(true);
+    }
+  }, [index, setValue, defaultSet, record?.companies, dialogSet, companies]);
 
   useEffect(() => {
       if (companyId && departmentIds.length === 0) {
