@@ -20,7 +20,7 @@ const FactoryEdit = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         廠別資料
       </Typography>
-      <Edit title={<FactoryTitle/>} redirect={false} mutationMode="optimistic">
+      <Edit title={<FactoryTitle/>} redirect="show" mutationMode="optimistic">
         <SimpleForm
           // Here for the GQL provider
           defaultValues={{
