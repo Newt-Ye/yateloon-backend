@@ -23,7 +23,9 @@ const customDataProvider = {
       const { field, order } = sort;
 
       if (resource === 'inventory-item-categories' 
-        || resource === 'inventory-items') {
+        || resource === 'inventory-items'
+        || resource === 'factories'
+      ) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
 
@@ -66,7 +68,9 @@ const customDataProvider = {
       let filter = { ...params.filter };
 
       if (resource === 'inventory-item-categories' 
-        || resource === 'inventory-items') {
+        || resource === 'inventory-items'
+        || resource === 'factories'
+      ) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
 
@@ -95,7 +99,9 @@ const customDataProvider = {
     },
     create: (resource, params) => {
       if (resource === 'inventory-item-categories' 
-        || resource === 'inventory-items') {
+        || resource === 'inventory-items'
+        || resource === 'factories'
+      ) {
         params['data']['company_id'] = parseInt(localStorage.getItem('current_company')) || '';
       }
 

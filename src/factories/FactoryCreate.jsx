@@ -29,7 +29,7 @@ const FactoryCreate = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         廠別資料
       </Typography>
-      <Create title={<FactoryTitle/>}>
+      <Create title={<FactoryTitle/>} redirect="show">
         <SimpleForm
           // Here for the GQL provider
           defaultValues={{
