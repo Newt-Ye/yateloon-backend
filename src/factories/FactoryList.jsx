@@ -94,7 +94,7 @@ const FactoryList = () => {
                 }}
                 omit={["id"]}
                 bulkActionButtons={false}
-                rowClick={false}
+                rowClick="show"
               >
                 {(permissions === 'superuser' || permissions?.['factories']?.edit) ? (<EditButton />) : null}
                 <TextField
