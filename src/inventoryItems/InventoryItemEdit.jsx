@@ -280,7 +280,7 @@ const InventoryItemEdit = () => {
                   <BooleanInput label="變更品名" source="edit_item_name" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <DateInput  source="effective_date" label="生效日期" />
+                  <DateInput  source="effective_date" label="生效日期" readOnly />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <DateInput  source="expiration_date" label="失效日期" />
