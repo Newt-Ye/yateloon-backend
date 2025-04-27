@@ -389,7 +389,10 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
             <SelectArrayInput 
               optionText="name" 
               label="隸屬部門"
-              readOnly={!companyId || !userId} />
+              readOnly={!companyId || !userId} 
+              onChange={(e) => {
+                setDepartmentIds(e.target.value)
+              }} />
           </ReferenceInput>
       </DialogContent>
       <DialogActions>
