@@ -1,16 +1,24 @@
 import * as React from "react"
 import {
+  Edit,
+  SimpleForm,
+  TextInput,
+  SelectInput,
+  /*Toolbar,*/
   TextField,
-  SelectField,
-  SimpleShowLayout,
-  Show,
+  TopToolbar,
+  EditButton,
   ArrayField,
-  SingleFieldList,
-  ChipField,
-  /*useRecordContext*/
+  Datagrid,
+  /*useTranslate*/
 } from "react-admin"
-import { Typography, Grid, Card, CardContent } from "@mui/material"
-// import PostTitle from "./PostTitle"
+import { /*Box,*/Typography, Grid, Card, CardContent } from "@mui/material"
+
+const Actions = () => (
+  <TopToolbar>
+    <EditButton />
+  </TopToolbar>
+);
 
 const CompanyShow = () => {
   return (
@@ -18,152 +26,47 @@ const CompanyShow = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         公司資料
       </Typography>
-      <Show>
-        <SimpleShowLayout>
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                代號：
-              </Typography>
+      <Edit actions={<Actions />} redirect="show">
+        <SimpleForm toolbar={false}>
+          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextInput autoFocus source="code" label="代號" disabled />
             </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="code" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} />
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                使用狀態：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <SelectField source="status" choices={[
+            <Grid item xs={12} sm={6}>
+              <SelectInput source="status" label='使用狀態' disabled choices={[
                 { id: 0, name: '未啟用' },
                 { id: 1, name: '啟用中' },
                 { id: 9, name: '失效' }
               ]} />
             </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                公司簡稱：
-              </Typography>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="short_name" label="公司簡稱" disabled />
             </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="short_name" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="name" label="公司全名" disabled />
             </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                公司全名：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="name" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                負責人：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="responsible_person" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="responsible_person" label="負責人" disabled />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                電話：
+            <Grid item xs={12} sm={6}>
+              <TextInput source="phone" label="電話" disabled />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="fax" label="傳真" disabled />
+            </Grid>
+            <Grid item xs={12}>
+              <TextInput source="address" label="登記地址" disabled />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                {'部門列表'}
               </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="phone" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                傳真：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="fax" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                登記地址：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={10}>
-              <TextField source="address" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                部門：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={10}>
-              <ArrayField source="departments" label="部門">
-                <SingleFieldList linkType={false}>
-                  <ChipField source="name" size="small" />
-                </SingleFieldList>
+              <ArrayField source="departments">
+                <Datagrid bulkActionButtons={false} rowClick={false}>
+                  <TextField source="code" label="部門代號" />
+                  <TextField source="name" label="部門名稱" />
+                </Datagrid>
               </ArrayField>
             </Grid>
           </Grid>
@@ -237,8 +140,8 @@ const CompanyShow = () => {
               </Grid>
             </CardContent>
           </Card>
-        </SimpleShowLayout>
-      </Show>
+        </SimpleForm>
+      </Edit>
     </>
   )
 }

@@ -2,17 +2,27 @@ import * as React from "react"
 import {
   TextField,
   SelectField,
-  SimpleShowLayout,
-  Show,
   ArrayField,
-  DateField,
   Datagrid,
   SingleFieldList,
-  ChipField
+  ChipField,
+  BooleanInput,
+  TextInput,
+  Edit,
+  SimpleForm,
+  SelectInput,
+  DateInput,
+  TopToolbar,
+  EditButton
   /*useRecordContext*/
 } from "react-admin"
 import { Typography, Grid, Card, CardContent } from "@mui/material"
-// import PostTitle from "./PostTitle"
+
+const Actions = () => (
+  <TopToolbar>
+    <EditButton />
+  </TopToolbar>
+);
 
 const UserShow = () => {
   return (
@@ -20,90 +30,34 @@ const UserShow = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         登入者代號
       </Typography>
-      <Show>
-        <SimpleShowLayout>
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                超級使用者：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={10}>
-              <SelectField source="status" choices={[
-                { id: 1, name: '是' },
-                { id: 0, name: '否' },
-              ]} />
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                登入者代號：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="account" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} />
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                使用狀態：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <SelectField source="status" choices={[
-                { id: 0, name: '未啟用' },
-                { id: 1, name: '啟用中' },
-                { id: 9, name: '失效' }
-              ]} />
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                登入者名稱：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <TextField source="name" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Typography variant="body2" align="left" sx={{ 
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}} >
-                生效日期：
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4}>
-              <DateField source="effective_date" sx={{
-                color: 'black', 
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center"}}/>
-            </Grid>
+      <Edit actions={<Actions />} redirect="show">
+        <SimpleForm toolbar={false}>
+          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom mt={2}>
+              <BooleanInput label="超級使用者" source="is_admin" helperText={false} disabled />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextInput autoFocus source="account" label="登入者代號" disabled />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <SelectInput source="status" label='使用狀態' choices={[
+                { id: 0, name: "未啟用" },
+                { id: 1, name: "啟用中" },
+                { id: 9, name: "失效" }
+              ]} disabled />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="name" label="登入者名稱" disabled />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DateInput source="effective_date" label="生效日期" disabled />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextInput type="email" source="email" label="電子郵件" disabled />
+            </Grid>
+            <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
                 {'公司與部門設定'}
               </Typography>
               <ArrayField source="companies">
@@ -193,8 +147,8 @@ const UserShow = () => {
               </Grid>
             </CardContent>
           </Card>
-        </SimpleShowLayout>
-      </Show>
+        </SimpleForm>
+      </Edit>
     </>
   )
 }

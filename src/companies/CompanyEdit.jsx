@@ -49,7 +49,7 @@ const CompanyEdit = () => {
           <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
             <SaveButton />
           </Box>
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
+          <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextInput autoFocus source="code" label="代號" isRequired readOnly />
             </Grid>

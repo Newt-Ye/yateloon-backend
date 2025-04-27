@@ -87,7 +87,7 @@ export const ShortNameInput = () => {
   );
 }
 
-const EffectiveDateInput = ({setReadOnly, dateReadOnly, setDateReadOnly}) => {
+export const EffectiveDateInput = ({setReadOnly, dateReadOnly, setDateReadOnly}) => {
   const { setValue } = useFormContext();
   const { record } = useEditContext();
 

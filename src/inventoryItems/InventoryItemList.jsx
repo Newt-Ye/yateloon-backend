@@ -87,7 +87,7 @@ const InventoryItemList = () => {
                 }}
                 omit={["id"]}
                 bulkActionButtons={false}
-                rowClick={false}
+                rowClick="show"
               >
                 {(permissions === 'superuser' || permissions?.['inventory-items']?.edit) ? (<EditButton />) : null}
                 <TextField

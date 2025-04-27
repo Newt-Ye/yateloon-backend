@@ -194,7 +194,7 @@ const Actions = () => (
   </TopToolbar>
 );
 
-const PermissionEdit = () => {
+const PermissionShow = () => {
   const controllerProps = useEditController();
   const record = controllerProps.record;
 
@@ -226,4 +226,4 @@ const PermissionEdit = () => {
   )
 }
 
-export default PermissionEdit
+export default PermissionShow
