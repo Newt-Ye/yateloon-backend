@@ -69,7 +69,7 @@ const DepartmentEdit = () => {
                 source="company_ids" 
                 reference="companies"
               >
-                <SelectArrayInput optionText="name" label="適用公司別" isRequired readOnly />
+                <SelectArrayInput optionText="name" label="適用公司別" isRequired />
               </ReferenceInput>
             </Grid>
             <Grid item xs={12} sm={12}>
