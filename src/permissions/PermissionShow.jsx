@@ -12,6 +12,7 @@ import {
   ChipField,
   TopToolbar,
 	EditButton,
+  useEditController,
 } from "react-admin"
 import { Typography, Grid, Box, Tabs, Tab, Card, CardContent } from "@mui/material"
 import { useWatch } from "react-hook-form";
@@ -103,6 +104,35 @@ const PermissionsInput = ({company}) => {
   )
 }
 
+const getDefaultValues = (record) => {
+  if (!record) return {};
+
+  const defaultPermissions = {};
+
+  record.companies?.forEach(company => {
+    const companyId = company.id;
+    defaultPermissions[companyId] = {};
+
+    menuItems.forEach(module => {
+      if (company.modules?.includes(module.key)) {
+        defaultPermissions[companyId][module.key] = {};
+        module.items.forEach(item => {
+          defaultPermissions[companyId][module.key][item.resource] = ['view'];
+        });
+      }
+    });
+  });
+
+  return {
+    account: record.account,
+    name: record.name,
+    permissions: {
+      ...defaultPermissions,
+      ...(record.permissions || {}),
+    }
+  };
+};
+
 const Actions = () => (
   <TopToolbar>
     <EditButton />
@@ -110,13 +140,16 @@ const Actions = () => (
 );
 
 const PermissionShow = () => {
+  const controllerProps = useEditController();
+  const record = controllerProps.record;
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         使用者權限
       </Typography>
       <Edit actions={<Actions />} redirect="show">
-        <SimpleForm toolbar={false} >
+        <SimpleForm toolbar={false} defaultValues={getDefaultValues(record)} >
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextInput source="account" label='登入者代號' disabled />
