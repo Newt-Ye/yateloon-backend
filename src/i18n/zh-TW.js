@@ -103,7 +103,7 @@ const customChineseMessages = {
     navigation: {
       clear_filters: '清除篩選',
       no_filtered_results: '使用當前篩選未找到任何 %{resource}。',
-      no_results: '未找到任何 %{resource}',
+      no_results: '未找到任何資料',
       no_more_results: '頁碼 %{page} 超出範圍。請嘗試前一頁。',
       page_out_of_boundaries: '頁碼 %{page} 超出範圍',
       page_out_from_end: '無法進入最後一頁',
