@@ -6,6 +6,9 @@ import {
 	SimpleForm,
 	TopToolbar,
 	EditButton,
+  ArrayField,
+  Datagrid,
+  DateField,
   /*useRecordContext*/
 } from "react-admin"
 import { Typography, Grid, Card, CardContent } from "@mui/material"
@@ -31,6 +34,18 @@ const FactoryShow = () => {
 							<Grid item xs={12}>
 								<TextInput source="name" label="廠別名稱" disabled />
 							</Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  {'庫別列表'}
+                </Typography>
+                <ArrayField source="warehouses">
+                    <Datagrid bulkActionButtons={false} rowClick={false}>
+                      <TextField source="code" label="庫別代號" />
+                      <TextField source="name" label="庫別名稱" />
+                      <DateField source="created_at" label="建立時間" showTime />
+                    </Datagrid>
+                </ArrayField>
+              </Grid>
           </Grid>
           <Card sx={{ mt: 4, bgcolor: 'text.disabled', width: '100%' }} >
             <CardContent>

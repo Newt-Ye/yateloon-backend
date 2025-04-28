@@ -16,6 +16,7 @@ import users from './users';
 import permissions from './permissions';
 import settings from './settings';
 import factories from './factories';
+import warehouses from './warehouses';
 import { Layout, Login } from "./layout"
 import en from './i18n/en';
 import zhTW from './i18n/zh-TW';
@@ -191,6 +192,7 @@ const App = () => {
       <Resource name="permissions" {...permissions} />
       <Resource name="settings" {...settings} />
       <Resource name="factories" {...factories} />
+      <Resource name="warehouses" {...warehouses} />
     </Admin>
   )
 }

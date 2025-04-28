@@ -25,6 +25,7 @@ const customDataProvider = {
       if (resource === 'inventory-item-categories' 
         || resource === 'inventory-items'
         || resource === 'factories'
+        || resource === 'warehouses'
       ) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
@@ -70,6 +71,7 @@ const customDataProvider = {
       if (resource === 'inventory-item-categories' 
         || resource === 'inventory-items'
         || resource === 'factories'
+        || resource === 'warehouses'
       ) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
@@ -101,6 +103,7 @@ const customDataProvider = {
       if (resource === 'inventory-item-categories' 
         || resource === 'inventory-items'
         || resource === 'factories'
+        || resource === 'warehouses'
       ) {
         params['data']['company_id'] = parseInt(localStorage.getItem('current_company')) || '';
       }
