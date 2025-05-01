@@ -4,25 +4,28 @@ import {
   SimpleForm,
   TextInput,
   SaveButton,
-  useNotify
+  useNotify,
   /*useTranslate*/
 } from "react-admin"
 import { Box, Typography, Grid } from "@mui/material"
 import { useState } from "react";
 
-const InventoryItemCategoryTitle = () => {
-  return <span>{'新增品號類別'}</span>;
+const CurrencyTitle = () => {
+  return <span>{'新增幣別'}</span>;
 };
 
 export const validateForm = values => {
   const errors = {}
+  if (!values.code) {
+    errors.code = "ra.validation.required"
+  }
   if (!values.name) {
     errors.name = "ra.validation.required"
   }
   return errors
 }
 
-const InventoryItemCategoryCreate = () => {
+const CurrencyCreate = () => {
   const notify = useNotify();
   const [key, setKey] = useState(0);
 
@@ -34,10 +37,10 @@ const InventoryItemCategoryCreate = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        品號類別
+        幣別資料
       </Typography>
       <Create 
-        title={<InventoryItemCategoryTitle/>}
+        title={<CurrencyTitle/>} 
         mutationOptions={{ onSuccess }}
         mutationMode="pessimistic"
         redirect={false}
@@ -56,10 +59,10 @@ const InventoryItemCategoryCreate = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
               <Grid item xs={12}>
-                <TextInput autoFocus source="code" label="類別代號" isRequired />
+                <TextInput autoFocus source="code" label="幣別" isRequired />
               </Grid>
               <Grid item xs={12}>
-                <TextInput source="name" label="類別名稱" isRequired />
+                <TextInput source="name" label="幣別名稱" isRequired />
               </Grid>
           </Grid>
         </SimpleForm>
@@ -68,4 +71,4 @@ const InventoryItemCategoryCreate = () => {
   )
 }
 
-export default InventoryItemCategoryCreate
+export default CurrencyCreate

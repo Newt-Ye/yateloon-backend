@@ -7,8 +7,10 @@ import {
   ReferenceInput,
   BooleanInput,
   SaveButton,
+  useNotify,
 } from "react-admin"
 import { Typography, Grid, Card, CardContent, Box } from "@mui/material"
+import { useState } from "react";
 import { menuItems } from '../menuData';
 
 const DepartmentTitle = () => {
@@ -30,14 +32,27 @@ export const validateForm = values => {
 }
 
 const DepartmentCreate = () => {
+  const notify = useNotify();
+  const [key, setKey] = useState(0);
+
+  const onSuccess = () => {
+    notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
+    setKey((prev) => prev + 1); // 強制渲染表單
+  };
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         部門權限
       </Typography>
-      <Create title={<DepartmentTitle/>}>
+      <Create 
+        title={<DepartmentTitle/>}
+        mutationOptions={{ onSuccess }}
+        mutationMode="pessimistic"
+        redirect={false}
+      >
         <SimpleForm
-          // Here for the GQL provider
+          key={key}
           defaultValues={{
             code: "",
             name: "",

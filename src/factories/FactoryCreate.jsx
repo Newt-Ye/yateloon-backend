@@ -4,9 +4,11 @@ import {
   SimpleForm,
   TextInput,
   SaveButton,
+  useNotify,
   /*useTranslate*/
 } from "react-admin"
 import { Box, Typography, Grid } from "@mui/material"
+import { useState } from "react";
 
 const FactoryTitle = () => {
   return <span>{'新增廠別'}</span>;
@@ -24,14 +26,27 @@ export const validateForm = values => {
 }
 
 const FactoryCreate = () => {
+  const notify = useNotify();
+  const [key, setKey] = useState(0);
+
+  const onSuccess = () => {
+    notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
+    setKey((prev) => prev + 1); // 強制渲染表單
+  };
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         廠別資料
       </Typography>
-      <Create title={<FactoryTitle/>} redirect="show">
+      <Create 
+        title={<FactoryTitle/>} 
+        mutationOptions={{ onSuccess }}
+        mutationMode="pessimistic"
+        redirect={false}
+      >
         <SimpleForm
-          // Here for the GQL provider
+          key={key}
           defaultValues={{
             name: "",
             code: ""

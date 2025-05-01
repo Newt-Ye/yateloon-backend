@@ -7,7 +7,13 @@ import { AppBarToolbar } from "./AppBarToolbar"
 const CustomAppBar = () => {
   const isLargeEnough = useMediaQuery(theme => theme.breakpoints.up("sm"))
   return (
-    <AppBar color="primary" toolbar={<AppBarToolbar />}>
+    <AppBar 
+      color="primary" 
+      toolbar={<AppBarToolbar />}
+      sx={{
+        '& .RaAppBar-menuButton': { display: isLargeEnough ? "none" : "block" },
+      }}
+    >
       {/* <TitlePortal /> */}
       {isLargeEnough && 
         <Box

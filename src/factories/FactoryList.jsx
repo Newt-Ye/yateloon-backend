@@ -65,7 +65,7 @@ const FactoryList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            廠別資料
+            廠別資料列表
           </Typography>
           <List
             title={false}

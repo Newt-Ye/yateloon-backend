@@ -10,15 +10,13 @@ import {
   useListContext,
   usePermissions,
   EditButton,
-  ReferenceField,
-  SelectField,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
 
-import WarehouseFilterForm from "./WarehouseFilterForm"
+import CurrencyFilterForm from "./CurrencyFilterForm"
 
-const WarehouseFilterButton = () => {
+const CurrencyFilterButton = () => {
   const { showFilter } = useListContext()
   return (
     <Button
@@ -45,19 +43,19 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const WarehouseListActions = ({ permissions }) => (
+const CurrencyListActions = ({ permissions }) => (
   <Box width="100%">
     <TopToolbar>
-      <WarehouseFilterButton />
-      {(permissions === 'superuser' || permissions?.[["warehouses"]]?.create) ? <CreateButton /> : null}
+      <CurrencyFilterButton />
+      {(permissions === 'superuser' || permissions?.[["factories"]]?.create) ? <CreateButton /> : null}
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <WarehouseFilterForm />
+    <CurrencyFilterForm />
   </Box>
 )
 
-const WarehouseList = () => {
+const CurrencyList = () => {
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
@@ -67,14 +65,14 @@ const WarehouseList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            庫別資料列表
+            幣別資料列表
           </Typography>
           <List
             title={false}
             filters={isSmall ? visitorFilters : undefined}
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
-            actions={<WarehouseListActions permissions={permissions} />}
+            actions={<CurrencyListActions permissions={permissions} />}
           >
             {isXsmall ? (
               <div></div>
@@ -98,39 +96,19 @@ const WarehouseList = () => {
                 bulkActionButtons={false}
                 rowClick="show"
               >
-                {(permissions === 'superuser' || permissions?.['warehouses']?.edit) ? (<EditButton />) : null}
+                {(permissions === 'superuser' || permissions?.['factories']?.edit) ? (<EditButton />) : null}
                 <TextField
                   source="id"
                   label="ID"
                 />
                 <TextField
                   source="code"
-                  label="庫別代號"
+                  label="幣別"
                 />
                 <TextField
                   source="name"
-                  label="庫別名稱"
+                  label="幣別名稱"
                 />
-                <SelectField source="is_stock" label="庫別性質" choices={[
-                  { id: 1, name: '存貨倉' },
-                  { id: 0, name: '非存貨倉' },
-                ]} />
-                <ReferenceField 
-                  source="factory_id" 
-                  reference="factories" 
-                  label="廠別代號"
-                  link={false}
-                >
-                  <TextField source="code"/>
-                </ReferenceField>
-                <ReferenceField 
-                  source="factory_id" 
-                  reference="factories" 
-                  label="廠別名稱"
-                  link={false}
-                >
-                  <TextField source="name"/>
-                </ReferenceField>
                 <DateField 
                   source="created_at" 
                   label="建立日期"  
@@ -143,4 +121,4 @@ const WarehouseList = () => {
       )
 }
 
-export default WarehouseList
+export default CurrencyList

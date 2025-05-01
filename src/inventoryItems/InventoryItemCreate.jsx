@@ -11,6 +11,7 @@ import {
   AutocompleteInput,
   useDataProvider,
   SaveButton,
+  useNotify,
   /*useTranslate*/
 } from "react-admin"
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
@@ -239,13 +240,27 @@ export const InventoryItemCodeInput = () => {
 };
 
 const InventoryItemCreate = () => {
+  const notify = useNotify();
+  const [key, setKey] = useState(0);
+
+  const onSuccess = () => {
+    notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
+    setKey((prev) => prev + 1); // 強制渲染表單
+  };
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         品號資料
       </Typography>
-      <Create title={<InventoryItemTitle/>}>
+      <Create 
+        title={<InventoryItemTitle/>}
+        mutationOptions={{ onSuccess }}
+        mutationMode="pessimistic"
+        redirect={false}
+      >
         <SimpleForm
+          key={key}
           defaultValues={{
             inventory_item_category_id: "",
             attribute: "M",

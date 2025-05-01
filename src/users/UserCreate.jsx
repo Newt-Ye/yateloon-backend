@@ -423,9 +423,11 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
 }
 
 const UserCreate = () => {
+  const notify = useNotify();
   const [readOnly, setReadOnly] = useState(false);
   const [dateReadOnly, setDateReadOnly] = useState(false);
   const [open, setOpen] = useState(false);
+  const [key, setKey] = useState(0);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -438,14 +440,24 @@ const UserCreate = () => {
     }
   };
 
+  const onSuccess = () => {
+    notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
+    setKey((prev) => prev + 1); // 強制渲染表單
+  };
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         登入者代號
       </Typography>
-      <Create title={<UserTitle/>}>
+      <Create 
+        title={<UserTitle/>}
+        mutationOptions={{ onSuccess }}
+        mutationMode="pessimistic"
+        redirect={false}
+      >
         <SimpleForm
-          // Here for the GQL provider
+          key={key}
           defaultValues={{
             account: "",
             status: 0,
