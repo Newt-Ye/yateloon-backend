@@ -20,7 +20,7 @@ const CurrencyEdit = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         幣別資料
       </Typography>
-      <Edit title={<CurrencyTitle/>} redirect="show" mutationMode="optimistic">
+      <Edit title={<CurrencyTitle/>} redirect={false} mutationMode="optimistic">
         <SimpleForm
           // Here for the GQL provider
           defaultValues={{

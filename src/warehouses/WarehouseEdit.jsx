@@ -23,7 +23,7 @@ const WarehouseEdit = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         庫別資料
       </Typography>
-      <Edit title={<FactoryTitle/>} redirect="show">
+      <Edit title={<FactoryTitle/>}  redirect={false} mutationMode="optimistic">
         <SimpleForm
           // Here for the GQL provider
           defaultValues={{

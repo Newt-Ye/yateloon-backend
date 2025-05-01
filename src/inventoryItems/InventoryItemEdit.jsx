@@ -168,7 +168,7 @@ const InventoryItemEdit = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         品號資料
       </Typography>
-      <Edit title={<InventoryItemTitle/>}>
+      <Edit title={<InventoryItemTitle/>} redirect={false} mutationMode="optimistic">
         <SimpleForm
           defaultValues={{
             inventory_item_category_id: "",
