@@ -35,7 +35,7 @@ const CurrencyEdit = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
               <Grid item xs={12}>
-                <TextInput autoFocus source="code" label="幣別" isRequired />
+                <TextInput autoFocus source="code" label="幣別" inputProps={{ maxLength: 3 }} isRequired />
               </Grid>
               <Grid item xs={12}>
                 <TextInput source="name" label="幣別名稱" isRequired />
