@@ -1,0 +1,37 @@
+name: Deploy to POC Bitbucket Deploy Branch
+
+on:
+  push:
+    branches:
+      - poc-test
+
+jobs:
+  build-and-push-bitbucket:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build React Admin
+        run: |
+          npm install
+          npm run build
+
+      - name: Push to Bitbucket
+        run: |
+          git config --global user.email "game683001@gmail.com"
+          git config --global user.name "Newt-Ye"
+          git remote add bitbucket https://game683001@bitbucket.org/smartboss/frontend-yateloon.git
+          git checkout -b deploy
+          git add .
+          git commit -m "Deploy build to POC Bitbucket"
+          git push bitbucket deploy --force
+        env:
+          BITBUCKET_USERNAME: ${{ secrets.BITBUCKET_USERNAME }}
+          BITBUCKET_APP_PASSWORD: ${{ secrets.BITBUCKET_APP_PASSWORD }}

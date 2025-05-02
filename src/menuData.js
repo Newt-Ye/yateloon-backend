@@ -1,6 +1,6 @@
 import InventoryIcon from '@mui/icons-material/Inventory';
 import SettingsIcon from '@mui/icons-material/Settings';
-import TuneIcon from '@mui/icons-material/Tune';
+// import TuneIcon from '@mui/icons-material/Tune';
 
 export const menuItems = [
   {
@@ -70,46 +70,46 @@ export const menuItems = [
       }
     ]
   },
-  {
-    key: "menuBasics",
-    name: "基本設定",
-    icon: <TuneIcon />,
-    items: [
-      { 
-        resource: "settings", 
-        primaryText: "共同參數設定",
-        permissions: [
-          { id: 'view', name: '檢視' },
-          { id: 'edit', name: '修改' }
-        ]
-      },
-      { 
-        resource: "factories", 
-        primaryText: "廠別資料",
-        permissions: [
-          { id: 'view', name: '檢視' },
-          { id: 'create', name: '新增' },
-          { id: 'edit', name: '修改' }
-        ]
-      },
-      { 
-        resource: "warehouses", 
-        primaryText: "庫別資料",
-        permissions: [
-          { id: 'view', name: '檢視' },
-          { id: 'create', name: '新增' },
-          { id: 'edit', name: '修改' }
-        ]
-      },
-      { 
-        resource: "currencies", 
-        primaryText: "幣別資料",
-        permissions: [
-          { id: 'view', name: '檢視' },
-          { id: 'create', name: '新增' },
-          { id: 'edit', name: '修改' }
-        ]
-      }
-    ]
-  }
+  // {
+  //   key: "menuBasics",
+  //   name: "基本設定",
+  //   icon: <TuneIcon />,
+  //   items: [
+  //     { 
+  //       resource: "settings", 
+  //       primaryText: "共同參數設定",
+  //       permissions: [
+  //         { id: 'view', name: '檢視' },
+  //         { id: 'edit', name: '修改' }
+  //       ]
+  //     },
+  //     { 
+  //       resource: "factories", 
+  //       primaryText: "廠別資料",
+  //       permissions: [
+  //         { id: 'view', name: '檢視' },
+  //         { id: 'create', name: '新增' },
+  //         { id: 'edit', name: '修改' }
+  //       ]
+  //     },
+  //     { 
+  //       resource: "warehouses", 
+  //       primaryText: "庫別資料",
+  //       permissions: [
+  //         { id: 'view', name: '檢視' },
+  //         { id: 'create', name: '新增' },
+  //         { id: 'edit', name: '修改' }
+  //       ]
+  //     },
+  //     { 
+  //       resource: "currencies", 
+  //       primaryText: "幣別資料",
+  //       permissions: [
+  //         { id: 'view', name: '檢視' },
+  //         { id: 'create', name: '新增' },
+  //         { id: 'edit', name: '修改' }
+  //       ]
+  //     }
+  //   ]
+  // }
 ];
