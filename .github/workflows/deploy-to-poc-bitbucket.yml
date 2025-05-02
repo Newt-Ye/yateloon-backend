@@ -33,7 +33,11 @@ jobs:
 
           git init -b deploy
           git config --global user.email "game683001@gmail.com"
+<<<<<<< HEAD
           git config --global user.name "Newt Ye"
+=======
+          git config --global user.name "Newt-Ye"
+>>>>>>> b974e66 (update deploy-to-poc-bitbucket.yml)
           git remote add origin https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_APP_PASSWORD }}@bitbucket.org/game683001/frontend-yateloon.git
           git add .
           git commit -m "Deploy built files"
