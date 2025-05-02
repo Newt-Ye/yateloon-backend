@@ -25,19 +25,16 @@ jobs:
 
       - name: Deploy /build to Bitbucket deploy branch
         run: |
+          echo "Username: $BITBUCKET_USERNAME"
           # 建立一個乾淨的資料夾來存放 deploy 分支的內容
           mkdir ../deploy-folder
           cp -r build/* ../deploy-folder/
           cd ../deploy-folder
 
-          # 初始化 Git 並推送到 Bitbucket deploy 分支
-          git init
+          git init -b deploy
           git config --global user.email "game683001@gmail.com"
           git config --global user.name "Newt Ye"
           git remote add origin https://$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD@bitbucket.org/game683001/frontend-yateloon.git
-
-
-          git checkout -b deploy
           git add .
           git commit -m "Deploy built files"
           git push origin deploy --force
