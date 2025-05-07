@@ -6,7 +6,7 @@ import {
   SelectInput,
   SaveButton,
   useNotify,
-  /*useTranslate*/
+  useTranslate
 } from "react-admin"
 import { Typography, Grid, Box } from "@mui/material"
 import { useFormContext } from "react-hook-form";
@@ -43,6 +43,7 @@ export const validateForm = values => {
 }
 
 export const ShortNameInput = () => {
+  const translate = useTranslate();
   const { setValue, getValues } = useFormContext();
 
   const handleShortNameBlur = (event) => {
@@ -54,11 +55,12 @@ export const ShortNameInput = () => {
   };
 
   return (
-    <TextInput source="short_name" label="公司簡稱" onBlur={handleShortNameBlur} isRequired />
+    <TextInput source="short_name" label={translate('resources.companies.detail.fields.short_name')} onBlur={handleShortNameBlur} isRequired />
   );
 }
 
 const CompanyCreate = () => {
+  const translate = useTranslate();
   const notify = useNotify();
   const [key, setKey] = useState(0);
 
@@ -70,7 +72,7 @@ const CompanyCreate = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        公司資料
+        {translate('resources.companies.title')}
       </Typography>
       <Create 
         title={<CompanyTitle/>}
@@ -88,7 +90,8 @@ const CompanyCreate = () => {
             responsible_person: "",
             phone: "",
             fax: "",
-            address: ""
+            address: "",
+            region_type: "taiwan"
           }}
           validate={validateForm}
           toolbar={false}
@@ -98,10 +101,10 @@ const CompanyCreate = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="code" label="代號" isRequired />
+              <TextInput autoFocus source="code" label={translate('resources.companies.detail.fields.code')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <SelectInput source="status" label='使用狀態' isRequired choices={[
+              <SelectInput source="status" label={translate('resources.companies.detail.fields.status')} isRequired choices={[
                 { id: 0, name: '未啟用' },
                 { id: 1, name: '啟用中' },
                 { id: 9, name: '失效' }
@@ -111,20 +114,25 @@ const CompanyCreate = () => {
               <ShortNameInput />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label="公司全名" isRequired />
+              <TextInput source="name" label={translate('resources.companies.detail.fields.name')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="responsible_person" label="負責人" isRequired />
-            </Grid>
-            <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
-            <Grid item xs={12} sm={6}>
-              <TextInput source="phone" label="電話" isRequired />
+              <TextInput source="responsible_person" label={translate('resources.companies.detail.fields.responsible_person')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="fax" label="傳真" />
+              <SelectInput source="region_type" label={translate('resources.companies.detail.fields.region_type')} choices={[
+                { id: 'taiwan', name: '臺灣地區' },
+                { id: 'china', name: '中國地區' }
+              ]} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="phone" label={translate('resources.companies.detail.fields.phone')} isRequired />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextInput source="fax" label={translate('resources.companies.detail.fields.fax')} />
             </Grid>
             <Grid item xs={12}>
-              <TextInput source="address" label="登記地址" isRequired />
+              <TextInput source="address" label={translate('resources.companies.detail.fields.address')} isRequired />
             </Grid>
           </Grid>
         </SimpleForm>

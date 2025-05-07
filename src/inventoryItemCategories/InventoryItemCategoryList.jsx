@@ -9,6 +9,7 @@ import {
   TextField,
   useListContext,
   usePermissions,
+  useTranslate,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -16,6 +17,7 @@ import ContentFilter from '@mui/icons-material/FilterList';
 import InventoryItemCategoryFilterForm from "./InventoryItemCategoryFilterForm"
 
 const InventoryItemCategoryFilterButton = () => {
+  const translate = useTranslate();
   const { showFilter } = useListContext()
   return (
     <Button
@@ -29,7 +31,7 @@ const InventoryItemCategoryFilterButton = () => {
         fontSize: '13px', // 調整字型大小，這樣可以與 CreateButton 大小對齊
       }}
     >
-      篩選
+      {translate('ra.action.filter')}
     </Button>
   )
 }
@@ -55,6 +57,7 @@ const InventoryItemListActions = ({ permissions }) => (
 )
 
 const InventoryItemCategoryList = () => {
+  const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
@@ -64,7 +67,7 @@ const InventoryItemCategoryList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            品號類別列表
+            {translate('resources.inventoryItemCategories.list.title')}
           </Typography>
           <List
             title={false}
@@ -101,20 +104,20 @@ const InventoryItemCategoryList = () => {
                 />
                 <TextField
                   source="index"
-                  label="序"
+                  label={translate('resources.inventoryItemCategories.list.fields.sorting')}
                   sortable={false}
                 />
                 <TextField
                   source="name"
-                  label="品號類別名稱"
+                  label={translate('resources.inventoryItemCategories.list.fields.name')}
                 />
                 <TextField
-                  source="code"
-                  label="品號類別代碼"
+                  source="name"
+                  label={translate('resources.inventoryItemCategories.list.fields.name')}
                 />
                 <DateField 
                   source="created_at" 
-                  label="建立日期"  
+                  label={translate('resources.inventoryItemCategories.list.fields.created_at')}
                   showTime
                 />
               </DatagridConfigurable>

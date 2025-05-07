@@ -14,6 +14,7 @@ import {
   SingleFieldList,
   ChipField,
   usePermissions,
+  useTranslate,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -60,6 +61,7 @@ const UserListActions = ({ permissions }) => (
 )
 
 const UserList = () => {
+  const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
@@ -69,7 +71,7 @@ const UserList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            登入者代號列表
+            {translate('resources.users.list.title')}
           </Typography>
           <List
             title={false}
@@ -107,19 +109,22 @@ const UserList = () => {
                 />
                 <TextField
                   source="account"
-                  label="代號"
+                  label={translate('resources.users.list.fields.account')}
                 />
                 <TextField
                   source="name"
-                  label="名稱"
+                  label={translate('resources.users.list.fields.name')}
                 />
-                <ArrayField source="companies" label="可登入公司別">
+                <ArrayField 
+                  source="companies"
+                  label={translate('resources.users.list.fields.companies')}
+                >
                   <SingleFieldList linkType={false}>
                     <ChipField source="name" size="small" />
                   </SingleFieldList>
                 </ArrayField>
                 <FunctionField
-                  label="使用狀態"
+                  label={translate('resources.users.list.fields.status')}
                   render={(record) => {
                     const statusMapping = {
                       0: "未啟用",
@@ -132,7 +137,7 @@ const UserList = () => {
                 />
                 <DateField 
                   source="created_at" 
-                  label="建立日期"  
+                  label={translate('resources.users.list.fields.created_at')}
                   showTime
                 />
               </DatagridConfigurable>

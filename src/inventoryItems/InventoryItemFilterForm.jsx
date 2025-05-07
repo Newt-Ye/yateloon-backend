@@ -3,7 +3,8 @@ import {
   TextInput,
   useListContext,
   ReferenceInput,
-  SelectInput
+  SelectInput,
+  useTranslate,
 } from "react-admin"
 import { 
   useForm, 
@@ -14,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search"
 import { useEffect } from "react"
 
 const InventoryItemFilterForm = () => {
+  const translate = useTranslate();
   const {
     displayedFilters,
     filterValues,
@@ -59,7 +61,7 @@ const InventoryItemFilterForm = () => {
               resettable
               helperText={false}
               source="q"
-              label="搜尋"
+              label={translate('ra.action.search')}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -86,7 +88,7 @@ const InventoryItemFilterForm = () => {
             <SelectInput
               resettable
               source="attribute"
-              label="品號屬性"
+              label={translate('resources.inventoryItems.list.filters.attribute')}
               emptyText="全部"
               helperText={false} // Disable extra helper text
               choices={[
@@ -105,7 +107,7 @@ const InventoryItemFilterForm = () => {
                 resettable
                 emptyText="全部"
                 helperText={false} // Disable extra helper text
-                label="主要庫別"
+                label={translate('resources.inventoryItems.list.filters.warehouse')}
               />
             </ReferenceInput>
           </Box>
@@ -113,7 +115,7 @@ const InventoryItemFilterForm = () => {
             <SelectInput
               resettable
               source="inspection_method"
-              label="檢驗方式"
+              label={translate('resources.inventoryItems.list.filters.inspection_method')}
               emptyText="全部"
               helperText={false} // Disable extra helper text
               choices={[
@@ -127,12 +129,12 @@ const InventoryItemFilterForm = () => {
           </Box>
           <Box component="span" mr={2} mb={1.5}>
             <Button variant="outlined" color="primary" type="submit">
-              篩選
+              {translate('ra.action.filter')}
             </Button>
           </Box>
           <Box component="span" mb={1.5}>
             <Button variant="outlined" onClick={resetFilter}>
-              關閉
+              {translate('ra.action.close')}
             </Button>
           </Box>
         </Box>

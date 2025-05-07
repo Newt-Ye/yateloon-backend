@@ -13,10 +13,12 @@ import {
   SelectInput,
   DateInput,
   TopToolbar,
-  EditButton
+  EditButton,
+  useTranslate
   /*useRecordContext*/
 } from "react-admin"
-import { Typography, Grid, Card, CardContent } from "@mui/material"
+import { Typography, Grid } from "@mui/material"
+import { AuditFields } from "../components/AuditFields"
 
 const Actions = () => (
   <TopToolbar>
@@ -25,51 +27,52 @@ const Actions = () => (
 );
 
 const UserShow = () => {
+  const translate = useTranslate();
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        登入者代號
+        {translate('resources.users.title')}
       </Typography>
       <Edit actions={<Actions />} redirect="show">
         <SimpleForm toolbar={false}>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12}>
-              <BooleanInput label="超級使用者" source="is_admin" helperText={false} disabled />
+              <BooleanInput label={translate('resources.users.detail.fields.super_user')} source="is_admin" helperText={false} disabled />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="account" label="登入者代號" disabled />
+              <TextInput source="account" label={translate('resources.users.detail.fields.account')} disabled />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <SelectInput source="status" label='使用狀態' choices={[
+              <SelectInput source="status" label={translate('resources.users.detail.fields.status')} choices={[
                 { id: 0, name: "未啟用" },
                 { id: 1, name: "啟用中" },
                 { id: 9, name: "失效" }
               ]} disabled />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label="登入者名稱" disabled />
+              <TextInput source="name" label={translate('resources.users.detail.fields.name')} disabled />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <DateInput source="effective_date" label="生效日期" disabled />
+              <DateInput source="effective_date" label={translate('resources.users.detail.fields.effective_date')} disabled />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput type="email" source="email" label="電子郵件" disabled />
+              <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} disabled />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
-                {'公司與部門設定'}
+                {translate('resources.users.detail.fieldGroups.company_settings')}
               </Typography>
               <ArrayField source="companies">
                 <Datagrid bulkActionButtons={false} rowClick={false}>
-                  <TextField source="company_name" label="公司別" />
-                  <TextField source="employee_code" label="工號" />
-                  <ArrayField source="departments" label="隸屬部門">
+                  <TextField source="company_name" label={translate('resources.users.detail.fields.company')} />
+                  <TextField source="employee_code" label={translate('resources.users.detail.fields.employee_code')} />
+                  <ArrayField source="departments" label={translate('resources.users.detail.fields.departments')} >
                     <SingleFieldList linkType={false}>
                       <ChipField source="name" size="small" />
                     </SingleFieldList>
                   </ArrayField>
-                  <SelectField source="status" label="狀態" choices={[
+                  <SelectField source="status" label={translate('resources.users.detail.fields.company_status')} choices={[
                     { id: 1, name: '啟用' },
                     { id: 0, name: '停用' },
                   ]} />
@@ -77,76 +80,7 @@ const UserShow = () => {
               </ArrayField>
             </Grid>
           </Grid>
-          <Card sx={{ mt: 4, bgcolor: 'text.disabled', width: '100%' }} >
-            <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    建立者：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="creator_name" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    建立日期：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="created_at" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    修改者：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="modifier_name" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    修改日期：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="updated_at" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+          <AuditFields />
         </SimpleForm>
       </Edit>
     </>

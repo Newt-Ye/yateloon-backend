@@ -11,6 +11,7 @@ import {
   EditButton,
   FunctionField,
   usePermissions,
+  useTranslate,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -57,6 +58,7 @@ const CompanyListActions = ({ permissions }) => (
 )
 
 const CompanyList = () => {
+  const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
@@ -66,7 +68,7 @@ const CompanyList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            公司資料列表
+            {translate('resources.companies.list.title')}
           </Typography>
           <List
             title={false}
@@ -104,14 +106,14 @@ const CompanyList = () => {
                 />
                 <TextField
                   source="code"
-                  label="公司代號"
+                  label={translate('resources.companies.list.fields.code')}
                 />
                 <TextField
                   source="short_name"
-                  label="公司簡稱"
+                  label={translate('resources.companies.list.fields.short_name')}
                 />
                 <FunctionField
-                  label="使用狀態"
+                  label={translate('resources.companies.list.fields.status')}
                   render={(record) => {
                     const statusMapping = {
                       0: "未啟用",
@@ -124,7 +126,7 @@ const CompanyList = () => {
                 />
                 <DateField 
                   source="created_at" 
-                  label="建立日期"  
+                  label={translate('resources.companies.list.fields.created_at')}
                   showTime
                 />
               </DatagridConfigurable>

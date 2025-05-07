@@ -13,6 +13,10 @@ export const AppBarToolbar = () => {
     const companyList = JSON.parse(localStorage.getItem("companies") || "[]");
     setCompanies(companyList);
     setCurrentCompany(parseInt(localStorage.getItem('current_company')))
+
+    const targetCompany = companyList.find(company => company.id ===  parseInt(localStorage.getItem('current_company')));
+    const locale = targetCompany.region_type === "china" ? 'zh-cn' : 'zh-tw';
+    localStorage.setItem('locale', locale);
   }, []);
 
   const handleChange = (event) => {
@@ -20,6 +24,10 @@ export const AppBarToolbar = () => {
 
     localStorage.setItem('current_company', selectedId);
     setCurrentCompany(selectedId);
+
+    const targetCompany = companies.find(company => company.id === selectedId);
+    const locale = targetCompany.region_type === "china" ? 'zh-cn' : 'zh-tw';
+    localStorage.setItem('locale', locale);
 
     window.location.reload();
   };

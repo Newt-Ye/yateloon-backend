@@ -1,9 +1,9 @@
-import chineseMessages from "ra-language-chinese"
+import chineseTWMessages from 'ra-language-chinese-traditional';
 
-const customChineseMessages = {
-  ...chineseMessages,
+const customChineseTWMessages = {
+  ...chineseTWMessages,
   ra: {
-    ...chineseMessages.ra,
+    ...chineseTWMessages.ra,
     action: {
       add_filter: '新增篩選',
       add: '新增',
@@ -43,6 +43,7 @@ const customChineseMessages = {
       toggle_theme: '切換明暗模式',
       select_columns: '欄位',
       update_application: '重新加載應用程序',
+      filter: "篩選",
     },
     boolean: {
       true: '是',
@@ -74,6 +75,7 @@ const customChineseMessages = {
         all_missing: '無法找到參考數據。',
         many_missing: '至少有一個關聯的參考不再可用。',
         single_missing: '關聯的參考不再可用。',
+        all: "全部"
       },
       password: {
         toggle_visible: '隱藏密碼',
@@ -134,9 +136,9 @@ const customChineseMessages = {
       logout: '登出',
     },
     notification: {
-      updated: '元素已更新 |||| %{smart_count} 個元素已更新',
-      created: '元素已創建',
-      deleted: '元素已刪除 |||| %{smart_count} 個元素已刪除',
+      updated: '資料已更新 |||| %{smart_count} 個資料已更新',
+      created: '資料已創建',
+      deleted: '資料已刪除 |||| %{smart_count} 個資料已刪除',
       bad_item: '錯誤的元素',
       item_doesnt_exist: '元素不存在',
       http_error: '伺服器通信錯誤',
@@ -242,185 +244,386 @@ const customChineseMessages = {
     }
   },
   resources: {
-    customers: {
-      name: "客戶 |||| 客戶",
-      fields: {
-        orders: "訂單",
-        first_seen: "首次見面",
-        full_name: "姓名",
-        groups: "分組",
-        last_seen: "最後見面",
-        last_seen_gte: "自此以來訪問",
-        name: "姓名",
-        total_spent: "總支出",
-        password: "密碼",
-        confirm_password: "確認密碼",
-        stateAbbr: "州"
-      },
-      filters: {
-        last_visited: "最後訪問",
-        today: "今天",
-        this_week: "這週",
-        last_week: "上週",
-        this_month: "這個月",
-        last_month: "上個月",
-        earlier: "早前",
-        has_ordered: "已下訂單",
-        has_newsletter: "訂閱了電子報",
-        group: "分組"
-      },
-      fieldGroups: {
-        identity: "基本資料",
-        address: "地址",
-        stats: "統計",
-        history: "歷史",
-        password: "密碼",
-        change_password: "更改密碼"
-      },
-      page: {
-        delete: "刪除客戶"
-      },
-      errors: {
-        password_mismatch:
-          "密碼確認與密碼不一致。"
-      }
-    },
-    orders: {
-      name: "訂單 |||| 訂單",
-      amount: "1 訂單 |||| %{smart_count} 訂單",
-      title: "訂單 %{reference}",
-      fields: {
-        basket: {
-          delivery: "交付",
-          reference: "參考",
-          quantity: "數量",
-          sum: "總和",
-          tax_rate: "稅率",
-          taxes: "稅金",
-          total: "總計",
-          unit_price: "單價"
+    inventoryItemCategories: {
+      name: "品號類別 |||| 品號類別",
+      amount: "1 品號類別 |||| %{smart_count} 品號類別",
+      title: "品號類別",
+      list: {
+        title: "品號類別列表",
+        fields: {
+          sorting: "序",
+          code: "品號類別代碼",
+          name: "品號類別名稱",
+          created_at: "建立日期"
         },
-        address: "地址",
-        customer_id: "客戶",
-        date_gte: "自此以來",
-        date_lte: "之前",
-        nb_items: "項目數",
-        total_gte: "最小金額",
-        status: "狀態",
-        returned: "已退回"
+        filters: {
+        }
       },
-      section: {
-        order: "訂單",
-        customer: "客戶",
-        shipping_address: "配送地址",
-        items: "項目",
-        total: "總計"
+      detail: {
+        fields: {
+          code: "類別代號",
+          name: "類別名稱",
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        },
       }
-    },
-    invoices: {
-      name: "發票 |||| 發票",
-      fields: {
-        date: "發票日期",
-        customer_id: "客戶",
-        order_id: "訂單",
-        date_gte: "自此以來",
-        date_lte: "之前",
-        total_gte: "最小金額",
-        address: "地址"
-      }
-    },
-    products: {
-      name: "商品 |||| 商品",
-      fields: {
-        category_id: "類別",
-        height_gte: "最小高度",
-        height_lte: "最大高度",
-        height: "高度",
-        image: "圖片",
-        price: "價格",
-        reference: "參考",
-        sales: "銷售",
-        stock_lte: "庫存低",
-        stock: "庫存",
-        thumbnail: "縮略圖",
-        width_gte: "最小寬度",
-        width_lte: "最大寬度",
-        width: "寬度"
+    },  
+    inventoryItems: {
+      name: "品號資料 |||| 品號資料",
+      amount: "1 品號資料 |||| %{smart_count} 品號資料",
+      title: "品號資料",
+      list: {
+        title: "品號資料列表",
+        fields: {
+          code: "品號",
+          name: "品名",
+          specification: "規格",
+          inventory: "庫存數量",
+          effective_date: "生效日期"
+        },
+        filters: {
+          attribute: "品號屬性",
+          warehouse: "主要庫別",
+          inspection_method: "檢驗方式"
+        }
       },
-      tabs: {
-        image: "圖片",
-        details: "細節",
-        description: "描述",
-        reviews: "評論"
-      },
-      filters: {
-        categories: "類別",
-        stock: "庫存",
-        no_stock: "缺貨",
-        low_stock: "1 - 9 件",
-        average_stock: "10 - 49 件",
-        enough_stock: "50 件以上",
-        sales: "銷售",
-        best_sellers: "暢銷商品",
-        average_sellers: "普通",
-        low_sellers: "少量",
-        never_sold: "從未售出"
+      detail: {
+        tabs: {
+          procurement: "採購生管",
+          sales: "業務",
+          customs: "關務",
+          finance: "財務",
+        },
+        fields: {
+          inventory_item_category: "品號類別",
+          attribute: "品號屬性",
+          code: "品號",
+          warehouse: "主要庫別",
+          name: "品名",
+          specification: "規格",
+          unit: "單位",
+          inventory: "庫存數量",
+          unit_cost: "單位成本",
+          inventory_amount: "庫存金額",
+          inventory_manage: "庫存管理",
+          over_delivery_manage: "超交管理",
+          over_receiving_manage: "超收管理",
+          edit_item_name: "變更品名",
+          effective_date: "生效日期",
+          expiration_date: "失效日期",
+          inspection_method: "檢驗方式",
+          last_storage_date: "最後入庫日",
+          currency: "幣別",
+          latest_purchase_price: "最後進價",
+          customer_code: "客戶品號",
+          cost: "成本",
+          unit_weight: "單體重量(kg)",
+          unit_std_material_cost: "單位標準材料成本",
+          unit_std_labor_cost: "單位標準人工成本",
+          unit_std_manufacturing_cost: "單位標準製造費用",
+          unit_std_processing_cost: "單位標準加工費用",
+          total_standard_cost: "標準成本合計",
+        },
+        fieldGroups: {
+          company_settings: "基本資料",
+        },
+        page: {
+        },
+        errors: {
+        },
+        validation: {
+          exact_length_18: '品號長度必須為 18 碼',
+          exact_length_15: '品號長度必須為 15 碼',
+        }
       }
-    },
-    categories: {
-      name: "類別 |||| 類別",
-      fields: {
-        products: "產品"
-      }
-    },
-    reviews: {
-      name: "評論 |||| 評論",
-      amount: "1 評論 |||| %{smart_count} 評論",
-      relative_to_poster: "對商品的評論",
-      detail: "評論細節",
-      fields: {
-        customer_id: "客戶",
-        order_id: "訂單",
-        product_id: "產品",
-        date_gte: "自此以來發佈",
-        date_lte: "之前發佈",
-        date: "日期",
-        comment: "評論",
-        rating: "評分"
-      },
-      action: {
-        accept: "接受",
-        reject: "拒絕"
-      },
-      notification: {
-        approved_success: "評論已批准",
-        approved_error: "錯誤：評論未被批准",
-        rejected_success: "評論已拒絕",
-        rejected_error: "錯誤：評論未被拒絕"
-      }
-    },
-    segments: {
-      name: "分組 |||| 分組",
-      fields: {
-        customers: "客戶",
-        name: "名稱"
-      },
-      data: {
-        compulsive: "強迫性",
-        collector: "收集者",
-        ordered_once: "曾經訂購",
-        regular: "常規",
-        returns: "退回",
-        reviewer: "評論者"
-      }
-    },
+    }, 
     users: {
-      errors: {
-        duplicate_company_department_warning: "此公司與部門設定已重複加入",
-        company_already_assigned: "此公司已被設定"
+      name: "登入者代號 |||| 登入者代號",
+      amount: "1 登入者代號 |||| %{smart_count} 登入者代號",
+      title: "登入者代號",
+      list: {
+        title: "登入者代號列表",
+        fields: {
+          account: "代號",
+          name: "名稱",
+          companies: "可登入公司別",
+          status: "使用狀態",
+          created_at: "建立日期"
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          super_user: "超級使用者",
+          account: "登入者代號",
+          status: "使用狀態",
+          name: "登入者名稱",
+          email: "電子郵件",
+          password: "密碼",
+          confirm_password: "再次輸入密碼",
+          company: "公司別",
+          employee_code: "工號",
+          departments: "隸屬部門",
+          company_status: "狀態",
+          copy_user_permissions: "欲複製對象權限",
+          user: "工號 / 員工名稱",
+          effective_date: "生效日期",
+          short_name: "公司簡稱"
+        },
+        fieldGroups: {
+          company_settings: "公司與部門設定",
+          companyAndIdTitle: '選擇欲複製的公司與工號'
+        },
+        page: {
+          copy_from_user: '複製其他使用者設定(權限)',
+        },
+        errors: {
+          duplicate_company_department_warning: "此公司與部門設定已重複加入",
+          company_already_assigned: "此公司已被設定"
+        }
+      }
+    },
+    companies: {
+      name: "公司資料 |||| 公司資料",
+      amount: "1 公司資料 |||| %{smart_count} 公司資料",
+      title: "公司資料",
+      list: {
+        title: "公司資料列表",
+        fields: {
+          code: "公司代號",
+          short_name: "公司簡稱",
+          status: "使用狀態",
+          created_at: "建立日期"
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          code: "代號",
+          status: "使用狀態",
+          name: "公司全名",
+          responsible_person: "負責人",
+          region_type: "所屬地區",
+          phone: "電話",
+          fax: "傳真",
+          address: "登記地址",
+          short_name: "公司簡稱",
+          department_code: "部門代號",
+          department_name: "部門名稱"
+        },
+        fieldGroups: {
+          departments: "部門列表"
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },    
+    departments: {
+      name: "部門權限 |||| 部門權限",
+      amount: "1 部門權限 |||| %{smart_count} 部門權限",
+      title: "部門權限",
+      list: {
+        title: "部門權限列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    }, 
+    permissions: {
+      name: "使用者權限 |||| 使用者權限",
+      amount: "1 使用者權限 |||| %{smart_count} 使用者權限",
+      title: "使用者權限",
+      list: {
+        title: "使用者權限列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    settings: {
+      name: "共用參數設定 |||| 共用參數設定",
+      amount: "1 共用參數設定 |||| %{smart_count} 共用參數設定",
+      title: "共用參數設定",
+      list: {
+        title: "共用參數設定列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    }, 
+    factories: {
+      name: "廠別資料 |||| 廠別資料",
+      amount: "1 廠別資料 |||| %{smart_count} 廠別資料",
+      title: "廠別資料",
+      commons: {
+        fields: {
+          code: "廠別代號",
+          name: "廠別名稱",
+          created_at: "建立日期"
+        },
+      },
+      list: {
+        title: "廠別資料列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    }, 
+    warehouses: {
+      name: "庫別資料 |||| 庫別資料",
+      amount: "1 庫別資料 |||| %{smart_count} 庫別資料",
+      title: "庫別資料",
+      commons: {
+        fields: {
+          code: "庫別代號",
+          name: "庫別名稱",
+          storage_type: "庫別性質",
+          created_at: "建立日期"
+        },
+      },
+      list: {
+        title: "庫別資料列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          factory: "隸屬廠別",
+          include_in_available_quantity: "納入可用量計算",
+          allow_outbound_when_save: "納入可用量計算",
+          allow_outbound_when_confirm: "納入可用量計算",
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },  
+    currencies: {
+      name: "幣別資料 |||| 幣別資料",
+      amount: "1 幣別資料 |||| %{smart_count} 幣別資料",
+      title: "幣別資料",
+      commons: {
+        fields: {
+          code: "幣別代碼",
+          name: "幣別名稱",
+          created_at: "建立日期"
+        },
+      },
+      list: {
+        title: "幣別資料列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    currencyExchangeRates: {
+      name: "幣別匯率 |||| 幣別匯率",
+      amount: "1 幣別匯率 |||| %{smart_count} 幣別匯率",
+      title: "幣別匯率",
+      commons: {
+        fields: {
+          currency: "幣別",
+          effective_date: "生效日期",
+          bank_buy_rate: "銀行買進匯率",
+          bank_sell_rate: "銀行賣出匯率",
+          created_at: "建立日期"
+        },
+      },
+      list: {
+        title: "幣別匯率列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    common: {
+      fields: {
+        created_by: "建立者",
+        created_at: "建立時間",
+        updated_by: "修改者",
+        updated_at: "修改時間",
       }
     }
   }
 };
 
-export default customChineseMessages;
+export default customChineseTWMessages;

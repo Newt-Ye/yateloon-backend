@@ -1,4 +1,16 @@
 import axios from 'axios';
+// import polyglotI18nProvider from 'ra-i18n-polyglot';
+// import zhTW from './i18n/zh-TW';
+// import zhCN from './i18n/zh-CN';
+
+// const i18nProvider = polyglotI18nProvider(locale => 
+//   locale === 'zh-cn' ? zhCN : zhTW ,
+//   'zh-tw', // Default locale
+//   [
+//       { locale: 'zh-tw', name: '繁體中文' },
+//       { locale: 'zh-cn', name: '簡體中文' }
+//   ],
+// );
 
 const authProvider = {
   login: ({ account, password, company_id }) => {
@@ -21,7 +33,15 @@ const authProvider = {
           localStorage.setItem('permissions', JSON.stringify(data.permissions));
           localStorage.setItem('companies', JSON.stringify(data.companies));
           localStorage.setItem('current_company', JSON.stringify(data.current_company));
+          // localStorage.setItem('current_region_type', JSON.stringify(data.current_region_type));
           localStorage.setItem('super_user', data.user.super_user ? '1' : '0');
+          
+          // // 判斷要使用的語系
+          // const locale = data.current_region_type.startsWith('china')
+          //   ? 'zh-cn'
+          //   : 'zh-tw';
+          // // 更新語系
+          // i18nProvider.changeLocale(locale);
         })
         .catch(error => {
           throw new Error(error.response.data.message || 'Login failed'); 

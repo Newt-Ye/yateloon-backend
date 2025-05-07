@@ -1,21 +1,20 @@
 import * as React from "react"
 import {
-	Edit,
-	useTranslate,
-  /*useRecordContext*/
+  Edit,
+  useTranslate
 } from "react-admin"
-import { Typography } from "@mui/material"
+import { Typography} from "@mui/material"
 import { ShowActions } from "../components/ShowActions"
 import { AuditFields } from "../components/AuditFields"
-import CurrencyForm from "./CurrencyForm"
+import CurrencyExchangeRateForm from "./CurrencyExchangeRateForm"
 
-const CurrencyShow = () => {
+const CurrencyExchangeRateShow = () => {
   const translate = useTranslate();
 
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        {translate('resources.currencies.title')}
+        {translate('resources.currencyExchangeRates.title')}
       </Typography>
       <Edit 
         actions={<ShowActions/>}
@@ -23,13 +22,13 @@ const CurrencyShow = () => {
         redirect={false} 
         mutationMode="optimistic"
       >
-        <CurrencyForm 
-            disabled={true}
-          />
+        <CurrencyExchangeRateForm 
+          disabled={true}
+        />
         <AuditFields />
       </Edit>
     </>
   )
 }
 
-export default CurrencyShow
+export default CurrencyExchangeRateShow

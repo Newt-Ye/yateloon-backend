@@ -11,6 +11,7 @@ import {
   DeleteWithConfirmButton,
   EditButton,
   usePermissions,
+  useTranslate,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
@@ -57,6 +58,7 @@ const InventoryItemListActions = ({ permissions }) => (
 )
 
 const InventoryItemList = () => {
+  const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
@@ -66,7 +68,7 @@ const InventoryItemList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            品號資料列表
+            {translate('resources.inventoryItems.list.title')}
           </Typography>
           <List
             title={false}
@@ -96,23 +98,23 @@ const InventoryItemList = () => {
                 />
                 <TextField
                   source="code"
-                  label="品號"
+                  label={translate('resources.inventoryItems.list.fields.code')}
                 />
                 <TextField
                   source="name"
-                  label="品名"
+                  label={translate('resources.inventoryItems.list.fields.name')}
                 />
                 <TextField
                   source="specification"
-                  label="規格"
+                  label={translate('resources.inventoryItems.list.fields.specification')}
                 />
                 <TextField
                   source="inventory"
-                  label="庫存數量"
+                  label={translate('resources.inventoryItems.list.fields.inventory')}
                 />
                 <DateField 
                   source="effective_date" 
-                  label="生效日期"  
+                  label={translate('resources.inventoryItems.list.fields.effective_date')}
                   showTime
                 />
                 {(permissions === 'superuser' || permissions?.['inventory-items']?.delete) && (

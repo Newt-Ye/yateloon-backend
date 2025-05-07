@@ -2,13 +2,13 @@ import * as React from "react"
 import {
   Create,
   useNotify,
-  useTranslate
+  useTranslate,
 } from "react-admin"
 import { Typography } from "@mui/material"
 import { useState } from "react";
-import WarehouseForm from './WarehouseForm';
+import CurrencyExchangeRateForm from './CurrencyExchangeRateForm';
 
-const WarehouseCreate = () => {
+const CurrencyExchangeRateCreate = () => {
   const translate = useTranslate();
   const notify = useNotify();
   const [key, setKey] = useState(0);
@@ -21,7 +21,7 @@ const WarehouseCreate = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        {translate('resources.warehouses.title')}
+        {translate('resources.currencyExchangeRates.title')}
       </Typography>
       <Create 
         title={false} 
@@ -29,7 +29,7 @@ const WarehouseCreate = () => {
         mutationMode="pessimistic"
         redirect={false}
       >
-        <WarehouseForm 
+        <CurrencyExchangeRateForm 
           formKey={key}
         />
       </Create>
@@ -37,4 +37,4 @@ const WarehouseCreate = () => {
   )
 }
 
-export default WarehouseCreate
+export default CurrencyExchangeRateCreate

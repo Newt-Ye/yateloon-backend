@@ -1,7 +1,8 @@
 import * as React from "react"
 import { 
   TextInput,
-  useListContext
+  useListContext,
+  useTranslate
 } from "react-admin"
 import { 
   useForm, 
@@ -12,6 +13,7 @@ import SearchIcon from "@mui/icons-material/Search"
 import { useEffect } from "react"
 
 const UserFilterForm = () => {
+  const translate = useTranslate();
   const {
     displayedFilters,
     filterValues,
@@ -57,7 +59,7 @@ const UserFilterForm = () => {
               resettable
               helperText={false}
               source="q"
-              label="搜尋"
+              label={translate('ra.action.search')}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -69,12 +71,12 @@ const UserFilterForm = () => {
           </Box>
           <Box component="span" mr={2} mb={1.5}>
             <Button variant="outlined" color="primary" type="submit">
-              篩選
+              {translate('ra.action.filter')}
             </Button>
           </Box>
           <Box component="span" mb={1.5}>
             <Button variant="outlined" onClick={resetFilter}>
-              關閉
+              {translate('ra.action.close')}
             </Button>
           </Box>
         </Box>

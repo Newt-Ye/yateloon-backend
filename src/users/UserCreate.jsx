@@ -16,7 +16,7 @@ import {
   useDataProvider,
   useNotify,
   AutocompleteInput,
-  /*useTranslate*/
+  useTranslate
 } from "react-admin"
 import { Typography, Grid, Card, CardContent, Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
@@ -69,23 +69,8 @@ export const validateForm = values => {
   return errors
 }
 
-export const ShortNameInput = () => {
-  const { setValue, getValues } = useFormContext();
-
-  const handleShortNameBlur = (event) => {
-    const newValue = event.target.value;
-
-    if (newValue && !getValues('name')) {
-      setValue('name', newValue);
-    }
-  };
-
-  return (
-    <TextInput source="short_name" label="公司簡稱" onBlur={handleShortNameBlur} isRequired />
-  );
-}
-
 const EffectiveDateInput = ({setReadOnly, dateReadOnly}) => {
+  const translate = useTranslate();
   const { setValue } = useFormContext();
 
   const handleEffectiveDateChange = (newDate) => {
@@ -98,11 +83,12 @@ const EffectiveDateInput = ({setReadOnly, dateReadOnly}) => {
   };
 
   return (
-    <DateInput source="effective_date" label="生效日期" onChange={(e) => handleEffectiveDateChange(e.target.value)} readOnly={dateReadOnly} />
+    <DateInput source="effective_date" label={translate('resources.users.detail.fields.effective_date')} onChange={(e) => handleEffectiveDateChange(e.target.value)} readOnly={dateReadOnly} />
   );
 }
 
 const CompanyReferenceInput = () => {
+  const translate = useTranslate();
   const { index } = useSimpleFormIteratorItem();
   const { getValues, setValue } = useFormContext();
   const notify = useNotify();
@@ -113,7 +99,7 @@ const CompanyReferenceInput = () => {
     <ReferenceInput source="company_id" reference="companies">
       <SelectInput 
         optionText="name" 
-        label="公司別" 
+        label={translate('resources.users.detail.fields.company')}
         readOnly={isDialog} 
         onChange={(e) => {
           if (e.target.value) {
@@ -121,7 +107,7 @@ const CompanyReferenceInput = () => {
 
             const alreadyExists = companies.some((item, i) => item.company_id === e.target.value && index !== i);
             if (alreadyExists) {
-              notify("resources.users.errors.company_already_assigned", { type: 'error' });
+              notify("resources.users.detail.errors.company_already_assigned", { type: 'error' });
               setValue(`companies.${index}.company_id`, "")
             }
           }
@@ -132,6 +118,7 @@ const CompanyReferenceInput = () => {
 };
 
 export const EmployeeCodeInput = () => {
+  const translate = useTranslate();
   const { index } = useSimpleFormIteratorItem();
   const { setError, clearErrors } = useFormContext();
   const companies = useWatch({ name: "companies" });
@@ -147,11 +134,12 @@ export const EmployeeCodeInput = () => {
   }, [companyId, employeeCode, index, setError, clearErrors]);
 
   return (
-    <TextInput source="employee_code" label="工號" /> 
+    <TextInput source="employee_code" label={translate('resources.users.detail.fields.employee_code')} /> 
   )
 }
 
 const DepartmentReferenceInput = () => {
+  const translate = useTranslate();
   const { index } = useSimpleFormIteratorItem();
   const { setValue, setError, clearErrors } = useFormContext();
   const companies = useWatch({ name: "companies" });
@@ -192,12 +180,13 @@ const DepartmentReferenceInput = () => {
       reference="departments"
       filter={filter}
     >
-      <SelectArrayInput optionText="name" label="隸屬部門" readOnly={!companyId} />
+      <SelectArrayInput optionText="name" label={translate('resources.users.detail.fields.departments')} readOnly={!companyId} />
     </ReferenceInput>
   );
 };
 
 export const StatusInput = () => {
+  const translate = useTranslate();
   const { index } = useSimpleFormIteratorItem();
   const { setError, clearErrors } = useFormContext();
   const companies = useWatch({ name: "companies" });
@@ -216,11 +205,12 @@ export const StatusInput = () => {
     <SelectInput source="status" choices={[
       { id: 1, name: '啟用' },
       { id: 0, name: '停用' },
-    ]} label="狀態" />
+    ]} label={translate('resources.users.detail.fields.company_status')} />
   )
 }
 
 export const CopyCompanyDialog = ({ open, handleClose }) => {
+  const translate = useTranslate();
   const dataProvider = useDataProvider();
   const notify = useNotify();
   const { setValue, getValues } = useFormContext();
@@ -286,7 +276,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
 
     const alreadyExists = companies.some((item) => item.company_id === companyId);
     if (alreadyExists) {
-      notify("resources.users.errors.duplicate_company_department_warning", { type: 'error' });
+      notify("resources.users.detail.errors.duplicate_company_department_warning", { type: 'error' });
       return;
     }
 
@@ -353,7 +343,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
       }}
       width="sm" 
       fullWidth >
-      <DialogTitle>{'選擇欲複製的公司與工號'}</DialogTitle>
+      <DialogTitle>{translate('resources.users.detail.fieldGroups.companyAndIdTitle')}</DialogTitle>
       <DialogContent dividers>
           <ReferenceInput 
             source="company_id" 
@@ -361,7 +351,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
           >
             <SelectInput 
               optionText="name" 
-              label="公司別" 
+              label={translate('resources.users.detail.fields.company')}
               onChange={(e) => {
                 if (e.target.value) 
                   setCompanyId(e.target.value)
@@ -376,7 +366,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
           >
             <AutocompleteInput 
               optionText={optionRenderer}
-              label="工號 / 員工名稱"
+              label={translate('resources.users.detail.fields.user')}
               onChange={handleChange} 
               readOnly={!companyId}
             />
@@ -388,7 +378,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
           >
             <SelectArrayInput 
               optionText="name" 
-              label="隸屬部門"
+              label={translate('resources.users.detail.fields.departments')}
               readOnly={!companyId || !userId} 
               onChange={(e) => {
                 setDepartmentIds(e.target.value)
@@ -400,7 +390,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
           onClick={handleAddCompany} 
           disabled={!companyId || !userId}
         >
-          確定
+          {translate('ra.action.confirm')}
         </Button>
         <Button 
           onClick={() => {
@@ -415,7 +405,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
             handleClose();
           }} 
         >
-          取消
+          {translate('ra.action.cancel')}
         </Button>
       </DialogActions>
     </Dialog>
@@ -423,6 +413,7 @@ export const CopyCompanyDialog = ({ open, handleClose }) => {
 }
 
 const UserCreate = () => {
+  const translate = useTranslate();
   const notify = useNotify();
   const [readOnly, setReadOnly] = useState(false);
   const [dateReadOnly, setDateReadOnly] = useState(false);
@@ -448,7 +439,7 @@ const UserCreate = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        登入者代號
+        {translate('resources.users.title')}
       </Typography>
       <Create 
         title={<UserTitle/>}
@@ -482,13 +473,13 @@ const UserCreate = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12}>
-              <BooleanInput label="超級使用者" source="is_admin" helperText={false} />
+              <BooleanInput label={translate('resources.users.detail.fields.super_user')} source="is_admin" helperText={false} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="account" label="登入者代號" isRequired />
+              <TextInput autoFocus source="account" label={translate('resources.users.detail.fields.account')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <SelectInput source="status" label='使用狀態' isRequired 
+              <SelectInput source="status" label={translate('resources.users.detail.fields.status')} isRequired 
                 choices={[
                   { id: 0, name: '未啟用' },
                   { id: 1, name: '啟用中' }
@@ -500,20 +491,20 @@ const UserCreate = () => {
                 }} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label="登入者名稱" isRequired />
+              <TextInput source="name" label={translate('resources.users.detail.fields.name')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
               <EffectiveDateInput setReadOnly={setReadOnly} dateReadOnly={dateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput type="email" source="email" label="電子郵件"  isRequired />
+              <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={6}>
-              <PasswordInput source="password" label="密碼" isRequired />
+              <PasswordInput source="password" label={translate('resources.users.detail.fields.password')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <PasswordInput source="confirm_password" label="再次輸入密碼" isRequired />
+              <PasswordInput source="confirm_password" label={translate('resources.users.detail.fields.confirm_password')} isRequired />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Card>
@@ -524,10 +515,10 @@ const UserCreate = () => {
                     alignItems: "center",
                     mb: 2 }} >
                     <Typography variant="h6" gutterBottom>
-                      {'公司與部門設定'}
+                      {translate('resources.users.detail.fieldGroups.company_settings')}
                     </Typography>
                     <Button variant="contained" onClick={handleOpen} sx={{ ml: 5 }}>
-                      {'複製其他使用者設定(權限)'}
+                      {translate('resources.users.detail.page.copy_from_user')}
                     </Button>
                   </Box>
                   <ArrayInput source="companies" label={false}>
@@ -536,7 +527,7 @@ const UserCreate = () => {
                       <EmployeeCodeInput />
                       <DepartmentReferenceInput />
                       <StatusInput />
-                      <TextInput source="employee_name" label="欲複製對象權限" readOnly/>
+                      <TextInput source="employee_name" label={translate('resources.users.detail.fields.copy_user_permissions')} readOnly/>
                     </SimpleFormIterator>
                   </ArrayInput>
                 </CardContent>

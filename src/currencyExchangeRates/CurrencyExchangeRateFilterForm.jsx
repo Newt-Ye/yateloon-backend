@@ -2,7 +2,9 @@ import * as React from "react"
 import { 
   TextInput,
   useListContext,
-  useTranslate
+  ReferenceInput,
+  SelectInput,
+  useTranslate,
 } from "react-admin"
 import { 
   useForm, 
@@ -12,7 +14,7 @@ import { Box, Button, InputAdornment } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import { useEffect } from "react"
 
-const InventoryItemCategoryFilterForm = () => {
+const CurrencyExchangeRateFilterForm = () => {
   const translate = useTranslate();
   const {
     displayedFilters,
@@ -69,6 +71,19 @@ const InventoryItemCategoryFilterForm = () => {
               }}
             />
           </Box>
+          <Box component="span" mr={2}>
+            <ReferenceInput source="currency_id" 
+              reference="currencies" 
+              sort={{ field: 'created_at', order: 'ASC' }}
+            >
+              <SelectInput 
+                resettable
+                emptyText={translate('ra.input.references.all')}
+                helperText={false}
+                label={translate('resources.currencyExchangeRates.commons.fields.currency')}
+              />
+            </ReferenceInput>
+          </Box>
           <Box component="span" mr={2} mb={1.5}>
             <Button variant="outlined" color="primary" type="submit">
               {translate('ra.action.filter')}
@@ -85,4 +100,4 @@ const InventoryItemCategoryFilterForm = () => {
   )
 }
 
-export default InventoryItemCategoryFilterForm;
+export default CurrencyExchangeRateFilterForm;

@@ -1,4 +1,4 @@
-import polyglotI18nProvider from 'ra-i18n-polyglot';
+// import polyglotI18nProvider from 'ra-i18n-polyglot';
 import { 
   Admin,
   Resource,
@@ -18,19 +18,23 @@ import settings from './settings';
 import factories from './factories';
 import warehouses from './warehouses';
 import currencies from './currencies';
+import currencyExchangeRates from './currencyExchangeRates';
+import i18nProvider from './i18n';
 import { Layout, Login } from "./layout"
-import en from './i18n/en';
-import zhTW from './i18n/zh-TW';
+// import en from './i18n/en';
+// import zhTW from './i18n/zh-TW';
+// import zhCN from './i18n/zh-CN';
 import { useState, useEffect } from "react";
 
-const i18nProvider = polyglotI18nProvider(locale => 
-  locale === 'zh-tw' ? zhTW : en,
-  'zh-tw', // Default locale
-  [
-      { locale: 'en', name: 'English' },
-      { locale: 'zh-tw', name: '繁體中文' }
-  ],
-);
+// const i18nProvider = polyglotI18nProvider(locale => 
+//   locale === 'zh-tw' ? zhTW : locale === 'zh-cn' ? zhCN : en,
+//   'zh-tw', // Default locale
+//   [
+//       { locale: 'en', name: 'English' },
+//       { locale: 'zh-tw', name: '繁體中文' },
+//       { locale: 'zh-cn', name: '簡體中文' }
+//   ],
+// );
 
 const store = localStorageStore(undefined, "ECommerce")
 
@@ -195,6 +199,7 @@ const App = () => {
       <Resource name="factories" {...factories} />
       <Resource name="warehouses" {...warehouses} />
       <Resource name="currencies" {...currencies} />
+      <Resource name="currency-exchange-rates" {...currencyExchangeRates} />
     </Admin>
   )
 }

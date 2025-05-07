@@ -11,17 +11,17 @@ import {
   useEditContext,
   SaveButton,
   /*Toolbar,*/
-  TextField,
   useSimpleFormIteratorItem,
   ArrayInput,
   SimpleFormIterator,
   BooleanInput,
   useNotify,
-  /*useTranslate*/
+  useTranslate
 } from "react-admin"
-import { /*Box,*/Typography, Grid, Card, CardContent, Box, Button } from "@mui/material"
+import { Typography, Grid, Card, CardContent, Box, Button } from "@mui/material"
 import { useFormContext, useWatch } from "react-hook-form";
 import { useState, useEffect, useMemo } from "react";
+import { AuditFields } from "../components/AuditFields"
 import { EmployeeCodeInput, StatusInput as CompanyStatusInput, CopyCompanyDialog } from "./UserCreate"
 
 const UserTitle = () => {
@@ -71,23 +71,8 @@ export const validateForm = values => {
   return errors
 }
 
-export const ShortNameInput = () => {
-  const { setValue, getValues } = useFormContext();
-
-  const handleShortNameBlur = (event) => {
-    const newValue = event.target.value;
-
-    if (newValue && !getValues('name')) {
-      setValue('name', newValue);
-    }
-  };
-
-  return (
-    <TextInput source="short_name" label="公司簡稱" onBlur={handleShortNameBlur} isRequired />
-  );
-}
-
 export const EffectiveDateInput = ({setReadOnly, dateReadOnly, setDateReadOnly}) => {
+  const translate = useTranslate();
   const { setValue } = useFormContext();
   const { record } = useEditContext();
 
@@ -105,11 +90,12 @@ export const EffectiveDateInput = ({setReadOnly, dateReadOnly, setDateReadOnly})
   };
 
   return (
-    <DateInput source="effective_date" label="生效日期" onChange={(e) => handleEffectiveDateChange(e.target.value)} readOnly={dateReadOnly} />
+    <DateInput source="effective_date" label={translate('resources.users.detail.fields.effective_date')} onChange={(e) => handleEffectiveDateChange(e.target.value)} readOnly={dateReadOnly} />
   );
 }
 
 const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
+  const translate = useTranslate();
   const { getValues, setValue } = useFormContext();
   const { record } = useEditContext();
   const defaultReadOnly = Boolean(record?.effective_date) && record.status === 0;
@@ -142,11 +128,12 @@ const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
   };
 
   return (
-    <SelectInput source="status" label='使用狀態' isRequired choices={choices} readOnly={readOnly} onChange={(e) => handleStatusChange(e.target.value)} />
+    <SelectInput source="status" label={translate('resources.users.detail.fields.status')} isRequired choices={choices} readOnly={readOnly} onChange={(e) => handleStatusChange(e.target.value)} />
   );
 }
 
 const CompanyReferenceInput = () => {
+  const translate = useTranslate();
   const { index } = useSimpleFormIteratorItem();
   const { getValues, setValue } = useFormContext();
   const notify = useNotify();
@@ -156,8 +143,8 @@ const CompanyReferenceInput = () => {
   return (
     <ReferenceInput source="company_id" reference="companies">
       <SelectInput 
-        optionText="name" 
-        label="公司別"
+        optionText="name"
+        label={translate('resources.users.detail.fields.company')}
         readOnly={isDialog}
         onChange={(e) => {
           if (e.target.value) {
@@ -176,6 +163,7 @@ const CompanyReferenceInput = () => {
 };
 
 const DepartmentReferenceInput = () => {
+  const translate = useTranslate();
   const { index } = useSimpleFormIteratorItem();
   const { setValue, setError, clearErrors } = useFormContext();
   const companies = useWatch({ name: "companies" });
@@ -223,20 +211,13 @@ const DepartmentReferenceInput = () => {
       reference="departments"
       filter={filter}
     >
-      <SelectArrayInput optionText="name" label="隸屬部門" readOnly={!companyId} />
+      <SelectArrayInput optionText="name" label={translate('resources.users.detail.fields.departments')} readOnly={!companyId} />
     </ReferenceInput>
   );
 };
 
-/*
-const CustomToolbar = () => (
-  <Toolbar>
-    <SaveButton />
-  </Toolbar>
-);
-*/
-
 const UserEdit = () => {
+  const translate = useTranslate();
   const [readOnly, setReadOnly] = useState(false);
   const [dateReadOnly, setDateReadOnly] = useState(false);
   const [open, setOpen] = useState(false);
@@ -247,11 +228,10 @@ const UserEdit = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        登入者代號
+        {translate('resources.users.title')}
       </Typography>
       <Edit title={<UserTitle/>} redirect={false} mutationMode="optimistic">
         <SimpleForm
-          // Here for the GQL provider
           defaultValues={{
             account: "",
             status: 0,
@@ -276,29 +256,29 @@ const UserEdit = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12}>
-              <BooleanInput label="超級使用者" source="is_admin" helperText={false} />
+              <BooleanInput label={translate('resources.users.detail.fields.super_user')} source="is_admin" helperText={false} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="account" label="登入者代號" readOnly isRequired />
+              <TextInput autoFocus source="account" label={translate('resources.users.detail.fields.account')} readOnly isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
               <StatusInput readOnly={readOnly} setReadOnly={setReadOnly} setDateReadOnly={setDateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label="登入者名稱" isRequired />
+              <TextInput source="name" label={translate('resources.users.detail.fields.name')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
               <EffectiveDateInput setReadOnly={setReadOnly} dateReadOnly={dateReadOnly} setDateReadOnly={setDateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput type="email" source="email" label="電子郵件"  isRequired />
+              <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} isRequired />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={6}>
-              <PasswordInput source="password" label="密碼" />
+              <PasswordInput source="password" label={translate('resources.users.detail.fields.password')} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <PasswordInput source="confirm_password" label="再次輸入密碼" />
+              <PasswordInput source="confirm_password" label={translate('resources.users.detail.fields.confirm_password')} />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Card>
@@ -309,10 +289,10 @@ const UserEdit = () => {
                     alignItems: "center",
                     mb: 2 }} >
                     <Typography variant="h6" gutterBottom>
-                      {'公司與部門設定'}
+                      {translate('resources.users.detail.fieldGroups.company_settings')}
                     </Typography>
                     <Button variant="contained" onClick={handleOpen} sx={{ ml: 5 }}>
-                      {'複製其他使用者設定(權限)'}
+                      {translate('resources.users.detail.page.copy_from_user')}
                     </Button>
                   </Box>
                   <ArrayInput source="companies" label={false}>
@@ -321,83 +301,14 @@ const UserEdit = () => {
                       <EmployeeCodeInput />
                       <DepartmentReferenceInput />
                       <CompanyStatusInput />
-                      <TextInput source="employee_name" label="欲複製對象權限" readOnly/>
+                      <TextInput source="employee_name" label={translate('resources.users.detail.fields.copy_user_permissions')} readOnly/>
                     </SimpleFormIterator>
                   </ArrayInput>
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
-          <Card sx={{ mt: 4, bgcolor: 'text.disabled', width: '100%' }} >
-            <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    建立者：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="creator_name" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    建立日期：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="created_at" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    修改者：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="modifier_name" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <Typography variant="body2" align="left" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} >
-                    修改日期：
-                  </Typography>
-                </Grid>
-                <Grid item xs={6} sm={2}>
-                  <TextField source="updated_at" sx={{ 
-                    color: 'black', 
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center"}} />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+          <AuditFields />
           <CopyCompanyDialog open={open} handleClose={handleClose} />
         </SimpleForm>
       </Edit>

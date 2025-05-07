@@ -2,13 +2,13 @@ import * as React from "react"
 import {
   Edit,
   useTranslate,
-  useNotify
+  useNotify,
 } from "react-admin"
-import { Typography } from "@mui/material"
+import { Typography} from "@mui/material"
 import { AuditFields } from "../components/AuditFields"
-import CurrencyForm from './CurrencyForm';
+import CurrencyExchangeRateForm from "./CurrencyExchangeRateForm"
 
-const CurrencyEdit = () => {
+const CurrencyExchangeRateEdit = () => {
   const translate = useTranslate();
   const notify = useNotify();
 
@@ -19,19 +19,19 @@ const CurrencyEdit = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        {translate('resources.currencies.title')}
+        {translate('resources.currencyExchangeRates.title')}
       </Typography>
       <Edit 
-        title={false} 
+        title={false}
         mutationOptions={{ onSuccess }}
         redirect={false} 
         mutationMode="optimistic"
       >
-        <CurrencyForm />
+        <CurrencyExchangeRateForm />
         <AuditFields />
       </Edit>
     </>
   )
 }
 
-export default CurrencyEdit
+export default CurrencyExchangeRateEdit

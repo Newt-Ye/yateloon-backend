@@ -7,11 +7,13 @@ import {
   TextField,
   usePermissions,
   EditButton,
-  useTranslate
+  useTranslate,
+  ReferenceField,
+  NumberField
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
-import CurrencyFilterForm from "./CurrencyFilterForm"
+import CurrencyExchangeRateFilterForm from "./CurrencyExchangeRateFilterForm"
 
 const mobileFilters = [
   <SearchInput source="q" alwaysOn />,
@@ -21,31 +23,33 @@ const mobileFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const CurrencyList = () => {
+const CurrencyExchangeRateList = () => {
   const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
 
-  const resource = "currencies";
+  const resource = "currency-exchange-rates";
 
   return isPending
       ? (<div>Waiting for permissions...</div>)
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            {translate('resources.currencies.list.title')}
+            {translate('resources.currencyExchangeRates.list.title')}
           </Typography>
           <List
             title={false}
             filters={isSmall ? mobileFilters : undefined}
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
-            actions={<ListActions 
-              permissions={permissions} 
-              resource={resource}
-              FilterFormComponent={CurrencyFilterForm}
-            />}
+            actions={
+              <ListActions 
+                permissions={permissions} 
+                resource={resource}
+                FilterFormComponent={CurrencyExchangeRateFilterForm}
+              />
+            }
           >
             {isXsmall ? (
               <div></div>
@@ -74,17 +78,31 @@ const CurrencyList = () => {
                   source="id"
                   label="ID"
                 />
-                <TextField
-                  source="code"
-                  label={translate('resources.currencies.commons.fields.code')}
+                <ReferenceField 
+                  source="currency_id" 
+                  reference="currencies" 
+                  label={translate('resources.currencyExchangeRates.commons.fields.currency')}
+                  link={false}
+                >
+                  <TextField source="name"/>
+                </ReferenceField>
+                <DateField 
+                  source="effective_date" 
+                  label={translate('resources.currencyExchangeRates.commons.fields.effective_date')}
                 />
-                <TextField
-                  source="name"
-                  label={translate('resources.currencies.commons.fields.name')}
+                <NumberField 
+                  source="bank_buy_rate" 
+                  options={{ maximumFractionDigits: 4 }}
+                  label={translate('resources.currencyExchangeRates.commons.fields.bank_buy_rate')}
+                />
+                <NumberField 
+                  source="bank_sell_rate" 
+                  options={{ maximumFractionDigits: 4 }}
+                  label={translate('resources.currencyExchangeRates.commons.fields.bank_sell_rate')}  
                 />
                 <DateField 
                   source="created_at" 
-                  label={translate('resources.currencies.commons.fields.created_at')}
+                  label={translate('resources.currencyExchangeRates.commons.fields.created_at')}
                   showTime
                 />
               </DatagridConfigurable>
@@ -94,4 +112,4 @@ const CurrencyList = () => {
       )
 }
 
-export default CurrencyList
+export default CurrencyExchangeRateList
