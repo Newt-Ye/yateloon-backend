@@ -112,7 +112,7 @@ export const menuItems = [
       },
       { 
         resource: "currency-exchange-rates", 
-        primaryText: "匯率資料",
+        primaryText: "幣別匯率",
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },

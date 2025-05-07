@@ -26,6 +26,7 @@ const customDataProvider = {
         || resource === 'inventory-items'
         || resource === 'factories'
         || resource === 'warehouses'
+        || resource === 'currency-exchange-rates'
       ) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
@@ -72,6 +73,7 @@ const customDataProvider = {
         || resource === 'inventory-items'
         || resource === 'factories'
         || resource === 'warehouses'
+        || resource === 'currency-exchange-rates'
       ) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
@@ -104,6 +106,7 @@ const customDataProvider = {
         || resource === 'inventory-items'
         || resource === 'factories'
         || resource === 'warehouses'
+        || resource === 'currency-exchange-rates'
       ) {
         params['data']['company_id'] = parseInt(localStorage.getItem('current_company')) || '';
       }
