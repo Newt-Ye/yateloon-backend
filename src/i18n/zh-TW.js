@@ -542,6 +542,8 @@ const customChineseTWMessages = {
       },
       detail: {
         fields: {
+          inventory: "存貨倉",
+          non_inventory: "非存貨倉",
           factory: "隸屬廠別",
           include_in_available_quantity: "納入可用量計算",
           allow_outbound_when_save: "納入可用量計算",

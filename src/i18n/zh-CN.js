@@ -438,6 +438,8 @@ const customChineseMessages = {
       },
       detail: {
         fields: {
+          inventory: "存货仓",
+          non_inventory: "非存货仓",
           factory: "所属工厂",
           include_in_available_quantity: "纳入可用量计算",
           allow_outbound_when_save: "保存时允许出库",

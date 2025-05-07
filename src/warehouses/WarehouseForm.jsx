@@ -59,8 +59,8 @@ const WarehouseForm = ({
               source="is_stock" 
               label={translate('resources.warehouses.commons.fields.storage_type')}  
               choices={[
-                  { id: 1, name: '存貨倉' },
-                  { id: 0, name: '非存貨倉' },
+                  { id: 1, name: 'resources.warehouses.detail.fields.inventory' },
+                  { id: 0, name: 'resources.warehouses.detail.fields.non_inventory' },
               ]} 
               isRequired={!disabled}
               disabled={disabled} />
