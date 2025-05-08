@@ -15,7 +15,7 @@ export const AppBarToolbar = () => {
     setCurrentCompany(parseInt(localStorage.getItem('current_company')))
 
     const targetCompany = companyList.find(company => company.id ===  parseInt(localStorage.getItem('current_company')));
-    const locale = targetCompany.region_type === "china" ? 'zh-cn' : 'zh-tw';
+    const locale = targetCompany?.region_type === "china" ? 'zh-cn' : 'zh-tw';
     localStorage.setItem('locale', locale);
   }, []);
 
