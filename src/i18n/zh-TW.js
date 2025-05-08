@@ -329,7 +329,7 @@ const customChineseTWMessages = {
           total_standard_cost: "標準成本合計",
         },
         fieldGroups: {
-          company_settings: "基本資料",
+          basic_info: "基本資料",
         },
         page: {
         },
