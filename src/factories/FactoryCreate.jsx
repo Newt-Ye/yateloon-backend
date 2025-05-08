@@ -1,71 +1,37 @@
 import * as React from "react"
 import {
   Create,
-  SimpleForm,
-  TextInput,
-  SaveButton,
   useNotify,
-  /*useTranslate*/
+  useTranslate
 } from "react-admin"
-import { Box, Typography, Grid } from "@mui/material"
+import { Typography } from "@mui/material"
 import { useState } from "react";
-
-const FactoryTitle = () => {
-  return <span>{'新增廠別'}</span>;
-};
-
-export const validateForm = values => {
-  const errors = {}
-  if (!values.code) {
-    errors.code = "ra.validation.required"
-  }
-  if (!values.name) {
-    errors.name = "ra.validation.required"
-  }
-  return errors
-}
+import FactoryForm from './FactoryForm';
 
 const FactoryCreate = () => {
+  const translate = useTranslate();
   const notify = useNotify();
   const [key, setKey] = useState(0);
 
   const onSuccess = () => {
-    notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
-    setKey((prev) => prev + 1); // 強制渲染表單
+    notify("ra.notification.created", { type: "success", autoHideDuration: 2000 });
+    setKey((prev) => prev + 1);
   };
 
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        廠別資料
+        {translate('resources.factories.title')}
       </Typography>
       <Create 
-        title={<FactoryTitle/>} 
+        title={false} 
         mutationOptions={{ onSuccess }}
         mutationMode="pessimistic"
         redirect={false}
       >
-        <SimpleForm
-          key={key}
-          defaultValues={{
-            name: "",
-            code: ""
-          }}
-          validate={validateForm}
-          toolbar={false}
-        >
-          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
-            <SaveButton />
-          </Box>
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
-              <Grid item xs={12}>
-                <TextInput autoFocus source="code" label="廠別代號" isRequired />
-              </Grid>
-              <Grid item xs={12}>
-                <TextInput source="name" label="廠別名稱" isRequired />
-              </Grid>
-          </Grid>
-        </SimpleForm>
+        <FactoryForm 
+          formKey={key}
+        />
       </Create>
     </>
   )

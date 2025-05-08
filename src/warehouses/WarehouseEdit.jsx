@@ -27,8 +27,9 @@ const WarehouseEdit = () => {
         redirect={false} 
         mutationMode="optimistic"
       >
-        <WarehouseForm />
-        <AuditFields />
+        <WarehouseForm 
+          AuditFields={AuditFields}
+        />
       </Edit>
     </>
   )

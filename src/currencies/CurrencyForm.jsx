@@ -3,6 +3,7 @@ import {
   SimpleForm,
   SaveButton,
   TextInput,
+  SelectInput,
   useTranslate,
 } from "react-admin"
 import { Box, Grid } from "@mui/material"
@@ -21,6 +22,7 @@ const validateForm = values => {
 const CurrencyForm = ({ 
   formKey,
   disabled = false,
+  AuditFields
 }) => {
   const translate = useTranslate();
 
@@ -30,6 +32,9 @@ const CurrencyForm = ({
       defaultValues={{
         code: "",
         name: "",
+        amount_precision: '0',
+        unit_cost_precision: '0',
+        total_cost_precision: '0',
       }}
       validate={!disabled ? validateForm : undefined}
       toolbar={false}
@@ -47,7 +52,7 @@ const CurrencyForm = ({
             label={translate('resources.currencies.commons.fields.code')} 
             inputProps={{ maxLength: 3 }} 
             isRequired={!disabled}
-            disabled={disabled}
+            readOnly={disabled}
           />
         </Grid>
         <Grid item xs={12}>
@@ -55,10 +60,63 @@ const CurrencyForm = ({
             source="name" 
             label={translate('resources.currencies.commons.fields.name')} 
             isRequired={!disabled}
-            // disabled={disabled}
+            readOnly={disabled}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectInput source="unit_price_precision" label={translate('resources.currencies.detail.fields.unit_price_precision')} 
+            choices={[
+              { id: '0', name: '整數' },
+              { id: '1', name: '小數一位' },
+              { id: '2', name: '小數二位' },
+              { id: '3', name: '小數三位' },
+              { id: '4', name: '小數四位' },
+            ]} 
+            isRequired={!disabled}
+            readOnly={disabled} 
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectInput source="amount_precision" label={translate('resources.currencies.detail.fields.amount_precision')} 
+            choices={[
+              { id: '0', name: '整數' },
+              { id: '1', name: '小數一位' },
+              { id: '2', name: '小數二位' },
+              { id: '3', name: '小數三位' },
+              { id: '4', name: '小數四位' },
+            ]} 
+            isRequired={!disabled}
+            readOnly={disabled} 
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectInput source="unit_cost_precision" label={translate('resources.currencies.detail.fields.unit_cost_precision')} 
+            choices={[
+              { id: '0', name: '整數' },
+              { id: '1', name: '小數一位' },
+              { id: '2', name: '小數二位' },
+              { id: '3', name: '小數三位' },
+              { id: '4', name: '小數四位' },
+            ]} 
+            isRequired={!disabled}
+            readOnly={disabled} 
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectInput source="total_cost_precision" label={translate('resources.currencies.detail.fields.total_cost_precision')} 
+            choices={[
+              { id: '0', name: '整數' },
+              { id: '1', name: '小數一位' },
+              { id: '2', name: '小數二位' },
+              { id: '3', name: '小數三位' },
+              { id: '4', name: '小數四位' },
+            ]} 
+            isRequired={!disabled}
+            readOnly={disabled}
           />
         </Grid>
       </Grid>
+      {AuditFields && <AuditFields />}
     </SimpleForm>
   )
 }

@@ -23,9 +23,9 @@ const WarehouseShow = () => {
         mutationMode="optimistic"
       >
         <WarehouseForm 
-            disabled={true}
-          />
-        <AuditFields />
+          disabled={true}
+          AuditFields={AuditFields}
+        />
       </Edit>
     </>
   )

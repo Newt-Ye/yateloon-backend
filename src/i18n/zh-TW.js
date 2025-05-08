@@ -104,7 +104,7 @@ const customChineseTWMessages = {
     },
     navigation: {
       clear_filters: '清除篩選',
-      no_filtered_results: '使用當前篩選未找到任何 %{resource}。',
+      no_filtered_results: '使用當前篩選未找到任何資料。',
       no_results: '未找到任何資料',
       no_more_results: '頁碼 %{page} 超出範圍。請嘗試前一頁。',
       page_out_of_boundaries: '頁碼 %{page} 超出範圍',
@@ -373,6 +373,7 @@ const customChineseTWMessages = {
           copy_user_permissions: "欲複製對象權限",
           user: "工號 / 員工名稱",
           effective_date: "生效日期",
+          expired_date: "失效日期",
           short_name: "公司簡稱"
         },
         fieldGroups: {
@@ -384,7 +385,9 @@ const customChineseTWMessages = {
         },
         errors: {
           duplicate_company_department_warning: "此公司與部門設定已重複加入",
-          company_already_assigned: "此公司已被設定"
+          company_already_assigned: "此公司已被設定",
+          password_mismatch: "密碼確認與密碼不一致",
+          min_one_company_required: "最少需設定一間公司資料"
         }
       }
     },
@@ -512,8 +515,11 @@ const customChineseTWMessages = {
       },
       detail: {
         fields: {
+          warehouse_code: "庫別代號",
+          warehouse_name: "庫別名稱"
         },
         fieldGroups: {
+          warehouse_list: "庫別列表"
         },
         page: {
         },
@@ -577,6 +583,10 @@ const customChineseTWMessages = {
       },
       detail: {
         fields: {
+          unit_price_precision: "單價取位",
+          amount_precision: "金額取位",
+          unit_cost_precision: "單位成本取位",
+          total_cost_precision: "成本金額取位",
         },
         fieldGroups: {
         },

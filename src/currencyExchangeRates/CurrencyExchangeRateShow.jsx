@@ -24,8 +24,8 @@ const CurrencyExchangeRateShow = () => {
       >
         <CurrencyExchangeRateForm 
           disabled={true}
+          AuditFields={AuditFields}
         />
-        <AuditFields />
       </Edit>
     </>
   )

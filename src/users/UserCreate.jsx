@@ -43,28 +43,40 @@ export const validateForm = values => {
   if (!values.companies || values.companies.length === 0) {
     errors.companies = "ra.validation.required"
   }
+  if (!values.password) {
+    errors.password = "ra.validation.required"
+  }
   if (values.password && values.password !== values.confirm_password) {
-    errors.confirm_password = "resources.customers.errors.password_mismatch"
+    errors.confirm_password = "resources.users.detail.errors.password_mismatch"
   }
   if (values.companies) {
+    let hasCompany = false;
+    
     errors.companies = [];
-  
     values.companies.forEach((item, index) => {
-      if (item.company_id) { 
+      if (item.company_id) {
+        hasCompany = true;
+  
         if (!item.employee_code) {
-          errors.companies[index] = errors.companies[index] || {}; 
+          errors.companies[index] = errors.companies[index] || {};
           errors.companies[index].employee_code = "ra.validation.required";
         }
-        if (item.department_ids.length === 0) {
-          errors.companies[index] = errors.companies[index] || {}; 
+  
+        if (!item.department_ids || item.department_ids.length === 0) {
+          errors.companies[index] = errors.companies[index] || {};
           errors.companies[index].department_ids = "ra.validation.required";
         }
-        if (item.status === null) {
-          errors.companies[index] = errors.companies[index] || {}; 
+  
+        if (item.status === null || item.status === undefined) {
+          errors.companies[index] = errors.companies[index] || {};
           errors.companies[index].status = "ra.validation.required";
         }
       }
     });
+  
+    if (!hasCompany) {
+      errors.companies = "resources.users.detail.errors.min_one_company_required"
+    }
   }
   return errors
 }

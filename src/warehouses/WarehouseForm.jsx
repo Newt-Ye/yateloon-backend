@@ -32,6 +32,7 @@ const validateForm = values => {
 const WarehouseForm = ({ 
   formKey,
   disabled = false,
+  AuditFields
 }) => {
   const translate = useTranslate();
 
@@ -63,7 +64,7 @@ const WarehouseForm = ({
                   { id: 0, name: 'resources.warehouses.detail.fields.non_inventory' },
               ]} 
               isRequired={!disabled}
-              disabled={disabled} />
+              readOnly={disabled} />
           </Grid>
           <Grid item xs={12}>
             <ReferenceInput source="factory_id" 
@@ -75,7 +76,7 @@ const WarehouseForm = ({
                 optionText="name" 
                 label={translate('resources.warehouses.detail.fields.factory')} 
                 isRequired={!disabled}
-                disabled={disabled} />
+                readOnly={disabled} />
             </ReferenceInput>
           </Grid>
           <Grid item xs={12}>
@@ -83,34 +84,35 @@ const WarehouseForm = ({
               source="code" 
               label={translate('resources.warehouses.commons.fields.code')}
               isRequired={!disabled}
-              disabled={disabled} />
+              readOnly={disabled} />
           </Grid>
           <Grid item xs={12}>
             <TextInput 
               source="name" 
               label={translate('resources.warehouses.commons.fields.name')}  
               isRequired={!disabled}
-              disabled={disabled} />
+              readOnly={disabled} />
           </Grid>
           <Grid item xs={6} sm={4}>
             <BooleanInput 
               label={translate('resources.warehouses.detail.fields.include_in_available_quantity')}  
               source="include_in_available_quantity"
-              disabled={disabled} />
+              readOnly={disabled} />
           </Grid>
           <Grid item xs={6} sm={4}>
             <BooleanInput 
               label={translate('resources.warehouses.detail.fields.allow_outbound_when_save')}  
               source="allow_outbound_when_save"
-              disabled={disabled} />
+              readOnly={disabled} />
           </Grid>
           <Grid item xs={6} sm={4}>
             <BooleanInput 
               label={translate('resources.warehouses.detail.fields.allow_outbound_when_confirm')}
               source="allow_outbound_when_confirm"
-              disabled={disabled} />
+              readOnly={disabled} />
           </Grid>
       </Grid>
+      {AuditFields && <AuditFields />}
     </SimpleForm>
   )
 }

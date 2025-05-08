@@ -104,7 +104,7 @@ const customChineseMessages = {
     },
     navigation: {
       clear_filters: '清除筛选',
-      no_filtered_results: '使用当前筛选未找到任何 %{resource}。',
+      no_filtered_results: '使用当前筛选未找到任何数据。',
       no_results: '未找到任何数据',
       no_more_results: '页码 %{page} 超出范围。请尝试前一页。',
       page_out_of_boundaries: '页码 %{page} 超出范围',
@@ -373,6 +373,7 @@ const customChineseMessages = {
           copy_user_permissions: "需复制的权限对象",
           user: "工号 / 员工姓名",
           effective_date: "生效日期",
+          expired_date: "失效日期",
           short_name: "公司简称"
         },
         fieldGroups: {
@@ -384,14 +385,54 @@ const customChineseMessages = {
         },
         errors: {
           duplicate_company_department_warning: "此公司与部门设置已重复添加",
-          company_already_assigned: "此公司已被设定"
+          company_already_assigned: "此公司已被设定",
+          password_mismatch: "密码确认与密码不一致",
+          min_one_company_required: "最少需设置一间公司资料"
+        }
+      }
+    },
+    companies: {
+      name: "公司资料 |||| 公司资料",
+      amount: "1 条公司资料 |||| %{smart_count} 条公司资料",
+      title: "公司资料",
+      list: {
+        title: "公司资料列表",
+        fields: {
+          code: "公司代码",
+          short_name: "公司简称", 
+          status: "使用状态",
+          created_at: "创建日期"
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          code: "代码",
+          status: "使用状态",
+          name: "公司全称",
+          responsible_person: "负责人",
+          region_type: "所属地区",
+          phone: "电话",
+          fax: "传真",
+          address: "登记地址",
+          short_name: "公司简称",
+          department_code: "部门代码",
+          department_name: "部门名称"
+        },
+        fieldGroups: {
+          departments: "部门列表"
+        },
+        page: {
+        },
+        errors: {
         }
       }
     },
     factories: {
       name: "工厂资料 |||| 工厂资料",
       amount: "1 条工厂资料 |||| %{smart_count} 条工厂资料", 
-      title: "工厂主数据",
+      title: "工厂资料",
       commons: {
         fields: {
           code: "工厂代码",
@@ -408,8 +449,11 @@ const customChineseMessages = {
       },
       detail: {
         fields: {
+          warehouse_code: "仓库代码",
+          warehouse_name: "仓库名称"
         },
         fieldGroups: {
+          warehouse_list: "仓库列表"
         },
         page: {
         },
@@ -473,6 +517,10 @@ const customChineseMessages = {
       },
       detail: {
         fields: {
+          unit_price_precision: "单价精度",
+          amount_precision: "金额精度",
+          unit_cost_precision: "单位成本精度",
+          total_cost_precision: "成本总金额精度",
         },
         fieldGroups: {
         },

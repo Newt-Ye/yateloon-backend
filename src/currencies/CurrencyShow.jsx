@@ -24,9 +24,9 @@ const CurrencyShow = () => {
         mutationMode="optimistic"
       >
         <CurrencyForm 
-            disabled={true}
-          />
-        <AuditFields />
+          disabled={true}
+          AuditFields={AuditFields}
+        />
       </Edit>
     </>
   )

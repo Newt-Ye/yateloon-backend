@@ -30,6 +30,7 @@ const validateForm = values => {
 const CurrencyExchangeRateForm = ({ 
   formKey,
   disabled = false,
+  AuditFields
 }) => {
   const translate = useTranslate();
 
@@ -62,7 +63,7 @@ const CurrencyExchangeRateForm = ({
                 label={translate('resources.currencyExchangeRates.commons.fields.currency')} 
                 autoFocus 
                 isRequired={!disabled}
-                disabled={disabled}
+                readOnly={disabled}
                 />
             </ReferenceInput>
           </Grid>
@@ -71,7 +72,7 @@ const CurrencyExchangeRateForm = ({
               source="effective_date" 
               label={translate('resources.currencyExchangeRates.commons.fields.effective_date')} 
               isRequired={!disabled}
-              disabled={disabled}
+              readOnly={disabled}
             />
           </Grid>
           <Grid item xs={12}>
@@ -79,7 +80,7 @@ const CurrencyExchangeRateForm = ({
               source="bank_buy_rate" 
               label={translate('resources.currencyExchangeRates.commons.fields.bank_buy_rate')} 
               isRequired={!disabled}
-              disabled={disabled}
+              readOnly={disabled}
             />
           </Grid>
           <Grid item xs={12}>
@@ -87,10 +88,11 @@ const CurrencyExchangeRateForm = ({
               source="bank_sell_rate" 
               label={translate('resources.currencyExchangeRates.commons.fields.bank_sell_rate')}
               isRequired={!disabled} 
-              disabled={disabled}
+              readOnly={disabled}
             />
           </Grid>
       </Grid>
+      {AuditFields && <AuditFields />}
     </SimpleForm>
   )
 }

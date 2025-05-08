@@ -86,10 +86,10 @@ const CurrencyExchangeRateList = () => {
                 >
                   <TextField source="name"/>
                 </ReferenceField>
-                <DateField 
+                {/* <DateField 
                   source="effective_date" 
                   label={translate('resources.currencyExchangeRates.commons.fields.effective_date')}
-                />
+                /> */}
                 <NumberField 
                   source="bank_buy_rate" 
                   options={{ maximumFractionDigits: 4 }}

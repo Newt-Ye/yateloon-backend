@@ -27,8 +27,9 @@ const CurrencyExchangeRateEdit = () => {
         redirect={false} 
         mutationMode="optimistic"
       >
-        <CurrencyExchangeRateForm />
-        <AuditFields />
+        <CurrencyExchangeRateForm 
+          AuditFields={AuditFields}
+        />
       </Edit>
     </>
   )

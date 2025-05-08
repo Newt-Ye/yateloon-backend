@@ -94,7 +94,32 @@ export const EffectiveDateInput = ({setReadOnly, dateReadOnly, setDateReadOnly})
   );
 }
 
-const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
+const ExpiredDateInput = ({setReadOnly, expiredDateReadOnly, setExpiredDateReadOnly}) => {
+  const translate = useTranslate();
+  const { record } = useEditContext();
+
+  useEffect(() => {
+    if (record.status === 1) {
+      setExpiredDateReadOnly(false);
+    } else {
+      setExpiredDateReadOnly(true);
+    }
+  }, [setExpiredDateReadOnly, record.status]);
+
+  const handleExpiredDateChange = (newDate) => {
+    if (newDate) {
+      setReadOnly(true);
+    } else {
+      setReadOnly(false);
+    }
+  };
+
+  return (
+    <DateInput source="expired_date" label={translate('resources.users.detail.fields.expired_date')} onChange={(e) => handleExpiredDateChange(e.target.value)} readOnly={expiredDateReadOnly} />
+  );
+}
+
+const StatusInput = ({readOnly, setReadOnly, setDateReadOnly, setExpiredDateReadOnly}) => {
   const translate = useTranslate();
   const { getValues, setValue } = useFormContext();
   const { record } = useEditContext();
@@ -116,11 +141,14 @@ const StatusInput = ({readOnly, setReadOnly, setDateReadOnly}) => {
   const handleStatusChange = (status) => {
     if (status !== 0) {
       setDateReadOnly(true);
+      setExpiredDateReadOnly(true);
       if (status === 9) {
         const companies = getValues('companies');
         for (let i=0; i<companies.length; i++) {
           setValue(`companies.${i}.status`, 0);
         }
+      } else {
+        if (record.effective_date && !record.expired_date) setExpiredDateReadOnly(false);
       }
     } else {
       setDateReadOnly(false);
@@ -220,6 +248,7 @@ const UserEdit = () => {
   const translate = useTranslate();
   const [readOnly, setReadOnly] = useState(false);
   const [dateReadOnly, setDateReadOnly] = useState(false);
+  const [expiredDateReadOnly, setExpiredDateReadOnly] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -262,7 +291,7 @@ const UserEdit = () => {
               <TextInput autoFocus source="account" label={translate('resources.users.detail.fields.account')} readOnly isRequired />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <StatusInput readOnly={readOnly} setReadOnly={setReadOnly} setDateReadOnly={setDateReadOnly} />
+              <StatusInput readOnly={readOnly} setReadOnly={setReadOnly} setDateReadOnly={setDateReadOnly} setExpiredDateReadOnly={setExpiredDateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextInput source="name" label={translate('resources.users.detail.fields.name')} isRequired />
@@ -273,7 +302,9 @@ const UserEdit = () => {
             <Grid item xs={12} sm={6}>
               <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} isRequired />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
+            <Grid item xs={12} sm={6}>
+              <ExpiredDateInput setReadOnly={setReadOnly} expiredDateReadOnly={expiredDateReadOnly} setExpiredDateReadOnly={setExpiredDateReadOnly} />
+            </Grid>
             <Grid item xs={12} sm={6}>
               <PasswordInput source="password" label={translate('resources.users.detail.fields.password')} />
             </Grid>

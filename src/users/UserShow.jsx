@@ -58,7 +58,9 @@ const UserShow = () => {
             <Grid item xs={12} sm={6}>
               <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} disabled />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
+            <Grid item xs={12} sm={6}>
+              <DateInput source="expired_date" label={translate('resources.users.detail.fields.expired_date')} disabled />
+            </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
                 {translate('resources.users.detail.fieldGroups.company_settings')}
