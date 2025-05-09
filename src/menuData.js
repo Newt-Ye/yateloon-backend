@@ -118,6 +118,15 @@ export const menuItems = [
           { id: 'create', name: '新增' },
           { id: 'edit', name: '修改' }
         ]
+      },
+      { 
+        resource: "payment-terms", 
+        primaryText: "付款條件",
+        permissions: [
+          { id: 'view', name: '檢視' },
+          { id: 'create', name: '新增' },
+          { id: 'edit', name: '修改' }
+        ]
       }
     ]
   }

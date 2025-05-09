@@ -627,6 +627,53 @@ const customChineseTWMessages = {
         }
       }
     },
+    paymentTerms: {
+      name: "付款條件 |||| 付款條件",
+      amount: "1 付款條件 |||| %{smart_count} 付款條件",
+      title: "付款條件",
+      commons: {
+        fields: {
+          term_type: "類別",
+          code: "付款代碼",
+          name: "付款名稱",
+          created_at: "建立日期"
+        },
+        choices: {
+          purchase: "採購/加工用",
+          sales: "銷售用",
+        }
+      },
+      list: {
+        title: "付款條件列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          settlement_offset_type: "結帳後收現日",
+          settlement_base_date: "起算日",
+          after_settlement: "結帳日後",
+          days: "天",
+          day: "日",
+          months: "月",
+          fixed_day: "月後逢"
+        },
+        fieldGroups: {
+        },
+        choices: {
+          day: "加日數",
+          month: "加月數",
+          settlement_date: "結帳日",
+          next_month: "次月初",
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "建立者",

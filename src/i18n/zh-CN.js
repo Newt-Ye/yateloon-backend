@@ -561,6 +561,53 @@ const customChineseMessages = {
         }
       }
     },
+    paymentTerms: {
+      name: "付款条件 |||| 付款条件",
+      amount: "1 个付款条件 |||| %{smart_count} 个付款条件",
+      title: "付款条件管理",
+      commons: {
+        fields: {
+          term_type: "类别",
+          code: "付款代码",
+          name: "付款名称", 
+          created_at: "创建日期"
+        },
+        choices: {
+          purchase: "采购/加工用",
+          sales: "销售用"
+        }
+      },
+      list: {
+        title: "付款条件列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          settlement_offset_type: "结算后收现日",
+          settlement_base_date: "起算日",
+          after_settlement: "结算日后",
+          days: "天",
+          day: "日",
+          months: "月",
+          fixed_day: "月后逢"
+        },
+        fieldGroups: {
+        },
+        choices: {
+          day: "加天数",
+          month: "加月数",
+          settlement_date: "结算日",
+          next_month: "次月初"
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "创建人",
