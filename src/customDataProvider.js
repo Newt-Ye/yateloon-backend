@@ -27,6 +27,8 @@ const customDataProviderFactory = (apiUrl) => {
       const needsCompanyId = [
         'inventory-item-categories',
         'inventory-items',
+        'factories',
+        'warehouses',
       ].includes(resource);
 
       if (needsCompanyId) {
@@ -59,7 +61,7 @@ const customDataProviderFactory = (apiUrl) => {
     getMany: (resource, params) => {
       const filter = { ...params.filter };
 
-      if (['inventory-item-categories', 'inventory-items'].includes(resource)) {
+      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses'].includes(resource)) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
 
@@ -78,7 +80,7 @@ const customDataProviderFactory = (apiUrl) => {
     },
 
     create: (resource, params) => {
-      if (['inventory-item-categories', 'inventory-items'].includes(resource)) {
+      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses'].includes(resource)) {
         params.data.company_id = parseInt(localStorage.getItem('current_company')) || '';
       }
 
