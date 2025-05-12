@@ -127,6 +127,24 @@ export const menuItems = [
           { id: 'create', name: '新增' },
           { id: 'edit', name: '修改' }
         ]
+      },
+      { 
+        resource: "trading-partners", 
+        primaryText: "交易對象",
+        permissions: [
+          { id: 'view', name: '檢視' },
+          { id: 'create', name: '新增' },
+          { id: 'edit', name: '修改' }
+        ]
+      },
+      { 
+        resource: "trading-terms", 
+        primaryText: "交易條件",
+        permissions: [
+          { id: 'view', name: '檢視' },
+          { id: 'create', name: '新增' },
+          { id: 'edit', name: '修改' }
+        ]
       }
     ]
   }

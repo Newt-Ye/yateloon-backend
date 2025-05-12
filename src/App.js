@@ -20,6 +20,8 @@ import warehouses from './warehouses';
 import currencies from './currencies';
 import currencyExchangeRates from './currencyExchangeRates';
 import paymentTerms from './paymentTerms';
+import tradingPartners from './tradingPartners';
+import tradingTerms from './tradingTerms';
 import i18nProvider from './i18n';
 import { Layout, Login } from "./layout";
 
@@ -68,6 +70,8 @@ const AppWrapper = () => {
         <Resource name="currencies" {...currencies} />
         <Resource name="currency-exchange-rates" {...currencyExchangeRates} />
         <Resource name="payment-terms" {...paymentTerms} />
+        <Resource name="trading-partners" {...tradingPartners} />
+        <Resource name="trading-terms" {...tradingTerms} />
       </Admin>
     </StoreContextProvider>
   );

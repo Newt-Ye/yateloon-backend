@@ -22,6 +22,10 @@ jobs:
       run: |
         npm install
         npm run build
+    
+    - name: Update API URL in config.json
+      run: |
+        jq '.REACT_APP_API_URL = "${{ secrets.REACT_APP_API_URL }}"' build/config.json > tmp.$$.json && mv tmp.$$.json build/config.json
 
     - name: Create directory on EC2
       uses: appleboy/ssh-action@master

@@ -564,7 +564,7 @@ const customChineseMessages = {
     paymentTerms: {
       name: "付款条件 |||| 付款条件",
       amount: "1 个付款条件 |||| %{smart_count} 个付款条件",
-      title: "付款条件管理",
+      title: "付款条件",
       commons: {
         fields: {
           term_type: "类别",
@@ -601,6 +601,73 @@ const customChineseMessages = {
           month: "加月数",
           settlement_date: "结算日",
           next_month: "次月初"
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    tradingPartners: {
+      name: "交易对象 |||| 交易对象",
+      amount: "1 个交易对象 |||| %{smart_count} 个交易对象",
+      title: "交易对象",
+      commons: {
+        fields: {
+          trading_partner_category: "分类方式",
+          code: "代号",
+          name: "名称",
+          created_at: "创建日期"
+        },
+        choices: {
+        },
+      },
+      list: {
+        title: "交易对象列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        choices: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    tradingTerms: {
+      name: "交易条件 |||| 交易条件",
+      amount: "1 条交易条件 |||| %{smart_count} 条交易条件", 
+      title: "交易条件",
+      commons: {
+        fields: {
+          code: "代号",
+          name: "名称",
+          created_at: "创建日期"
+        },
+        choices: {
+        },
+      },
+      list: {
+        title: "交易条件列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        choices: {
         },
         page: {
         },

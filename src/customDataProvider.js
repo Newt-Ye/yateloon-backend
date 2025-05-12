@@ -76,9 +76,10 @@ const customDataProviderFactory = (apiUrl) => {
 
       const url = `${apiUrl}/${resource}?${fetchUtils.queryParameters(query)}`;
 
-      return httpClient(url).then(({ json }) => ({
-        data: json.data,
-      }));
+      return httpClient(url)
+        .then(({ json }) => ({
+          data: json.data,
+        }));
     },
 
     create: (resource, params) => {
@@ -86,10 +87,34 @@ const customDataProviderFactory = (apiUrl) => {
         params.data.company_id = parseInt(localStorage.getItem('current_company')) || '';
       }
 
-      return dataProvider.create(resource, params);
+      return dataProvider
+        .create(resource, params)
+        .then(response => {
+          const data = response.data
+          return {
+            data
+          };
+        })
+        .catch(error => {
+          const message = error.message || "發生錯誤";
+          throw new Error(message);
+        });
     },
 
-    update: (resource, params) => dataProvider.update(resource, params),
+    update: (resource, params) => {
+      return dataProvider
+        .update(resource, params)
+        .then(response => {
+          const data = response.data;
+          return {
+            data
+          };
+        })
+        .catch(error => {
+          const message = error.message || "發生錯誤";
+          throw new Error(message);
+        });
+    },
 
     delete: (resource, params) =>
       dataProvider.delete(resource, params).then((res) => ({
@@ -102,7 +127,7 @@ const customDataProviderFactory = (apiUrl) => {
         body: JSON.stringify({ ids: params.ids }),
       }).then(({ json }) => ({
         data: json?.data?.ids || [],
-      })),
+      }))
   };
 };
 

@@ -674,6 +674,73 @@ const customChineseTWMessages = {
         }
       }
     },
+    tradingPartners: {
+      name: "交易對象 |||| 交易對象",
+      amount: "1 交易對象 |||| %{smart_count} 交易對象",
+      title: "交易對象",
+      commons: {
+        fields: {
+          trading_partner_category: "分類方式",
+          code: "代號",
+          name: "名稱",
+          created_at: "建立日期"
+        },
+        choices: {
+        },
+      },
+      list: {
+        title: "交易對象列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        choices: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    tradingTerms: {
+      name: "交易條件 |||| 交易條件",
+      amount: "1 交易條件 |||| %{smart_count} 交易條件",
+      title: "交易條件",
+      commons: {
+        fields: {
+          code: "代號",
+          name: "名稱",
+          created_at: "建立日期"
+        },
+        choices: {
+        },
+      },
+      list: {
+        title: "交易條件列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        choices: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "建立者",
