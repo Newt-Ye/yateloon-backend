@@ -1,5 +1,6 @@
 {
   "name": "ecommerce-admin",
+  "homepage": "/frontend-yateloon",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

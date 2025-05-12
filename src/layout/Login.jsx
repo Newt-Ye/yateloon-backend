@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
+import logo from '../assets/logo.png';
 
 import {
   Box,
@@ -99,7 +100,7 @@ const Login = () => {
           </Box> */}
           <Box
             component="img"
-            src="/assets/logo.png" // 設定 logo 路徑
+            src={logo} // 設定 logo 路徑
             alt="logo"
             sx={{ 
               height: 36, 
