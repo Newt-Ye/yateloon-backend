@@ -418,10 +418,13 @@ const customChineseTWMessages = {
           address: "登記地址",
           short_name: "公司簡稱",
           department_code: "部門代號",
-          department_name: "部門名稱"
+          department_name: "部門名稱",
+          factory_code: "廠別代號",
+          factory_name: "廠別名稱"
         },
         fieldGroups: {
-          departments: "部門列表"
+          departments: "部門列表",
+          factories: "廠別列表"
         },
         page: {
         },

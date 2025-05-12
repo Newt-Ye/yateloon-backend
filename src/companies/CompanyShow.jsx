@@ -71,8 +71,33 @@ const CompanyShow = () => {
               </Typography>
               <ArrayField source="departments">
                 <Datagrid bulkActionButtons={false} rowClick={false}>
-                  <TextField source="code" label={translate('resources.companies.detail.fields.department_code')} />
-                  <TextField source="name" label={translate('resources.companies.detail.fields.department_name')} />
+                  <Grid container spacing={2} sx={{ width: '100%' }}>
+                    <Grid item xs={6} sx={{ padding: 0 }} >
+                      <TextField source="code" label={translate('resources.companies.detail.fields.department_code')} 
+                      />
+                    </Grid>
+                    <Grid item xs={6}  sx={{ padding: 0 }} >
+                      <TextField source="name" label={translate('resources.companies.detail.fields.department_name')} 
+                      />
+                    </Grid>
+                  </Grid>
+                </Datagrid>
+              </ArrayField>
+            </Grid>
+            <Grid item xs={12} sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                {translate('resources.companies.detail.fieldGroups.factories')}
+              </Typography>
+              <ArrayField source="factories">
+                <Datagrid bulkActionButtons={false} rowClick={false}>
+                  <Grid container spacing={2} sx={{ width: '100%' }}>
+                     <Grid item xs={6} sx={{ padding: 0 }} >
+                      <TextField source="code" label={translate('resources.companies.detail.fields.factory_code')} />
+                    </Grid>
+                    <Grid item xs={6}  sx={{ padding: 0 }} >
+                      <TextField source="name" label={translate('resources.companies.detail.fields.factory_name')} />
+                    </Grid>
+                  </Grid>
                 </Datagrid>
               </ArrayField>
             </Grid>

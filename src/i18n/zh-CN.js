@@ -418,10 +418,13 @@ const customChineseMessages = {
           address: "登记地址",
           short_name: "公司简称",
           department_code: "部门代码",
-          department_name: "部门名称"
+          department_name: "部门名称",
+          factory_code: "工厂代码",
+          factory_name: "工厂名称"
         },
         fieldGroups: {
-          departments: "部门列表"
+          departments: "部门列表",
+          factories: "工厂列表"
         },
         page: {
         },
