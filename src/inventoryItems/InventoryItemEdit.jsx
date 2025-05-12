@@ -2,9 +2,10 @@ import * as React from "react"
 import {
   Edit,
   SimpleForm,
-  useTranslate
+  useTranslate,
+  SaveButton
 } from "react-admin"
-import { Typography } from "@mui/material"
+import { Typography, Box } from "@mui/material"
 import { AuditFields } from "../components/AuditFields"
 import { validateForm, InventoryItemForm } from "./InventoryItemCreate"
 
@@ -54,6 +55,9 @@ const InventoryItemEdit = () => {
           validate={validateForm}
           toolbar={false}
         >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+            <SaveButton />
+          </Box>
           <InventoryItemForm />
           <AuditFields />
         </SimpleForm>
