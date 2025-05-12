@@ -71,16 +71,8 @@ const CompanyShow = () => {
               </Typography>
               <ArrayField source="departments">
                 <Datagrid bulkActionButtons={false} rowClick={false}>
-                  <Grid container spacing={2} sx={{ width: '100%' }}>
-                    <Grid item xs={6} sx={{ padding: 0 }} >
-                      <TextField source="code" label={translate('resources.companies.detail.fields.department_code')} 
-                      />
-                    </Grid>
-                    <Grid item xs={6}  sx={{ padding: 0 }} >
-                      <TextField source="name" label={translate('resources.companies.detail.fields.department_name')} 
-                      />
-                    </Grid>
-                  </Grid>
+                  <TextField source="code" label={translate('resources.companies.detail.fields.department_code')} />
+                  <TextField source="name" label={translate('resources.companies.detail.fields.department_name')} />
                 </Datagrid>
               </ArrayField>
             </Grid>
@@ -90,14 +82,8 @@ const CompanyShow = () => {
               </Typography>
               <ArrayField source="factories">
                 <Datagrid bulkActionButtons={false} rowClick={false}>
-                  <Grid container spacing={2} sx={{ width: '100%' }}>
-                     <Grid item xs={6} sx={{ padding: 0 }} >
-                      <TextField source="code" label={translate('resources.companies.detail.fields.factory_code')} />
-                    </Grid>
-                    <Grid item xs={6}  sx={{ padding: 0 }} >
-                      <TextField source="name" label={translate('resources.companies.detail.fields.factory_name')} />
-                    </Grid>
-                  </Grid>
+                  <TextField source="code" label={translate('resources.companies.detail.fields.factory_code')} />
+                  <TextField source="name" label={translate('resources.companies.detail.fields.factory_name')} />
                 </Datagrid>
               </ArrayField>
             </Grid>
