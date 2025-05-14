@@ -678,6 +678,54 @@ const customChineseMessages = {
         }
       }
     },
+    taxCodes: {
+      name: "税种编码 |||| 税种编码",
+      amount: "1 个税种编码 |||| %{smart_count} 个税种编码",
+      title: "税种编码",
+      commons: {
+        fields: {
+          code: "税种代码",
+          name: "税种名称",
+          direction: "进/销项",
+          invoice_type: "发票类型",
+          tax_type: "課稅別",
+          tax_rate: "营业税率",
+          created_at: "创建日期"
+        },
+        choices: {
+          input: "进项",
+          output: "销项",
+          no_invoice: "无发票",
+          two_part: "两联式",
+          three_part: "三联式",
+          special: "专用发票",
+          tax_included: "应税内含",
+          tax_excluded: "应税外加",
+          zero_rate: "零税率",
+          exempted: "免税",
+          non_taxable: "非应税"
+        },
+      },
+      list: {
+        title: "税种编码列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        choices: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "创建人",

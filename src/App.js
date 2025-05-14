@@ -22,6 +22,7 @@ import currencyExchangeRates from './currencyExchangeRates';
 import paymentTerms from './paymentTerms';
 import tradingPartners from './tradingPartners';
 import tradingTerms from './tradingTerms';
+import taxCodes from './taxCodes';
 import i18nProvider from './i18n';
 import { Layout, Login } from "./layout";
 
@@ -72,6 +73,7 @@ const AppWrapper = () => {
         <Resource name="payment-terms" {...paymentTerms} />
         <Resource name="trading-partners" {...tradingPartners} />
         <Resource name="trading-terms" {...tradingTerms} />
+        <Resource name="tax-codes" {...taxCodes} />
       </Admin>
     </StoreContextProvider>
   );

@@ -744,6 +744,54 @@ const customChineseTWMessages = {
         }
       }
     },
+    taxCodes: {
+      name: "稅別碼 |||| 稅別碼",
+      amount: "1 稅別碼 |||| %{smart_count} 稅別碼",
+      title: "稅別碼",
+      commons: {
+        fields: {
+          code: "稅別代碼",
+          name: "稅別名稱",
+          direction: "進/銷項",
+          invoice_type: "發票類型",
+          tax_type: "課稅別",
+          tax_rate: "營業稅率",
+          created_at: "建立日期"
+        },
+        choices: {
+          input: "進項",
+          output: "銷項",
+          no_invoice: "免發票",
+          two_part: "二聯式",
+          three_part: "三聯式",
+          special: "特種發票",
+          tax_included: "應稅內含",
+          tax_excluded: "應稅外加",
+          zero_rate: "零稅率",
+          exempted: "免稅",
+          non_taxable: "不計稅"
+        },
+      },
+      list: {
+        title: "稅別碼列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+        },
+        choices: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "建立者",

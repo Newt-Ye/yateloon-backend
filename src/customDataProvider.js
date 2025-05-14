@@ -31,6 +31,7 @@ const customDataProviderFactory = (apiUrl) => {
         'warehouses',
         'currency-exchange-rates',
         'payment-terms',
+        'tax-codes'
       ].includes(resource);
 
       if (needsCompanyId) {
@@ -63,7 +64,7 @@ const customDataProviderFactory = (apiUrl) => {
     getMany: (resource, params) => {
       const filter = { ...params.filter };
 
-      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses', 'currency-exchange-rates', 'payment-terms'].includes(resource)) {
+      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses', 'currency-exchange-rates', 'payment-terms', 'tax-codes'].includes(resource)) {
         filter['company_id'] = localStorage.getItem('current_company');
       }
 
@@ -83,7 +84,7 @@ const customDataProviderFactory = (apiUrl) => {
     },
 
     create: (resource, params) => {
-      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses', 'currency-exchange-rates', 'payment-terms'].includes(resource)) {
+      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses', 'currency-exchange-rates', 'payment-terms', 'tax-codes'].includes(resource)) {
         params.data.company_id = parseInt(localStorage.getItem('current_company')) || '';
       }
 
