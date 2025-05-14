@@ -1,43 +1,21 @@
 import * as React from "react"
 import {
-  CreateButton,
   DatagridConfigurable,
   DateField,
   List,
   SearchInput,
-  TopToolbar,
   TextField,
-  useListContext,
   DeleteWithConfirmButton,
   EditButton,
   usePermissions,
   useTranslate,
 } from "react-admin"
-import { useMediaQuery, Button, Box, Typography } from "@mui/material"
-import ContentFilter from '@mui/icons-material/FilterList';
-
+import { useMediaQuery, Typography } from "@mui/material"
+import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import InventoryItemFilterForm from "./InventoryItemFilterForm"
 
-const InventoryItemFilterButton = () => {
-  const { showFilter } = useListContext()
-  return (
-    <Button
-      size="small"
-      color="primary"
-      onClick={() => showFilter("main")}
-      startIcon={<ContentFilter />}
-      sx={{
-        height: '27.5px', // 調整按鈕高度
-        padding: '4px 5px', // 調整內邊距
-        fontSize: '13px', // 調整字型大小，這樣可以與 CreateButton 大小對齊
-      }}
-    >
-      篩選
-    </Button>
-  )
-}
-
-const visitorFilters = [
+const mobileFilters = [
   <SearchInput source="q" alwaysOn />,
   // <DateInput source="last_seen_gte" />,
   // <NullableBooleanInput source="has_ordered" />,
@@ -45,23 +23,13 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const InventoryItemListActions = ({ permissions }) => (
-  <Box width="100%">
-    <TopToolbar>
-      <InventoryItemFilterButton />
-      {(permissions === 'superuser' || permissions?.['inventory-items']?.create) ? (<CreateButton />) : null}
-      {/* <SelectColumnsButton /> */}
-      {/* <ExportButton /> */}
-    </TopToolbar>
-    <InventoryItemFilterForm />
-  </Box>
-)
-
 const InventoryItemList = () => {
   const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
+
+  const resource = "inventory-items";
 
   return isPending
       ? (<div>Waiting for permissions...</div>)
@@ -72,10 +40,14 @@ const InventoryItemList = () => {
           </Typography>
           <List
             title={false}
-            filters={isSmall ? visitorFilters : undefined}
+            filters={isSmall ? mobileFilters : undefined}
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
-            actions={<InventoryItemListActions permissions={permissions} />}
+            actions={<ListActions 
+              permissions={permissions} 
+              resource={resource}
+              FilterFormComponent={InventoryItemFilterForm}
+            />}
           >
             {isXsmall ? (
               <div></div>
@@ -91,22 +63,46 @@ const InventoryItemList = () => {
                 bulkActionButtons={false}
                 rowClick="show"
               >
-                {(permissions === 'superuser' || permissions?.['inventory-items']?.edit) ? (<EditButton />) : null}
+                {(permissions === 'superuser' || permissions?.[resource]?.edit) ? (<EditButton />) : null}
                 <TextField
                   source="id"
                   label="ID"
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.inventoryItems.list.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.inventoryItems.list.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.inventoryItems.list.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.inventoryItems.list.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="specification"
-                  label={translate('resources.inventoryItems.list.fields.specification')}
+                  label={
+                    <FilterableHeader
+                      source="specification"
+                      label={translate(
+                        "resources.inventoryItems.list.fields.specification"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="inventory"
@@ -114,10 +110,17 @@ const InventoryItemList = () => {
                 />
                 <DateField 
                   source="effective_date" 
-                  label={translate('resources.inventoryItems.list.fields.effective_date')}
-                  showTime
+                  label={
+                    <FilterableHeader
+                      source="effective_date"
+                      label={translate(
+                        "resources.inventoryItems.list.fields.effective_date"
+                      )}
+                      filterType="date"
+                    />
+                  }
                 />
-                {(permissions === 'superuser' || permissions?.['inventory-items']?.delete) && (
+                {(permissions === 'superuser' || permissions?.[resource]?.delete) && (
                   <DeleteWithConfirmButton
                     confirmTitle="確認刪除"
                     confirmContent="您確定要刪除此品號嗎？"

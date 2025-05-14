@@ -26,7 +26,10 @@ const InventoryItemFilterForm = () => {
   const form = useForm({
     defaultValues: {
       ...filterValues,
-      q: filterValues.q || '',  // 預設值
+      q: filterValues.q || '', 
+      attribute: filterValues.attribute || '',
+      warehouse_id: filterValues.warehouse_id || '',
+      inspection_method: filterValues.inspection_method || ''
     }
   });
 
@@ -40,7 +43,11 @@ const InventoryItemFilterForm = () => {
 
   const onSubmit = values => {
     if (Object.keys(values).length > 0) {
-      setFilters(values)
+       const updatedFilters = { 
+        ...filterValues,
+        ...values
+      };
+      setFilters(updatedFilters)
     } else {
       hideFilter("main")
     }
