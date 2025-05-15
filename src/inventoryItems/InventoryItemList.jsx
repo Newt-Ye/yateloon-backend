@@ -14,6 +14,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
+import { FilterableHeader } from "../components/FilterableHeader"
 
 import InventoryItemFilterForm from "./InventoryItemFilterForm"
 
@@ -96,24 +97,47 @@ const InventoryItemList = () => {
                 />
                 <TextField
                   source="code"
-                  label="品號"
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label="品號"
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label="品名"
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label="品名"
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="specification"
-                  label="規格"
+                  label={
+                    <FilterableHeader
+                      source="specification"
+                      label="規格"
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="inventory"
                   label="庫存數量"
                 />
                 <DateField 
-                  source="effective_date" 
-                  label="生效日期"  
-                  showTime
+                  source="effective_date"
+                  label={
+                    <FilterableHeader
+                      source="effective_date"
+                      label="生效日期"
+                      filterType="date"
+                    />
+                  }
                 />
                 {(permissions === 'superuser' || permissions?.['inventory-items']?.delete) && (
                   <DeleteWithConfirmButton

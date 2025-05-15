@@ -38,7 +38,11 @@ const InventoryItemFilterForm = () => {
 
   const onSubmit = values => {
     if (Object.keys(values).length > 0) {
-      setFilters(values)
+      const updatedFilters = { 
+        ...filterValues,
+        ...values
+      };
+      setFilters(updatedFilters)
     } else {
       hideFilter("main")
     }

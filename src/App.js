@@ -6,8 +6,8 @@ import {
   StoreContextProvider,
   defaultTheme,
 } from "react-admin";
-import customDataProviderFactory from "./customDataProvider"; // 改成 factory function
-import authProvider from './authProvider';
+import customDataProviderFactory from "./customDataProvider";
+import authProviderFactory from './authProvider';
 import inventoryItemCategories from './inventoryItemCategories';
 import inventoryItems from './inventoryItems';
 import companies from './companies';
@@ -36,21 +36,25 @@ const store = localStorageStore(undefined, "ECommerce")
 
 const AppWrapper = () => {
   const [dataProvider, setDataProvider] = useState(null);
+  const [authProvider, setAuthProvider] = useState(null);
   const [accesses, setAccesses] = useState(null);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/frontend-yateloon/config.json").then(res => res.json()),
-      authProvider.getPermissions()
-    ]).then(([config, access]) => {
-      const apiUrl = config.REACT_APP_API_URL;
-      const provider = customDataProviderFactory(apiUrl); // 傳入 apiUrl 給 customDataProvider
-      setDataProvider(provider);
-      setAccesses(access);
-    });
+    fetch("/frontend-yateloon/config.json")
+      .then(res => res.json())
+      .then(async (config) => {
+        const apiUrl = config.REACT_APP_API_URL;
+        const provider = customDataProviderFactory(apiUrl);
+        const auth = authProviderFactory(apiUrl);
+        const access = await auth.getPermissions();
+
+        setDataProvider(provider);
+        setAuthProvider(auth);
+        setAccesses(access);
+      });
   }, []);
 
-  if (!dataProvider || !accesses) return null;
+  if (!dataProvider || !authProvider || !accesses) return null;
 
   return (
     <StoreContextProvider value={store}>
@@ -65,136 +69,6 @@ const AppWrapper = () => {
         defaultTheme={defaultTheme}
         dashboard={() => <div></div>}
       >
-        {/* {(accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view) && (
-          <Resource
-            name="inventory-item-categories"
-            list={
-              accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view
-                ? inventoryItemCategories.list
-                : null
-            }
-            create={
-              accesses === 'superuser' || accesses?.["inventory-item-categories"]?.create
-                ? inventoryItemCategories.create
-                : null
-            }
-            edit={
-              accesses === 'superuser' || accesses?.["inventory-item-categories"]?.edit
-                ? inventoryItemCategories.edit
-                : null
-            }
-            show={
-              accesses === 'superuser' || accesses?.["inventory-item-categories"]?.view
-                ? inventoryItemCategories.show
-                : null
-            }
-          />
-        )}
-        {(accesses === 'superuser' || accesses?.["inventory-items"]?.view) && (
-          <Resource
-            name="inventory-items"
-            list={
-              accesses === 'superuser' || accesses?.["inventory-items"]?.view
-                ? inventoryItems.list
-                : null
-            }
-            create={
-              accesses === 'superuser' || accesses?.["inventory-items"]?.create
-                ? inventoryItems.create
-                : null
-            }
-            edit={
-              accesses === 'superuser' || accesses?.["inventory-items"]?.edit
-                ? inventoryItems.edit
-                : null
-            }
-          />
-        )}
-        {(accesses === 'superuser' || accesses?.["companies"]?.view) && (
-          <Resource
-            name="companies"
-            list={
-              accesses === 'superuser' || accesses?.["companies"]?.view
-                ? companies.list
-                : null
-            }
-            create={
-              accesses === 'superuser' || accesses?.["companies"]?.create
-                ? companies.create
-                : null
-            }
-            edit={
-              accesses === 'superuser' || accesses?.["companies"]?.edit
-                ? companies.edit
-                : null
-            }
-            show={
-              accesses === 'superuser' || accesses?.["companies"]?.view
-                ? companies.show
-                : null
-            }
-          />
-        )}
-        {(accesses === 'superuser' || accesses?.["users"]?.view) && (
-          <Resource
-            name="users"
-            list={
-              accesses === 'superuser' || accesses?.["users"]?.view
-                ? users.list
-                : null
-            }
-            create={
-              accesses === 'superuser' || accesses?.["users"]?.create
-                ? users.create
-                : null
-            }
-            edit={
-              accesses === 'superuser' || accesses?.["users"]?.edit
-                ? users.edit
-                : null
-            }
-          />
-        )}
-        {(accesses === 'superuser' || accesses?.["departments"]?.view) && (
-          <Resource
-            name="departments"
-            list={
-              accesses === 'superuser' || accesses?.["departments"]?.view
-                ? departments.list
-                : null
-            }
-            create={
-              accesses === 'superuser' || accesses?.["departments"]?.create
-                ? departments.create
-                : null
-            }
-            edit={
-              accesses === 'superuser' || accesses?.["departments"]?.edit
-                ? departments.edit
-                : null
-            }
-            show={
-              accesses === 'superuser' || accesses?.["departments"]?.view
-                ? departments.show
-                : null
-            }
-          />
-        )}
-        {(accesses === 'superuser' || accesses?.["permissions"]?.view) && (
-          <Resource
-            name="permissions"
-            list={
-              accesses === 'superuser' || accesses?.["permissions"]?.view
-                ? permissions.list
-                : null
-            }
-            edit={
-              accesses === 'superuser' || accesses?.["permissions"]?.edit
-                ? permissions.edit
-                : null
-            }
-          />
-        )} */}
         <Resource name="inventory-item-categories" {...inventoryItemCategories} />
         <Resource name="inventory-items" {...inventoryItems} />
         <Resource name="companies" {...companies} />

@@ -12,6 +12,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
 import ContentFilter from '@mui/icons-material/FilterList';
+import { FilterableHeader } from "../components/FilterableHeader"
 
 import InventoryItemCategoryFilterForm from "./InventoryItemCategoryFilterForm"
 
@@ -106,15 +107,33 @@ const InventoryItemCategoryList = () => {
                 />
                 <TextField
                   source="name"
-                  label="品號類別名稱"
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label="品號類別名稱"
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="code"
-                  label="品號類別代碼"
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label="品號類別代碼"
+                      filterType="text"
+                    />
+                  }
                 />
                 <DateField 
-                  source="created_at" 
-                  label="建立日期"  
+                  source="created_at"
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label="建立日期"
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>
