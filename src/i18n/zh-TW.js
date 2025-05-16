@@ -615,6 +615,8 @@ const customChineseTWMessages = {
       list: {
         title: "幣別匯率列表",
         fields: {
+          daily_buy_rate: "當日買價",
+          daily_sell_rate: "當日賣價",
         },
         filters: {
         }

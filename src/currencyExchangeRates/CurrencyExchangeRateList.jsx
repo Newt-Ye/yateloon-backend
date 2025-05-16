@@ -8,6 +8,7 @@ import {
   usePermissions,
   EditButton,
   useTranslate,
+  NumberField
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
@@ -84,6 +85,16 @@ const CurrencyExchangeRateList = () => {
                 <TextField
                   source="name"
                   label={translate('resources.currencies.commons.fields.name')}
+                />
+                <NumberField 
+                  source="rates[0][bank_buy_rate]" 
+                  options={{ maximumFractionDigits: 4 }}
+                  label={translate('resources.currencyExchangeRates.list.fields.daily_buy_rate')}
+                />
+                <NumberField 
+                  source="rates[0][bank_sell_rate]"
+                  options={{ maximumFractionDigits: 4 }}
+                  label={translate('resources.currencyExchangeRates.list.fields.daily_sell_rate')}  
                 />
                 <DateField 
                   source="created_at" 
