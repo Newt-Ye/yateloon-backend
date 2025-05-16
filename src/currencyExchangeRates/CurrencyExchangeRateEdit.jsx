@@ -5,7 +5,6 @@ import {
   useNotify,
 } from "react-admin"
 import { Typography} from "@mui/material"
-import { AuditFields } from "../components/AuditFields"
 import CurrencyExchangeRateForm from "./CurrencyExchangeRateForm"
 
 const CurrencyExchangeRateEdit = () => {
@@ -27,9 +26,7 @@ const CurrencyExchangeRateEdit = () => {
         redirect={false} 
         mutationMode="optimistic"
       >
-        <CurrencyExchangeRateForm 
-          AuditFields={AuditFields}
-        />
+        <CurrencyExchangeRateForm />
       </Edit>
     </>
   )

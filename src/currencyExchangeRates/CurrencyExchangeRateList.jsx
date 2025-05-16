@@ -8,8 +8,6 @@ import {
   usePermissions,
   EditButton,
   useTranslate,
-  ReferenceField,
-  NumberField
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
@@ -48,6 +46,7 @@ const CurrencyExchangeRateList = () => {
                 permissions={permissions} 
                 resource={resource}
                 FilterFormComponent={CurrencyExchangeRateFilterForm}
+                createCtrl={false}
               />
             }
           >
@@ -78,27 +77,13 @@ const CurrencyExchangeRateList = () => {
                   source="id"
                   label="ID"
                 />
-                <ReferenceField 
-                  source="currency_id" 
-                  reference="currencies" 
-                  label={translate('resources.currencyExchangeRates.commons.fields.currency')}
-                  link={false}
-                >
-                  <TextField source="name"/>
-                </ReferenceField>
-                {/* <DateField 
-                  source="effective_date" 
-                  label={translate('resources.currencyExchangeRates.commons.fields.effective_date')}
-                /> */}
-                <NumberField 
-                  source="bank_buy_rate" 
-                  options={{ maximumFractionDigits: 4 }}
-                  label={translate('resources.currencyExchangeRates.commons.fields.bank_buy_rate')}
+                <TextField
+                  source="code"
+                  label={translate('resources.currencies.commons.fields.code')}
                 />
-                <NumberField 
-                  source="bank_sell_rate" 
-                  options={{ maximumFractionDigits: 4 }}
-                  label={translate('resources.currencyExchangeRates.commons.fields.bank_sell_rate')}  
+                <TextField
+                  source="name"
+                  label={translate('resources.currencies.commons.fields.name')}
                 />
                 <DateField 
                   source="created_at" 

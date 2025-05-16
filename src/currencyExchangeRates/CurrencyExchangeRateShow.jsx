@@ -5,7 +5,6 @@ import {
 } from "react-admin"
 import { Typography} from "@mui/material"
 import { ShowActions } from "../components/ShowActions"
-import { AuditFields } from "../components/AuditFields"
 import CurrencyExchangeRateForm from "./CurrencyExchangeRateForm"
 
 const CurrencyExchangeRateShow = () => {
@@ -24,7 +23,6 @@ const CurrencyExchangeRateShow = () => {
       >
         <CurrencyExchangeRateForm 
           disabled={true}
-          AuditFields={AuditFields}
         />
       </Edit>
     </>

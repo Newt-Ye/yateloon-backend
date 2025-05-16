@@ -623,6 +623,7 @@ const customChineseTWMessages = {
         fields: {
         },
         fieldGroups: {
+          history: "歷史匯率"
         },
         page: {
         },

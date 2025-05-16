@@ -6,13 +6,14 @@ import { FilterButton } from "./CustomFilterButton"
 export const ListActions = ({ 
   permissions, 
   resource, 
-  FilterFormComponent 
+  FilterFormComponent,
+  createCtrl=true,
 }) => {
   return (
     <Box width="100%">
       <TopToolbar>
         <FilterButton />
-        {(permissions === 'superuser' || permissions?.[resource]?.create) ? (
+        {(permissions === 'superuser' || permissions?.[resource]?.create) && createCtrl ? (
           <CreateButton />
         ) : null}
         {/* <SelectColumnsButton /> */}

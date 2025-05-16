@@ -557,6 +557,7 @@ const customChineseMessages = {
         fields: {
         },
         fieldGroups: {
+          history: "历史汇率"
         },
         page: {
         },

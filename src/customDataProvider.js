@@ -59,7 +59,15 @@ const customDataProviderFactory = (apiUrl) => {
       }));
     },
 
-    getOne: (resource, params) => dataProvider.getOne(resource, params),
+    // getOne: (resource, params) => dataProvider.getOne(resource, params),
+    getOne: (resource, params) => {
+      const { id } = params;
+      const company_id = localStorage.getItem('current_company');
+      return httpClient(`${apiUrl}/${resource}/${id}?company_id=${company_id}`)
+        .then(({ json }) => ({
+          data: json,
+        }));
+    },
 
     getMany: (resource, params) => {
       const filter = { ...params.filter };
@@ -103,6 +111,10 @@ const customDataProviderFactory = (apiUrl) => {
     },
 
     update: (resource, params) => {
+      if (['currency-exchange-rates'].includes(resource)) {
+        params.data.company_id = parseInt(localStorage.getItem('current_company')) || '';
+      }
+
       return dataProvider
         .update(resource, params)
         .then(response => {

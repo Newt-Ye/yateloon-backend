@@ -115,7 +115,6 @@ export const menuItems = [
         primaryText: "幣別匯率",
         permissions: [
           { id: 'view', name: '檢視' },
-          { id: 'create', name: '新增' },
           { id: 'edit', name: '修改' }
         ]
       },
