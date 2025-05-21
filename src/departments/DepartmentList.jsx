@@ -13,8 +13,10 @@ import {
   SingleFieldList,
   ChipField,
   usePermissions,
+  useTranslate
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
+import { FilterableHeader } from "../components/FilterableHeader"
 import ContentFilter from '@mui/icons-material/FilterList';
 
 import DepartmentFilterForm from "./DepartmentFilterForm"
@@ -54,11 +56,12 @@ const DepartmentListActions = ({ permissions }) => (
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <DepartmentFilterForm />
+    {/* <DepartmentFilterForm /> */}
   </Box>
 )
 
 const DepartmentList = () => {
+  const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
@@ -68,7 +71,7 @@ const DepartmentList = () => {
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            部門權限列表
+            {translate("resources.departments.list.title")}
           </Typography>
           <List
             title={false}
@@ -76,6 +79,7 @@ const DepartmentList = () => {
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
             actions={<DepartmentListActions permissions={permissions} />}
+            aside={<DepartmentFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -106,20 +110,56 @@ const DepartmentList = () => {
                 />
                 <TextField
                   source="code"
-                  label="部門代號"
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.departments.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label="部門名稱"
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.departments.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
-                <ArrayField source="companies" label="適用公司別">
+                <ArrayField 
+                  source="companies"
+                  label={
+                    <FilterableHeader
+                      source="company_ids"
+                      label={translate(
+                        "resources.departments.commons.fields.companies"
+                      )}
+                      filterType="select"
+                      reference="companies"
+                    />
+                  }
+                >
                   <SingleFieldList linkType={false}>
                     <ChipField source="name" size="small" />
                   </SingleFieldList>
                 </ArrayField>
                 <DateField 
-                  source="created_at" 
-                  label="建立日期"  
+                  source="created_at"
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.departments.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

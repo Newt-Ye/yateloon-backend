@@ -46,8 +46,8 @@ const InventoryItemList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={InventoryItemFilterForm}
             />}
+            aside={<InventoryItemFilterForm />}
           >
             {isXsmall ? (
               <div></div>

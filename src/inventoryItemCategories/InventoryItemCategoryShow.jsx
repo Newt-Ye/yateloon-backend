@@ -1,12 +1,11 @@
 import * as React from "react"
 import {
   Edit,
-  SimpleForm,
   useTranslate
 } from "react-admin"
 import { Typography } from "@mui/material"
-import { AuditFields } from "../components/AuditFields"
-import { InventoryItemCategoryForm } from "./InventoryItemCategoryCreate"
+import { ShowActions } from "../components/ShowActions"
+import InventoryItemCategoryForm from "./InventoryItemCategoryForm"
 
 const InventoryItemCategoryShow = () => {
   const translate = useTranslate();
@@ -15,11 +14,15 @@ const InventoryItemCategoryShow = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         {translate('resources.inventoryItemCategories.title')}
       </Typography>
-      <Edit actions={false} redirect="show">
-        <SimpleForm toolbar={false}>
-          <InventoryItemCategoryForm disabled={true} />
-          <AuditFields />
-        </SimpleForm>
+      <Edit 
+        actions={<ShowActions/>}
+        title={false}
+        redirect={false} 
+        mutationMode="optimistic"
+      >
+        <InventoryItemCategoryForm 
+          disabled={true}
+        />
       </Edit>
     </>
   )

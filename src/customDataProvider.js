@@ -41,7 +41,11 @@ const customDataProviderFactory = (apiUrl) => {
       const query = {
         ...Object.keys(filter).reduce((acc, key) => {
           if (filter[key] !== undefined && filter[key] !== "") {
-            acc[key] = filter[key];
+            if (Array.isArray(filter[key])) {
+              acc[key] = filter[key].join(',');
+            } else {
+              acc[key] = filter[key];
+            }
           }
           return acc;
         }, {}),

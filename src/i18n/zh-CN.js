@@ -432,6 +432,69 @@ const customChineseMessages = {
         }
       }
     },
+    departments: {
+      name: "部门权限 |||| 部门权限",
+      amount: "1 部门权限 |||| %{smart_count} 部门权限",
+      title: "部门权限",
+      commons: {
+        fields: {
+          code: "部门代号",
+          name: "部门名称",
+          companies: "适用公司别",
+          created_at: "创建日期"
+        },
+      },
+      list: {
+        title: "部门权限列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+        },
+        fieldGroups: {
+          permissions: "模组权限设定"
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
+    permissions: {
+      name: "使用者权限 |||| 使用者权限",
+      amount: "1 使用者权限 |||| %{smart_count} 使用者权限",
+      title: "使用者权限",
+      commons: {
+        fields: {
+          account: "使用者代号",
+          name: "使用者名称"
+        },
+      },
+      list: {
+        title: "使用者权限列表",
+        fields: {
+          companies: "可登入公司别",
+          updated_at: "更新日期"
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          employee_code: "工号",
+          departments: "部门"
+        },
+        fieldGroups: {
+        },
+        page: {
+        },
+        errors: {
+        }
+      }
+    },
     factories: {
       name: "工厂资料 |||| 工厂资料",
       amount: "1 条工厂资料 |||| %{smart_count} 条工厂资料", 

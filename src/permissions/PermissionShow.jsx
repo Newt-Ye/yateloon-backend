@@ -6,7 +6,7 @@ import {
   CheckboxGroupInput,
   useRecordContext,
   /*Toolbar,*/
-  /*useTranslate*/
+  useTranslate,
   ArrayField,
   SingleFieldList,
   ChipField,
@@ -23,6 +23,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 const CompanyPermissionTabs = () => {
+  const translate = useTranslate();
   const record = useRecordContext();
   
   const [tabIndex, setTabIndex] = useState(0);
@@ -38,7 +39,7 @@ const CompanyPermissionTabs = () => {
         <Box key={company.id || i} sx={{ display: tabIndex === i ? 'block' : 'none' }}>
           <Box display="flex" alignItems="center" sx={{ mt: 2, mb: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'bold', mr: 1 }}>
-              工號：
+              {translate("resources.permissions.detail.fields.employee_code")}：
             </Typography>
             <Typography variant="body2">
               {company.employee_code}
@@ -47,7 +48,7 @@ const CompanyPermissionTabs = () => {
 
           <Box display="flex" alignItems="center" sx={{ mt: 2, mb: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'bold', mr: 1 }}>
-              部門：
+              {translate("resources.permissions.detail.fields.departments")}：
             </Typography>
             <ArrayField record={company} source="departments" label="部門">
               <SingleFieldList linkType={false}>
@@ -140,22 +141,29 @@ const Actions = () => (
 );
 
 const PermissionShow = () => {
+  const translate = useTranslate();
   const controllerProps = useEditController();
   const record = controllerProps.record;
 
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        使用者權限
+        {translate("resources.permissions.title")}
       </Typography>
       <Edit actions={<Actions />} redirect="show">
         <SimpleForm toolbar={false} defaultValues={getDefaultValues(record)} >
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextInput source="account" label='登入者代號' disabled />
+              <TextInput source="account" 
+                label={translate(
+                  "resources.permissions.commons.fields.account"
+                )} readOnly />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label='登入者名稱' disabled />
+              <TextInput source="name"
+                label={translate(
+                  "resources.permissions.commons.fields.name"
+                )} readOnly />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Card width={{ xs: "100%", xl: 1200 }}>

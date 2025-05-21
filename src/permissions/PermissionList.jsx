@@ -4,40 +4,20 @@ import {
   DateField,
   List,
   SearchInput,
-  TopToolbar,
   TextField,
-  useListContext,
   EditButton,
   ArrayField,
   SingleFieldList,
   ChipField,
   usePermissions,
+  useTranslate
 } from "react-admin"
-import { useMediaQuery, Button, Box, Typography } from "@mui/material"
-import ContentFilter from '@mui/icons-material/FilterList';
-
+import { useMediaQuery, Typography } from "@mui/material"
+import { FilterableHeader } from "../components/FilterableHeader"
+import { ListActions } from "../components/ListActions"
 import PermissionFilterForm from "./PermissionFilterForm"
 
-const UserPermissionFilterButton = () => {
-  const { showFilter } = useListContext()
-  return (
-    <Button
-      size="small"
-      color="primary"
-      onClick={() => showFilter("main")}
-      startIcon={<ContentFilter />}
-      sx={{
-        height: '27.5px', // 調整按鈕高度
-        padding: '4px 5px', // 調整內邊距
-        fontSize: '13px', // 調整字型大小，這樣可以與 CreateButton 大小對齊
-      }}
-    >
-      篩選
-    </Button>
-  )
-}
-
-const visitorFilters = [
+const mobileFilters = [
   <SearchInput source="q" alwaysOn />,
   // <DateInput source="last_seen_gte" />,
   // <NullableBooleanInput source="has_ordered" />,
@@ -45,36 +25,32 @@ const visitorFilters = [
   // <SegmentInput source="groups" />
 ]
 
-const UserPermissionListActions = () => (
-  <Box width="100%">
-    <TopToolbar>
-      <UserPermissionFilterButton />
-      {/* <CreateButton /> */}
-      {/* <SelectColumnsButton /> */}
-      {/* <ExportButton /> */}
-    </TopToolbar>
-    <PermissionFilterForm />
-  </Box>
-)
-
-const UserPermissionList = () => {
+const PermissionList = () => {
+  const translate = useTranslate();
   const isXsmall = useMediaQuery(theme => theme.breakpoints.down("sm"))
   const isSmall = useMediaQuery(theme => theme.breakpoints.down("md"))
   const { isPending, permissions } = usePermissions();
+
+  const resource = "permissions";
 
   return isPending
       ? null
       : (
         <>
           <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-            使用者權限列表
+            {translate("resources.permissions.list.title")}
           </Typography>
           <List
             title={false}
-            filters={isSmall ? visitorFilters : undefined}
+            filters={isSmall ? mobileFilters : undefined}
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
-            actions={<UserPermissionListActions />}
+            actions={<ListActions 
+              permissions={permissions} 
+              resource={resource}
+              createCtrl={false}
+            />}
+            aside={<PermissionFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -98,28 +74,63 @@ const UserPermissionList = () => {
                 bulkActionButtons={false}
                 rowClick="show"
               >
-                {(permissions === 'superuser' || permissions?.['permissions']?.create) ? (<EditButton />) : null}
+                {(permissions === 'superuser' || permissions?.[resource]?.create) ? (<EditButton />) : null}
                 <TextField
                   source="id"
                   label="ID"
                 />
                 <TextField
                   source="account"
-                  label="使用者代號"
+                  label={
+                    <FilterableHeader
+                      source="account"
+                      label={translate(
+                        "resources.permissions.commons.fields.account"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label="使用者名稱"
-                  sortBy="user_id"
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.permissions.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
-                <ArrayField source="companies" label="可登入公司別">
+                <ArrayField 
+                  source="companies" 
+                  label={
+                    <FilterableHeader
+                      source="company_ids"
+                      label={translate(
+                        "resources.permissions.list.fields.companies"
+                      )}
+                      filterType="select"
+                      reference="companies"
+                    />
+                  }
+                >
                   <SingleFieldList linkType={false}>
                     <ChipField source="name" size="small" />
                   </SingleFieldList>
                 </ArrayField>
                 <DateField 
-                  source="updated_at" 
-                  label="更新日期"  
+                  source="updated_at"
+                  label={
+                    <FilterableHeader
+                      source="updated_at"
+                      label={translate(
+                        "resources.permissions.list.fields.updated_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>
@@ -129,4 +140,4 @@ const UserPermissionList = () => {
       )
 }
 
-export default UserPermissionList
+export default PermissionList

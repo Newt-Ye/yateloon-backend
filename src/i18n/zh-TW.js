@@ -436,6 +436,14 @@ const customChineseTWMessages = {
       name: "部門權限 |||| 部門權限",
       amount: "1 部門權限 |||| %{smart_count} 部門權限",
       title: "部門權限",
+      commons: {
+        fields: {
+          code: "部門代號",
+          name: "部門名稱",
+          companies: "適用公司別",
+          created_at: "建立日期"
+        },
+      },
       list: {
         title: "部門權限列表",
         fields: {
@@ -447,6 +455,7 @@ const customChineseTWMessages = {
         fields: {
         },
         fieldGroups: {
+          permissions: "模組權限設定"
         },
         page: {
         },
@@ -458,15 +467,25 @@ const customChineseTWMessages = {
       name: "使用者權限 |||| 使用者權限",
       amount: "1 使用者權限 |||| %{smart_count} 使用者權限",
       title: "使用者權限",
+      commons: {
+        fields: {
+          account: "使用者代號",
+          name: "使用者名稱"
+        },
+      },
       list: {
         title: "使用者權限列表",
         fields: {
+          companies: "可登入公司別",
+          updated_at: "更新日期"
         },
         filters: {
         }
       },
       detail: {
         fields: {
+          employee_code: "工號",
+          departments: "部門"
         },
         fieldGroups: {
         },

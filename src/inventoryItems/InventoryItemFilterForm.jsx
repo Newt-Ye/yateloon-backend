@@ -1,153 +1,294 @@
 import * as React from "react"
-import { 
+import {
   TextInput,
   useListContext,
-  ReferenceInput,
-  SelectInput,
   useTranslate,
+  AutocompleteArrayInput,
+  ReferenceInput,
+  CheckboxGroupInput,
+  DateInput
 } from "react-admin"
-import { 
-  useForm, 
-  FormProvider 
+import {
+  useForm,
+  FormProvider
 } from "react-hook-form"
-import { Box, Button, InputAdornment } from "@mui/material"
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  InputAdornment
+} from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
 import SearchIcon from "@mui/icons-material/Search"
 import { useEffect } from "react"
 
 const InventoryItemFilterForm = () => {
-  const translate = useTranslate();
+  const translate = useTranslate()
   const {
     displayedFilters,
     filterValues,
-    setFilters,
-    hideFilter
+    setFilters
   } = useListContext()
 
   const form = useForm({
     defaultValues: {
       ...filterValues,
-      q: filterValues.q || '', 
-      attribute: filterValues.attribute || '',
-      warehouse_id: filterValues.warehouse_id || '',
-      inspection_method: filterValues.inspection_method || ''
+      q: filterValues.q || '',
+      inventory_item_category_ids: [],
+      warehouse_ids: filterValues.warehouse_ids || [],
+      unit_ids: filterValues.unit_ids || [],
+      currency_ids: filterValues.currency_ids || [],
+      customer_code: filterValues.customer_code || '',
+      begin_expiration_date: filterValues.begin_expiration_date || null,
+      end_expiration_date: filterValues.end_expiration_date || null,
+      begin_last_storage_date: filterValues.begin_last_storage_date || null,
+      end_last_storage_date: filterValues.end_last_storage_date || null,
+      attributes: filterValues.attributes || '',
+      inspection_methods: filterValues.inspection_methods || ''
     }
-  });
+  })
 
   useEffect(() => {
     if (!displayedFilters.main) {
-      form.reset();  // 當篩選器隱藏時重置表單
+      form.reset()
     }
-  }, [displayedFilters.main, form]);  // 只在displayedFilters.main變更時執行
+  }, [displayedFilters.main, form])
 
   if (!displayedFilters.main) return null
 
   const onSubmit = values => {
-    if (Object.keys(values).length > 0) {
-       const updatedFilters = { 
-        ...filterValues,
-        ...values
-      };
-      setFilters(updatedFilters)
-    } else {
-      hideFilter("main")
+    const updatedFilters = {
+      ...filterValues,
+      ...values
     }
+    setFilters(updatedFilters)
   }
 
   const resetFilter = () => {
-    form.reset()
-    setFilters({}, [])
+    form.reset({
+      q: '',
+      inventory_item_category_ids: [],
+      warehouse_ids: [],
+      unit_ids: [],
+      currency_ids: [],
+      customer_code: '',
+      begin_expiration_date: null,
+      end_expiration_date: null,
+      begin_last_storage_date: null,
+      end_last_storage_date: null,
+      attributes: '',
+      inspection_methods: ''
+    });
+
+    // 強制清除日期欄位
+    document.querySelectorAll('input[type="date"]').forEach(input => {
+      input.value = '';
+    });
+
+    setFilters({
+      ...filterValues,
+      q: '',
+      inventory_item_category_ids: [],
+      warehouse_ids: [],
+      unit_ids: [],
+      currency_ids: [],
+      customer_code: '',
+      begin_expiration_date: null,
+      end_expiration_date: null,
+      begin_last_storage_date: null,
+      end_last_storage_date: null,
+      attributes: [],
+      inspection_methods: []
+    }, { main: true })
   }
 
   return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Box display="flex" alignItems="flex-end" mb={1}>
-          <Box component="span" mr={2}>
-            {/* Full-text search filter. We don't use <SearchFilter> to force a large form input */}
-            <TextInput
-              resettable
-              helperText={false}
-              source="q"
-              label={translate('ra.action.search')}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon color="disabled" />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-          {/* <Box component="span" mr={2}>
-            <ReferenceInput source="inventory_item_category_id" 
-              reference="inventory-item-categories" 
-              sort={{ field: 'created_at', order: 'ASC' }}
-            >
-              <SelectInput 
+    <Card
+      sx={{
+        display: { xs: "none", md: "flex" },
+        flexDirection: "column",
+        order: -1,
+        flex: "0 0 16em",
+        mr: 2,
+        mt: 6,
+        maxHeight: "calc(90vh - 100px)",
+        position: "relative"
+      }}
+    >
+      <CardHeader
+        title={translate('ra.action.filter')}
+        titleTypographyProps={{ variant: "h6", fontSize: "1rem" }}
+        action={
+          <IconButton onClick={() => setFilters({
+            ...filterValues,
+            q: '',
+            inventory_item_category_ids: [],
+            warehouse_ids: [],
+            unit_ids: [],
+            currency_ids: [],
+            customer_code: '',
+            begin_expiration_date: null,
+            end_expiration_date: null,
+            begin_last_storage_date: null,
+            end_last_storage_date: null,
+            attributes: [],
+            inspection_methods: []
+          }, [])} size="small">
+            <CloseIcon />
+          </IconButton>
+        }
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1,
+          bgcolor: "background.paper",
+          borderBottom: "1px solid #eee",
+          py: 1,
+          px: 2
+        }}
+      />
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+          <CardContent
+            sx={{
+              flexGrow: 1,
+              overflowY: "auto",
+              pr: 1,
+              pb: 10, // 給底部按鈕空間
+              pt: 1
+            }}
+          >
+            <Box display="flex" flexDirection="column" gap={2}>
+              <TextInput
+                source="q"
                 resettable
-                emptyText="全部"
-                helperText={false} // Disable extra helper text
-                label="品號類別"
+                helperText={false}
+                label={translate('ra.action.search')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon color="disabled" />
+                    </InputAdornment>
+                  )
+                }}
               />
-            </ReferenceInput>
-          </Box> */}
-          <Box component="span" mr={2}>
-            <SelectInput
-              resettable
-              source="attribute"
-              label={translate('resources.inventoryItems.list.filters.attribute')}
-              emptyText="全部"
-              helperText={false} // Disable extra helper text
-              choices={[
-                { id: 'M', name: '自製件' },
-                { id: 'P', name: '採購件' },
-                { id: 'S', name: '委外加工件' }
-              ]}
-            />
-          </Box>
-          <Box component="span" mr={2}>
-            <ReferenceInput source="warehouse_id" 
-              reference="warehouses" 
-              sort={{ field: 'created_at', order: 'ASC' }}
-            >
-              <SelectInput 
+
+              <ReferenceInput source="inventory_item_category_ids" reference="inventory-item-categories">
+                <AutocompleteArrayInput
+                  label={translate('resources.inventoryItems.detail.fields.inventory_item_category')}
+                  helperText={false}
+                />
+              </ReferenceInput>
+
+              <ReferenceInput source="warehouse_ids" reference="warehouses">
+                <AutocompleteArrayInput
+                  label={translate('resources.inventoryItems.list.filters.warehouse')}
+                  helperText={false}
+                />
+              </ReferenceInput>
+
+              <ReferenceInput source="unit_ids" reference="units">
+                <AutocompleteArrayInput
+                  label={translate('resources.inventoryItems.detail.fields.unit')}
+                  helperText={false}
+                />
+              </ReferenceInput>
+
+              <ReferenceInput source="currency_ids" reference="currencies">
+                <AutocompleteArrayInput
+                  label={translate('resources.inventoryItems.detail.fields.currency')}
+                  helperText={false}
+                />
+              </ReferenceInput>
+
+              <TextInput
+                source="customer_code"
                 resettable
-                emptyText="全部"
-                helperText={false} // Disable extra helper text
-                label={translate('resources.inventoryItems.list.filters.warehouse')}
+                helperText={false}
+                label={translate('resources.inventoryItems.detail.fields.customer_code')}
               />
-            </ReferenceInput>
+
+              <Box>
+                <DateInput 
+                  source="begin_expiration_date" 
+                  label="失效日期(起)" 
+                  fullWidth 
+                  helperText={false}
+                />
+                <DateInput 
+                  source="end_expiration_date" 
+                  label="失效日期(迄)" 
+                  fullWidth 
+                  helperText={false}
+                />
+              </Box>
+
+              <Box>
+                <DateInput 
+                  source="begin_last_storage_date" 
+                  label="最後入庫日(起)" 
+                  fullWidth 
+                  helperText={false} />
+                <DateInput 
+                  source="end_last_storage_date" 
+                  label="最後入庫日(迄)" 
+                  fullWidth 
+                  helperText={false} />
+              </Box>
+
+              <CheckboxGroupInput
+                source="attributes"
+                label={translate('resources.inventoryItems.list.filters.attribute')}
+                helperText={false}
+                choices={[
+                  { id: 'M', name: '自製件' },
+                  { id: 'P', name: '採購件' },
+                  { id: 'S', name: '委外加工件' }
+                ]}
+              />
+
+              <CheckboxGroupInput
+                source="inspection_methods"
+                label={translate('resources.inventoryItems.list.filters.inspection_method')}
+                helperText={false}
+                choices={[
+                  { id: 'EX', name: '免檢' },
+                  { id: 'SR', name: '抽檢(減量)' },
+                  { id: 'SN', name: '抽檢(正常)' },
+                  { id: 'ST', name: '抽檢(加嚴)' },
+                  { id: 'FI', name: '全檢' }
+                ]}
+              />
+            </Box>
+          </CardContent>
+
+          {/* 固定底部的按鈕 */}
+          <Box
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 1,
+              bgcolor: "background.paper",
+              p: 2,
+              borderTop: "1px solid #eee"
+            }}
+          >
+            <Box display="flex" gap={1}>
+              <Button variant="outlined" color="primary" type="submit" fullWidth>
+                {translate('ra.action.filter')}
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={resetFilter} fullWidth>
+                {translate('ra.action.clear_input_value')}
+              </Button>
+            </Box>
           </Box>
-          <Box component="span" mr={2}>
-            <SelectInput
-              resettable
-              source="inspection_method"
-              label={translate('resources.inventoryItems.list.filters.inspection_method')}
-              emptyText="全部"
-              helperText={false} // Disable extra helper text
-              choices={[
-                { id: 'EX', name: '免檢' },
-                { id: 'SR', name: '抽檢(減量)' },
-                { id: 'SN', name: '抽檢(正常)' },
-                { id: 'ST', name: '抽檢(加嚴)' },
-                { id: 'FI', name: '全檢' }
-              ]}
-            />
-          </Box>
-          <Box component="span" mr={2} mb={1.5}>
-            <Button variant="outlined" color="primary" type="submit">
-              {translate('ra.action.filter')}
-            </Button>
-          </Box>
-          <Box component="span" mb={1.5}>
-            <Button variant="outlined" onClick={resetFilter}>
-              {translate('ra.action.close')}
-            </Button>
-          </Box>
-        </Box>
-      </form>
-    </FormProvider>
+        </form>
+      </FormProvider>
+    </Card>
   )
 }
 
-export default InventoryItemFilterForm;
+export default InventoryItemFilterForm

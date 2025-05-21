@@ -3,7 +3,9 @@ import {
   useListContext,
   useTranslate,
   TextInput,
-  DateInput
+  DateInput,
+  ReferenceInput,
+  AutocompleteArrayInput
 } from "react-admin"
 import {
   Button,
@@ -24,7 +26,9 @@ const FilterAndSortMenu = ({
   onSortChange,
   onFilterApply,
   currentFilterValue,
-  filterType
+  filterType,
+  reference,
+  choices
 }) => {
   const translate = useTranslate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -53,12 +57,17 @@ const FilterAndSortMenu = ({
 
   const handleApplyFilter = () => {
     const values = getValues();
-    const appliedValue = filterType === "date"
-      ? {
-          [`begin_${source}`]: values[`begin_${source}`] || undefined,
-          [`end_${source}`]: values[`end_${source}`] || undefined,
-        }
-      : values[source] || "";
+    let appliedValue;
+    if (filterType === "date") {
+      appliedValue = {
+        [`begin_${source}`]: values[`begin_${source}`] || undefined,
+        [`end_${source}`]: values[`end_${source}`] || undefined,
+      };
+    } else if (filterType === "select") {
+      appliedValue = values[source]?.length ? values[source] : undefined;
+    } else {
+      appliedValue = values[source] || undefined;
+    }
     onFilterApply(appliedValue);
     handleMenuClose();
   };
@@ -69,15 +78,17 @@ const FilterAndSortMenu = ({
           [`begin_${source}`]: null,
           [`end_${source}`]: null,
         }
-      : { [source]: "" };
+      : { [source]: filterType === "select" ? [] : "" };
 
     reset(resetValues);
-    onFilterApply(filterType === "date" ? {} : "");
+    onFilterApply(filterType === "date" ? {} : filterType === "select" ? [] : "");
     handleMenuClose();
   };
-
+  
   const isFiltered = filterType === "date"
-    ? currentFilterValue?.[`begin_${source}`] || currentFilterValue?.[`end_${source}`]
+  ? currentFilterValue?.[`begin_${source}`] || currentFilterValue?.[`end_${source}`]
+  : Array.isArray(currentFilterValue)
+    ? currentFilterValue.length > 0
     : !!currentFilterValue;
 
   useEffect(() => {
@@ -113,7 +124,7 @@ const FilterAndSortMenu = ({
 
         <FormProvider {...methods}>
           <Box component="form" onSubmit={(e) => e.preventDefault()} noValidate sx={{ mb: 2 }}>
-            {filterType === "text" ? (
+            {filterType === "text" && 
               <TextInput
                 source={source}
                 label=""
@@ -121,7 +132,8 @@ const FilterAndSortMenu = ({
                 size="small"
                 variant="outlined"
               />
-            ) : (
+            }
+            {filterType === "date" && 
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 <DateInput
                   source={`begin_${source}`}
@@ -137,6 +149,25 @@ const FilterAndSortMenu = ({
                   helperText={false}
                 />
               </Box>
+            }
+
+            {filterType === "select" && (
+              reference ? (
+                <ReferenceInput source={source} reference={reference}>
+                  <AutocompleteArrayInput
+                    source={source}
+                    label=""
+                    helperText={false}
+                  />
+                </ReferenceInput>
+              ) : (
+                <AutocompleteArrayInput
+                  source={source}
+                  label=""
+                  helperText={false}
+                  choices={choices}
+                />
+              )
             )}
           </Box>
         </FormProvider>
@@ -167,7 +198,7 @@ const FilterAndSortMenu = ({
   );
 };
 
-export const FilterableHeader = ({ source, label, filterType }) => {
+export const FilterableHeader = ({ source, label, filterType, reference, choices }) => {
   const { setSort, filterValues, setFilters } = useListContext();
 
   const handleSortChange = (order) => {
@@ -205,6 +236,8 @@ export const FilterableHeader = ({ source, label, filterType }) => {
         onFilterApply={handleFilterApply}
         currentFilterValue={currentFilterValue}
         filterType={filterType}
+        reference={reference}
+        choices={choices}
       />
     </Box>
   );

@@ -17,6 +17,7 @@ import {
   useTranslate,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
+import { FilterableHeader } from "../components/FilterableHeader"
 import ContentFilter from '@mui/icons-material/FilterList';
 
 import UserFilterForm from "./UserFilterForm"
@@ -56,7 +57,7 @@ const UserListActions = ({ permissions }) => (
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <UserFilterForm />
+    {/* <UserFilterForm /> */}
   </Box>
 )
 
@@ -79,6 +80,7 @@ const UserList = () => {
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
             actions={<UserListActions permissions={permissions} />}
+            aside={<UserFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -109,22 +111,60 @@ const UserList = () => {
                 />
                 <TextField
                   source="account"
-                  label={translate('resources.users.list.fields.account')}
+                  label={
+                    <FilterableHeader
+                      source="account"
+                      label={translate(
+                        "resources.users.list.fields.account"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.users.list.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.users.list.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <ArrayField 
                   source="companies"
-                  label={translate('resources.users.list.fields.companies')}
+                  label={
+                    <FilterableHeader
+                      source="company_ids"
+                      label={translate(
+                        "resources.users.list.fields.companies"
+                      )}
+                      filterType="select"
+                      reference="companies"
+                    />
+                  }
                 >
                   <SingleFieldList linkType={false}>
                     <ChipField source="name" size="small" />
                   </SingleFieldList>
                 </ArrayField>
                 <FunctionField
-                  label={translate('resources.users.list.fields.status')}
+                  label={
+                    <FilterableHeader
+                      source="statuses"
+                      label={translate(
+                        "resources.users.list.fields.status"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 0, name: '未啟用' },
+                        { id: 1, name: '啟用中' },
+                        { id: 9, name: '失效' }
+                      ]}
+                    />
+                  }
                   render={(record) => {
                     const statusMapping = {
                       0: "未啟用",
@@ -137,7 +177,15 @@ const UserList = () => {
                 />
                 <DateField 
                   source="created_at" 
-                  label={translate('resources.users.list.fields.created_at')}
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.users.list.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

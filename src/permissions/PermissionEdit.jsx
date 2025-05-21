@@ -7,7 +7,7 @@ import {
   useRecordContext,
   /*Toolbar,*/
   SaveButton,
-  /*useTranslate*/
+  useTranslate,
   useEditController,
   ArrayField,
   SingleFieldList,
@@ -21,11 +21,8 @@ import { menuItems } from '../menuData';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-const PermissionTitle = () => {
-  return <span>{'修改登入者權限'}</span>;
-};
-
 const CompanyPermissionTabs = () => {
+  const translate = useTranslate();
   const record = useRecordContext();
   
   const [tabIndex, setTabIndex] = useState(0);
@@ -41,7 +38,7 @@ const CompanyPermissionTabs = () => {
         <Box key={company.id || i} sx={{ display: tabIndex === i ? 'block' : 'none' }}>
           <Box display="flex" alignItems="center" sx={{ mt: 2, mb: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'bold', mr: 1 }}>
-              工號：
+              {translate("resources.permissions.detail.fields.employee_code")}：
             </Typography>
             <Typography variant="body2">
               {company.employee_code}
@@ -50,9 +47,9 @@ const CompanyPermissionTabs = () => {
 
           <Box display="flex" alignItems="center" sx={{ mt: 2, mb: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'bold', mr: 1 }}>
-              部門：
+              {translate("resources.permissions.detail.fields.departments")}：
             </Typography>
-            <ArrayField record={company} source="departments" label="部門">
+            <ArrayField record={company} source="departments">
               <SingleFieldList linkType={false}>
                 <ChipField source="name" size="small" />
               </SingleFieldList>
@@ -191,25 +188,32 @@ const getDefaultValues = (record) => {
 
 
 const PermissionEdit = () => {
+  const translate = useTranslate();
   const controllerProps = useEditController();
   const record = controllerProps.record;
 
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        使用者權限
+        {translate("resources.permissions.title")}
       </Typography>
-      <Edit title={<PermissionTitle/>} redirect={false} mutationMode="optimistic">
+      <Edit title={false} redirect={false} mutationMode="optimistic">
         <SimpleForm toolbar={false} defaultValues={getDefaultValues(record)} >
           <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
             <SaveButton alwaysEnable />
           </Box>
           <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextInput source="account" label='登入者代號' readOnly />
+              <TextInput source="account" 
+                label={translate(
+                  "resources.permissions.commons.fields.account"
+                )} readOnly />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label='登入者名稱' readOnly />
+              <TextInput source="name" 
+                label={translate(
+                  "resources.permissions.commons.fields.name"
+                )} readOnly />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Card width={{ xs: "100%", xl: 1200 }}>

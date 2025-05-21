@@ -1,49 +1,12 @@
 import * as React from "react"
 import {
   Create,
-  SimpleForm,
-  TextInput,
-  SaveButton,
   useNotify,
   useTranslate
 } from "react-admin"
-import { Box, Typography, Grid } from "@mui/material"
+import { Typography } from "@mui/material"
 import { useState } from "react";
-
-const InventoryItemCategoryTitle = () => {
-  return <span>{'新增品號類別'}</span>;
-};
-
-export const validateForm = values => {
-  const errors = {}
-  if (!values.name) {
-    errors.name = "ra.validation.required"
-  }
-  return errors
-}
-
-export const InventoryItemCategoryForm = ({ disabled = false }) => {
-  const translate = useTranslate();
-  return (
-    <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
-        <Grid item xs={12}>
-          <TextInput 
-            source="code" 
-            label={translate('resources.inventoryItemCategories.detail.fields.code')} 
-            isRequired={!disabled}
-            disabled={disabled} 
-            autoFocus={!disabled} />
-        </Grid>
-        <Grid item xs={12}>
-          <TextInput 
-            source="name" 
-            label={translate('resources.inventoryItemCategories.detail.fields.name')}
-            isRequired={!disabled}
-            disabled={disabled} />
-        </Grid>
-    </Grid>
-  )
-}
+import InventoryItemCategoryForm from './InventoryItemCategoryForm';
 
 const InventoryItemCategoryCreate = () => {
   const translate = useTranslate();
@@ -52,7 +15,7 @@ const InventoryItemCategoryCreate = () => {
 
   const onSuccess = () => {
     notify("ra.notification.created", { type: "success", autoHideDuration: 2000 });
-    setKey((prev) => prev + 1); // 強制渲染表單
+    setKey((prev) => prev + 1);
   };
 
   return (
@@ -61,25 +24,14 @@ const InventoryItemCategoryCreate = () => {
         {translate('resources.inventoryItemCategories.title')}
       </Typography>
       <Create 
-        title={<InventoryItemCategoryTitle/>}
+        title={false}
         mutationOptions={{ onSuccess }}
         mutationMode="pessimistic"
         redirect={false}
       >
-        <SimpleForm
-          key={key}
-          defaultValues={{
-            name: "",
-            code: ""
-          }}
-          validate={validateForm}
-          toolbar={false}
-        >
-          <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
-            <SaveButton />
-          </Box>
-          <InventoryItemCategoryForm />
-        </SimpleForm>
+        <InventoryItemCategoryForm 
+          formKey={key}
+        />
       </Create>
     </>
   )

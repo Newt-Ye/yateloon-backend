@@ -14,6 +14,7 @@ import {
   useTranslate,
 } from "react-admin"
 import { useMediaQuery, Button, Box, Typography } from "@mui/material"
+import { FilterableHeader } from "../components/FilterableHeader"
 import ContentFilter from '@mui/icons-material/FilterList';
 
 import CompanyFilterForm from "./CompanyFilterForm"
@@ -53,7 +54,7 @@ const CompanyListActions = ({ permissions }) => (
       {/* <SelectColumnsButton /> */}
       {/* <ExportButton /> */}
     </TopToolbar>
-    <CompanyFilterForm />
+    {/* <CompanyFilterForm /> */}
   </Box>
 )
 
@@ -76,6 +77,7 @@ const CompanyList = () => {
             sort={{ field: "created_at", order: "ASC" }}
             perPage={10}
             actions={<CompanyListActions permissions={permissions} />}
+            aside={<CompanyFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -106,14 +108,43 @@ const CompanyList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.companies.list.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.companies.list.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="short_name"
-                  label={translate('resources.companies.list.fields.short_name')}
+                  label={
+                    <FilterableHeader
+                      source="short_name"
+                      label={translate(
+                        "resources.companies.list.fields.short_name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <FunctionField
-                  label={translate('resources.companies.list.fields.status')}
+                  label={
+                    <FilterableHeader
+                      source="statuses"
+                      label={translate(
+                        "resources.companies.list.fields.status"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 0, name: '未啟用' },
+                        { id: 1, name: '啟用中' },
+                        { id: 9, name: '失效' }
+                      ]}
+                    />
+                  }
                   render={(record) => {
                     const statusMapping = {
                       0: "未啟用",
@@ -126,7 +157,15 @@ const CompanyList = () => {
                 />
                 <DateField 
                   source="created_at" 
-                  label={translate('resources.companies.list.fields.created_at')}
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.companies.list.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>
