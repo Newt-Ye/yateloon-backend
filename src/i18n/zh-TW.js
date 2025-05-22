@@ -12,7 +12,7 @@ const customChineseTWMessages = {
       cancel: '取消',
       clear_array_input: '清除列表',
       clear_input_value: '清除值',
-      clone: '克隆',
+      clone: '複製',
       confirm: '確認',
       create: '創建',
       create_item: '創建 %{item}',

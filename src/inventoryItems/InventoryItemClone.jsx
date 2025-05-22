@@ -411,7 +411,7 @@ const InventoryItemClone = () => {
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        {translate('resources.inventoryItems.title') + '"' + record.code + '"複製'}
+        {translate('ra.action.clone') + translate('resources.inventoryItems.title') + '"' + record.code + '"'}
       </Typography>
       <Create 
         resource="inventory-items"
