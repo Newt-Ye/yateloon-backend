@@ -398,9 +398,10 @@ const InventoryItemClone = () => {
   if (isLoading) return <Loading />;
   if (error) return notify("載入紀錄失敗", { type: "error" });
 
-  const { id: _, ...cloneData } = record;
+  const { id: _,  ...cloneData } = record;
   const defaultValues = {
     ...cloneData,
+    effective_date: new Date().toISOString().split('T')[0]
   };
 
   // const onSuccess = () => {
