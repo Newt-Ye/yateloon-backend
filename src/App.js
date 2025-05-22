@@ -5,7 +5,9 @@ import {
   localStorageStore,
   StoreContextProvider,
   defaultTheme,
+  CustomRoutes
 } from "react-admin";
+import { Route } from "react-router-dom";
 import customDataProviderFactory from "./customDataProvider"; // 改成 factory function
 import authProvider from './authProvider';
 import inventoryItemCategories from './inventoryItemCategories';
@@ -25,6 +27,7 @@ import tradingTerms from './tradingTerms';
 import taxCodes from './taxCodes';
 import i18nProvider from './i18n';
 import { Layout, Login } from "./layout";
+import InventoryItemClone  from "./inventoryItems/InventoryItemClone";
 
 const store = localStorageStore(undefined, "ECommerce");
 
@@ -61,6 +64,9 @@ const AppWrapper = () => {
       >
         <Resource name="inventory-item-categories" {...inventoryItemCategories} />
         <Resource name="inventory-items" {...inventoryItems} />
+        <CustomRoutes>
+          <Route path="/inventory-items/:id/clone" element={<InventoryItemClone />} />
+        </CustomRoutes>
         <Resource name="companies" {...companies} />
         <Resource name="users" {...users} />
         <Resource name="departments" {...departments} />

@@ -4,15 +4,36 @@ import {
   SimpleForm,
   TopToolbar,
   EditButton,
-  useTranslate
+  useTranslate,
+  Button,
+  useRecordContext
 } from "react-admin"
 import { Typography } from "@mui/material"
 import { AuditFields } from "../components/AuditFields"
 import { InventoryItemForm } from "./InventoryItemCreate"
+import { Link } from 'react-router-dom';
+import { ContentCopy } from '@mui/icons-material';
+
+
+const CloneButton = () => {
+  const record = useRecordContext();
+  if (!record) return null;
+
+  return (
+    <Button
+      component={Link}
+      to={`/inventory-items/${record.id}/clone`}
+      label="複製"
+      startIcon={<ContentCopy />}
+    />
+  )
+};
+
 
 const Actions = () => (
   <TopToolbar>
     <EditButton />
+    <CloneButton />
   </TopToolbar>
 );
 

@@ -96,7 +96,15 @@ const customDataProviderFactory = (apiUrl) => {
     },
 
     create: (resource, params) => {
-      if (['inventory-item-categories', 'inventory-items', 'factories', 'warehouses', 'currency-exchange-rates', 'payment-terms', 'tax-codes'].includes(resource)) {
+      if ([
+        'inventory-item-categories', 
+        'inventory-items', 
+        'factories', 
+        'warehouses', 
+        'currency-exchange-rates', 
+        'payment-terms', 
+        'tax-codes'
+      ].includes(resource) && !params.data.company_id) {
         params.data.company_id = parseInt(localStorage.getItem('current_company')) || '';
       }
 

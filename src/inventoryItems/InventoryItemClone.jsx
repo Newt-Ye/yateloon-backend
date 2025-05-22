@@ -12,14 +12,17 @@ import {
   useDataProvider,
   SaveButton,
   useNotify,
-  useTranslate
+  useTranslate,
+  useGetOne,
+  Loading
 } from "react-admin"
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
 import { useState, useEffect } from "react";
 import { useFormState, useWatch, useFormContext } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 const InventoryItemTitle = () => {
-  return <span>{'新增品號資料'}</span>;
+  return <span>{'複製品號資料'}</span>;
 };
 
 export const validateForm = values => {
@@ -265,13 +268,23 @@ export const InventoryItemForm = ({ disabled = false }) => {
             {translate('resources.inventoryItems.detail.fieldGroups.basic_info')}
           </Typography>
           <Grid container spacing={2} rowSpacing={0.2}>
+            <Grid item xs={12}>
+              <ReferenceInput source="company_id" 
+                reference="companies" 
+                sort={{ field: 'created_at', order: 'ASC' }}
+              >
+                <SelectInput optionText="name" label="欲複製公司別" 
+                  autoFocus 
+                  isRequired={!disabled}
+                  disabled={disabled} />
+              </ReferenceInput>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <ReferenceInput source="inventory_item_category_id" 
                 reference="inventory-item-categories" 
                 sort={{ field: 'created_at', order: 'ASC' }}
               >
                 <SelectInput optionText="name" label={translate('resources.inventoryItems.detail.fields.inventory_item_category')} 
-                  autoFocus 
                   isRequired={!disabled}
                   disabled={disabled} />
               </ReferenceInput>
@@ -374,59 +387,42 @@ export const InventoryItemForm = ({ disabled = false }) => {
   );
 }
 
-const InventoryItemCreate = () => {
+const InventoryItemClone = () => {
+  const { id } = useParams();
   const translate = useTranslate();
   const notify = useNotify();
-  const [key, setKey] = useState(0);
+  /* const [key, setKey] = useState(0); */
 
-  const onSuccess = () => {
-    notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
-    setKey((prev) => prev + 1); // 強制渲染表單
+  const { data: record, isLoading, error } = useGetOne("inventory-items", { id });
+
+  if (isLoading) return <Loading />;
+  if (error) return notify("載入紀錄失敗", { type: "error" });
+
+  const { id: _, ...cloneData } = record;
+  const defaultValues = {
+    ...cloneData,
   };
+
+  // const onSuccess = () => {
+  //   notify("資料新增成功", { type: "success", autoHideDuration: 2000 });
+  //   setKey((prev) => prev + 1); // 強制渲染表單
+  // };
 
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
-        {translate('resources.inventoryItems.title')}
+        {translate('resources.inventoryItems.title') + '"' + record.code + '"複製'}
       </Typography>
       <Create 
+        resource="inventory-items"
         title={<InventoryItemTitle/>}
-        mutationOptions={{ onSuccess }}
+        /* mutationOptions={{ onSuccess }} */
         mutationMode="pessimistic"
-        redirect={false}
+        redirect="list"
       >
         <SimpleForm
-          key={key}
-          defaultValues={{
-            inventory_item_category_id: "",
-            attribute: "M",
-            name: "",
-            code: "",
-            specification: "",
-            unit_id: "",
-            inventory: 0,
-            unit_cost: 0,
-            inventory_amount: 0,
-            warehouse_id: 0,
-            inventory_manage: false,
-            over_delivery_manage: true,
-            over_receiving_manage: true,
-            edit_item_name: false,
-            effective_date: new Date().toISOString().split('T')[0],
-            expiration_date: "",
-            inspection_method: "",
-            last_storage_date: "",
-            currency_id: "",
-            latest_purchase_price: 0,
-            customer_code: "",
-            cost: 0,
-            unit_weight: "",
-            unit_std_material_cost: 0,
-            unit_std_labor_cost: 0,
-            unit_std_manufacturing_cost: 0,
-            unit_std_processing_cost: 0,
-            total_standard_cost: 0,
-          }}
+          /* key={key} */
+          defaultValues={defaultValues}
           validate={validateForm}
           toolbar={false}
         >
@@ -440,4 +436,4 @@ const InventoryItemCreate = () => {
   )
 }
 
-export default InventoryItemCreate
+export default InventoryItemClone
