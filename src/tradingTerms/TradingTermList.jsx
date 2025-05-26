@@ -11,6 +11,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import TradingTermFilterForm from "./TradingTermFilterForm"
 
 const mobileFilters = [
@@ -44,8 +45,9 @@ const TradingTermList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={TradingTermFilterForm}
+              // FilterFormComponent={TradingTermFilterForm}
             />}
+            aside={<TradingTermFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -76,15 +78,39 @@ const TradingTermList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.tradingTerms.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.tradingTerms.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.tradingTerms.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.tradingTerms.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <DateField 
-                  source="created_at" 
-                  label={translate('resources.tradingTerms.commons.fields.created_at')}
+                  source="created_at"
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.tradingTerms.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

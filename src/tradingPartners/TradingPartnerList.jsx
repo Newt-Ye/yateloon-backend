@@ -12,6 +12,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import TradingPartnerFilterForm from "./TradingPartnerFilterForm"
 
 const mobileFilters = [
@@ -45,8 +46,9 @@ const TradingPartnerList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={TradingPartnerFilterForm}
+              // FilterFormComponent={TradingPartnerFilterForm}
             />}
+            aside={<TradingPartnerFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -78,22 +80,55 @@ const TradingPartnerList = () => {
                 <ReferenceField 
                   source="trading_partner_category_id" 
                   reference="trading-partner-categories"
-                  label={translate('resources.tradingPartners.commons.fields.trading_partner_category')}
+                  label={
+                    <FilterableHeader
+                      source="trading_partner_category_ids"
+                      label={translate(
+                        "resources.tradingPartners.commons.fields.trading_partner_category"
+                      )}
+                      filterType="select"
+                      reference="trading-partner-categories"
+                    />
+                  }
                   link={false}
                 >
                   <TextField source="name"/>
                 </ReferenceField>
                 <TextField
                   source="code"
-                  label={translate('resources.tradingPartners.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.tradingPartners.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.tradingPartners.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.tradingPartners.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <DateField 
                   source="created_at" 
-                  label={translate('resources.tradingPartners.commons.fields.created_at')}
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.tradingPartners.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

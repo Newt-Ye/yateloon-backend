@@ -28,7 +28,9 @@ const FilterAndSortMenu = ({
   currentFilterValue,
   filterType,
   reference,
-  choices
+  choices,
+  optionValue="id",
+  optionText="name"
 }) => {
   const translate = useTranslate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,6 +50,18 @@ const FilterAndSortMenu = ({
 
   const handleMenuOpen = (event) => {
     event.stopPropagation();
+
+    if (filterType === "date") {
+      reset({
+        [`begin_${source}`]: currentFilterValue?.[`begin_${source}`] || null,
+        [`end_${source}`]: currentFilterValue?.[`end_${source}`] || null,
+      });
+    } else {
+      reset({
+        [source]: currentFilterValue || (filterType === "select" ? [] : ""),
+      });
+    }
+
     setAnchorEl(event.currentTarget);
   };
 
@@ -158,6 +172,8 @@ const FilterAndSortMenu = ({
                     source={source}
                     label=""
                     helperText={false}
+                    optionValue={optionValue}
+                    optionText={optionText}
                   />
                 </ReferenceInput>
               ) : (
@@ -166,6 +182,8 @@ const FilterAndSortMenu = ({
                   label=""
                   helperText={false}
                   choices={choices}
+                  optionValue={optionValue}
+                  optionText={optionText}
                 />
               )
             )}
@@ -198,7 +216,7 @@ const FilterAndSortMenu = ({
   );
 };
 
-export const FilterableHeader = ({ source, label, filterType, reference, choices }) => {
+export const FilterableHeader = ({ source, label, filterType, reference, choices, optionValue, optionText }) => {
   const { setSort, filterValues, setFilters } = useListContext();
 
   const handleSortChange = (order) => {
@@ -238,6 +256,8 @@ export const FilterableHeader = ({ source, label, filterType, reference, choices
         filterType={filterType}
         reference={reference}
         choices={choices}
+        optionValue={optionValue}
+        optionText={optionText}
       />
     </Box>
   );

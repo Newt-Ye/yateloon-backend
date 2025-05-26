@@ -612,6 +612,8 @@ const customChineseMessages = {
       list: {
         title: "币种汇率列表",
         fields: {
+          daily_buy_rate: "当日买价",
+          daily_sell_rate: "当日卖价",
         },
         filters: {
         }

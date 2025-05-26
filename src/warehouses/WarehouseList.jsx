@@ -13,6 +13,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import WarehouseFilterForm from "./WarehouseFilterForm"
 
 const mobileFilters = [
@@ -46,8 +47,9 @@ const WarehouseList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={WarehouseFilterForm}
+              // FilterFormComponent={WarehouseFilterForm}
             />}
+            aside={<WarehouseFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -78,15 +80,43 @@ const WarehouseList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.warehouses.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.warehouses.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.warehouses.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.warehouses.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <SelectField 
-                  source="is_stock" 
-                  label={translate('resources.warehouses.commons.fields.storage_type')} 
+                  source="is_stock"
+                  label={
+                    <FilterableHeader
+                      source="is_stocks"
+                      label={translate(
+                        "resources.warehouses.commons.fields.storage_type"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 1, name: '存貨倉' },
+                        { id: 0, name: '非存貨倉' }
+                      ]}
+                    />
+                  }
                   choices={[
                     { id: 1, name: '存貨倉' },
                     { id: 0, name: '非存貨倉' },
@@ -95,7 +125,17 @@ const WarehouseList = () => {
                 <ReferenceField 
                   source="factory_id" 
                   reference="factories" 
-                  label={translate('resources.factories.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="factory_ids"
+                      label={translate(
+                        "resources.factories.commons.fields.code"
+                      )}
+                      filterType="select"
+                      reference="factories"
+                      optionText="code"
+                    />
+                  }
                   link={false}
                 >
                   <TextField source="code"/>
@@ -103,14 +143,31 @@ const WarehouseList = () => {
                 <ReferenceField 
                   source="factory_id" 
                   reference="factories"
-                  label={translate('resources.factories.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="factory_ids"
+                      label={translate(
+                        "resources.factories.commons.fields.name"
+                      )}
+                      filterType="select"
+                      reference="factories"
+                    />
+                  }
                   link={false}
                 >
                   <TextField source="name"/>
                 </ReferenceField>
                 <DateField 
-                  source="created_at" 
-                  label={translate('resources.warehouses.commons.fields.created_at')} 
+                  source="created_at"
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.warehouses.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

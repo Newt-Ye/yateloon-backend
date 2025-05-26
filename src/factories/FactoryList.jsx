@@ -11,6 +11,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import FactoryFilterForm from "./FactoryFilterForm"
 
 const mobileFilters = [
@@ -44,8 +45,9 @@ const FactoryList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={FactoryFilterForm}
+              // FilterFormComponent={FactoryFilterForm}
             />}
+            aside={<FactoryFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -76,15 +78,39 @@ const FactoryList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.factories.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.factories.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.factories.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.factories.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <DateField 
                   source="created_at" 
-                  label={translate('resources.factories.commons.fields.created_at')}
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.factories.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

@@ -11,6 +11,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import CurrencyFilterForm from "./CurrencyFilterForm"
 
 const mobileFilters = [
@@ -44,8 +45,9 @@ const CurrencyList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={CurrencyFilterForm}
+              // FilterFormComponent={CurrencyFilterForm}
             />}
+            aside={<CurrencyFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -76,15 +78,39 @@ const CurrencyList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.currencies.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.currencies.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.currencies.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.currencies.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <DateField 
-                  source="created_at" 
-                  label={translate('resources.currencies.commons.fields.created_at')}
+                  source="created_at"
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.currencies.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

@@ -12,6 +12,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import PaymentTermFilterForm from "./PaymentTermFilterForm"
 
 const mobileFilters = [
@@ -45,8 +46,9 @@ const PaymentTermList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={PaymentTermFilterForm}
+              // FilterFormComponent={PaymentTermFilterForm}
             />}
+            aside={<PaymentTermFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -76,8 +78,20 @@ const PaymentTermList = () => {
                   label="ID"
                 />
                 <SelectField 
-                  source="term_type" 
-                  label={translate('resources.paymentTerms.commons.fields.term_type')} 
+                  source="term_type"
+                  label={
+                    <FilterableHeader
+                      source="term_types"
+                      label={translate(
+                        "resources.paymentTerms.commons.fields.term_type"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 'purchase', name: 'resources.paymentTerms.commons.choices.purchase' },
+                        { id: 'sales', name: 'resources.paymentTerms.commons.choices.sales' },
+                      ]} 
+                    />
+                  }
                   choices={[
                     { id: 'purchase', name: 'resources.paymentTerms.commons.choices.purchase' },
                     { id: 'sales', name: 'resources.paymentTerms.commons.choices.sales' },
@@ -85,15 +99,39 @@ const PaymentTermList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.paymentTerms.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.paymentTerms.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.paymentTerms.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.paymentTerms.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <DateField 
                   source="created_at" 
-                  label={translate('resources.paymentTerms.commons.fields.created_at')}
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.paymentTerms.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

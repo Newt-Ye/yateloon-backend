@@ -12,6 +12,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import CurrencyExchangeRateFilterForm from "./CurrencyExchangeRateFilterForm"
 
 const mobileFilters = [
@@ -46,10 +47,11 @@ const CurrencyExchangeRateList = () => {
               <ListActions 
                 permissions={permissions} 
                 resource={resource}
-                FilterFormComponent={CurrencyExchangeRateFilterForm}
+                // FilterFormComponent={CurrencyExchangeRateFilterForm}
                 createCtrl={false}
               />
             }
+            aside={<CurrencyExchangeRateFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -80,11 +82,27 @@ const CurrencyExchangeRateList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.currencies.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.currencies.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.currencies.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.currencies.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <NumberField 
                   source="rates[0][bank_buy_rate]" 
@@ -97,8 +115,16 @@ const CurrencyExchangeRateList = () => {
                   label={translate('resources.currencyExchangeRates.list.fields.daily_sell_rate')}  
                 />
                 <DateField 
-                  source="created_at" 
-                  label={translate('resources.currencyExchangeRates.commons.fields.created_at')}
+                  source="created_at"
+                  label={
+                    <FilterableHeader
+                      source="created_at"
+                      label={translate(
+                        "resources.currencyExchangeRates.commons.fields.created_at"
+                      )}
+                      filterType="date"
+                    />
+                  }
                   showTime
                 />
               </DatagridConfigurable>

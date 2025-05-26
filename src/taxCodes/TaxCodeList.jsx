@@ -12,6 +12,7 @@ import {
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
+import { FilterableHeader } from "../components/FilterableHeader"
 import TaxCodeFilterForm from "./TaxCodeFilterForm"
 
 const mobileFilters = [
@@ -45,8 +46,9 @@ const TaxCodeList = () => {
             actions={<ListActions 
               permissions={permissions} 
               resource={resource}
-              FilterFormComponent={TaxCodeFilterForm}
+              // FilterFormComponent={TaxCodeFilterForm}
             />}
+            aside={<TaxCodeFilterForm />}
           >
             {isXsmall ? (
               <div></div>
@@ -77,23 +79,65 @@ const TaxCodeList = () => {
                 />
                 <TextField
                   source="code"
-                  label={translate('resources.taxCodes.commons.fields.code')}
+                  label={
+                    <FilterableHeader
+                      source="code"
+                      label={translate(
+                        "resources.taxCodes.commons.fields.code"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <TextField
                   source="name"
-                  label={translate('resources.taxCodes.commons.fields.name')}
+                  label={
+                    <FilterableHeader
+                      source="name"
+                      label={translate(
+                        "resources.taxCodes.commons.fields.name"
+                      )}
+                      filterType="text"
+                    />
+                  }
                 />
                 <SelectField 
-                  source="direction" 
-                  label={translate('resources.taxCodes.commons.fields.direction')} 
+                  source="direction"
+                  label={
+                    <FilterableHeader
+                      source="directions"
+                      label={translate(
+                        "resources.taxCodes.commons.fields.direction"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 'input', name: 'resources.taxCodes.commons.choices.input' },
+                        { id: 'output', name: 'resources.taxCodes.commons.choices.output' },
+                      ]}
+                    />
+                  }
                   choices={[
                     { id: 'input', name: 'resources.taxCodes.commons.choices.input' },
                     { id: 'output', name: 'resources.taxCodes.commons.choices.output' },
                   ]} 
                 />
                 <SelectField 
-                  source="invoice_type" 
-                  label={translate('resources.taxCodes.commons.fields.invoice_type')} 
+                  source="invoice_type"
+                  label={
+                    <FilterableHeader
+                      source="invoice_types"
+                      label={translate(
+                        "resources.taxCodes.commons.fields.invoice_type"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 'no_invoice', name: 'resources.taxCodes.commons.choices.no_invoice' },
+                        { id: 'two_part', name: 'resources.taxCodes.commons.choices.two_part' },
+                        { id: 'three_part', name: 'resources.taxCodes.commons.choices.three_part' },
+                        { id: 'special', name: 'resources.taxCodes.commons.choices.special' },
+                      ]}
+                    />
+                  }
                   choices={[
                     { id: 'no_invoice', name: 'resources.taxCodes.commons.choices.no_invoice' },
                     { id: 'two_part', name: 'resources.taxCodes.commons.choices.two_part' },
@@ -102,8 +146,23 @@ const TaxCodeList = () => {
                   ]}
                 />
                 <SelectField 
-                  source="tax_type" 
-                  label={translate('resources.taxCodes.commons.fields.tax_type')} 
+                  source="tax_type"
+                  label={
+                    <FilterableHeader
+                      source="tax_types"
+                      label={translate(
+                        "resources.taxCodes.commons.fields.tax_type"
+                      )}
+                      filterType="select"
+                      choices={[
+                        { id: 'tax_included', name: 'resources.taxCodes.commons.choices.tax_included' },
+                        { id: 'tax_excluded', name: 'resources.taxCodes.commons.choices.tax_excluded' },
+                        { id: 'zero_rate', name: 'resources.taxCodes.commons.choices.zero_rate' },
+                        { id: 'exempted', name: 'resources.taxCodes.commons.choices.exempted' },
+                        { id: 'non_taxable', name: 'resources.taxCodes.commons.choices.non_taxable' },
+                      ]}
+                    />
+                  }
                   choices={[
                     { id: 'tax_included', name: 'resources.taxCodes.commons.choices.tax_included' },
                     { id: 'tax_excluded', name: 'resources.taxCodes.commons.choices.tax_excluded' },
