@@ -146,7 +146,13 @@ export const EmployeeCodeInput = () => {
   }, [companyId, employeeCode, index, setError, clearErrors]);
 
   return (
-    <TextInput source="employee_code" label={translate('resources.users.detail.fields.employee_code')} /> 
+    <TextInput 
+      source="employee_code" 
+      label={translate('resources.users.detail.fields.employee_code')} 
+      inputProps={{
+        autoComplete: "off"
+      }} 
+    /> 
   )
 }
 
@@ -488,7 +494,14 @@ const UserCreate = () => {
               <BooleanInput label={translate('resources.users.detail.fields.super_user')} source="is_admin" helperText={false} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="account" label={translate('resources.users.detail.fields.account')} isRequired />
+              <TextInput 
+                autoFocus 
+                source="account" 
+                label={translate('resources.users.detail.fields.account')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectInput source="status" label={translate('resources.users.detail.fields.status')} isRequired 
@@ -503,13 +516,26 @@ const UserCreate = () => {
                 }} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label={translate('resources.users.detail.fields.name')} isRequired />
+              <TextInput 
+                source="name" 
+                label={translate('resources.users.detail.fields.name')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <EffectiveDateInput setReadOnly={setReadOnly} dateReadOnly={dateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} isRequired />
+              <TextInput 
+                type="email" 
+                source="email" 
+                label={translate('resources.users.detail.fields.email')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={6}>

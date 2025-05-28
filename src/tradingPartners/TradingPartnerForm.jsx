@@ -94,14 +94,22 @@ const TradingPartnerForm = ({
             source="code"
             label={translate('resources.tradingPartners.commons.fields.code')}
             isRequired={!disabled}
-            readOnly={disabled} />
+            readOnly={disabled} 
+            inputProps={{
+              autoComplete: "off"
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextInput 
             source="name" 
             label={translate('resources.tradingPartners.commons.fields.name')}
             isRequired={!disabled}
-            readOnly={disabled} />
+            readOnly={disabled} 
+            inputProps={{
+              autoComplete: "off"
+            }}
+          />
         </Grid>
     </Grid>
       {AuditFields && <AuditFields />}

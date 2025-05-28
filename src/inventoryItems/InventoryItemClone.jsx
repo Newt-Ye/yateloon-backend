@@ -17,60 +17,13 @@ import {
   Loading
 } from "react-admin"
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useFormState, useWatch, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 const InventoryItemTitle = () => {
   return <span>{'複製品號資料'}</span>;
 };
-
-export const validateForm = values => {
-  const errors = {}
-  if (!values.code) {
-    errors.code = "ra.validation.required"
-  } else {
-    if (values.attribute === "M" && values.code.length !== 18) {
-      errors.code = 'validation.inventoryItems.code.exact_length_18';
-    } else if (values.attribute !== "M" && values.code.length !== 15) {
-      errors.code = 'validation.inventoryItems.exact_length_15';
-    }
-  }
-  if (!values.name) {
-    errors.name = "ra.validation.required"
-  }
-  if (!values.specification) {
-    errors.specification = "ra.validation.required"
-  }
-  if (!values.unit_id) {
-    errors.unit_id = "ra.validation.required"
-  }
-  if (!values.warehouse_id) {
-    errors.warehouse_id = "ra.validation.required"
-  }
-  if (!values.inspection_method) {
-    errors.inspection_method = "ra.validation.required"
-  }
-  if (values.unit_std_material_cost === "") {
-    errors.unit_std_material_cost = "ra.validation.required"
-  }
-  if (!values.unit_std_labor_cost === "") {
-    errors.unit_std_labor_cost = "ra.validation.required"
-  }
-  if (!values.unit_std_manufacturing_cost === "") {
-    errors.unit_std_manufacturing_cost = "ra.validation.required"
-  }
-  if (!values.unit_std_processing_cost === "") {
-    errors.unit_std_processing_cost = "ra.validation.required"
-  }
-  if (!values.unit_std_processing_cost === "") {
-    errors.unit_std_processing_cost = "ra.validation.required"
-  }
-  if (!values.total_standard_cost === "") {
-    errors.total_standard_cost = "ra.validation.required"
-  }
-  return errors
-}
 
 export const CustomReferenceInput = ({reference, source, label, required=false, disabled }) => {
   const dataProvider = useDataProvider();
@@ -151,51 +104,70 @@ export const ChildTab = ({ disabled = false }) => {
                 <CustomReferenceInput label={translate('resources.inventoryItems.detail.fields.currency')} source="currency_id" reference="currencies" disabled={disabled} />
               </Grid>
               <Grid item xs={12}>
-                <TextInput source="latest_purchase_price" label={translate('resources.inventoryItems.detail.fields.latest_purchase_price')}
+                <NumberInput source="latest_purchase_price" label={translate('resources.inventoryItems.detail.fields.latest_purchase_price')}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    autoComplete: "off"
                   }} disabled={disabled} />
               </Grid>
             </Grid>
           </Box>
           <Box sx={{ display: tabIndex === 1 ? "block" : "none" }}>
-            <TextInput source="customer_code" label={translate('resources.inventoryItems.detail.fields.customer_code')} />
+            <TextInput 
+              source="customer_code" 
+              label={translate('resources.inventoryItems.detail.fields.customer_code')} 
+              inputProps={{
+                autoComplete: "off"
+              }} />
             <NumberInput source="cost" label={translate('resources.inventoryItems.detail.fields.cost')}
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                autoComplete: "off"
               }} disabled={disabled} />
           </Box>
           <Box sx={{ display: tabIndex === 2 ? "block" : "none" }}>
-            <NumberInput source="unit_weight" label={translate('resources.inventoryItems.detail.fields.unit_weight')} disabled={disabled} />
+            <NumberInput 
+              source="unit_weight" 
+              label={translate('resources.inventoryItems.detail.fields.unit_weight')} 
+              disabled={disabled} 
+              inputProps={{
+                autoComplete: "off"
+              }}
+            />
           </Box>
           <Box sx={{ display: tabIndex === 3 ? "block" : "none" }}>
             <NumberInput source="unit_std_material_cost" label={translate('resources.inventoryItems.detail.fields.unit_std_material_cost')}
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                autoComplete: "off"
               }} 
               isRequired={!disabled}
               disabled={disabled} />
             <NumberInput source="unit_std_labor_cost" label={translate('resources.inventoryItems.detail.fields.unit_std_labor_cost')}
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                autoComplete: "off"
               }}
               isRequired={!disabled}
               disabled={disabled} />
             <NumberInput source="unit_std_manufacturing_cost" label={translate('resources.inventoryItems.detail.fields.unit_std_manufacturing_cost')}
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                autoComplete: "off"
               }}
               isRequired={!disabled}
               disabled={disabled} />
             <NumberInput source="unit_std_processing_cost" label={translate('resources.inventoryItems.detail.fields.unit_std_processing_cost')}
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                autoComplete: "off"
               }}
               isRequired={!disabled}
               disabled={disabled} />
             <NumberInput source="total_standard_cost" label={translate('resources.inventoryItems.detail.fields.total_standard_cost')}
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                autoComplete: "off"
               }}
               isRequired={!disabled}
               disabled={disabled} />
@@ -221,7 +193,8 @@ export const InventoryAmountInput = () => {
   return (
     <NumberInput  source="inventory_amount" label={translate('resources.inventoryItems.detail.fields.inventory_amount')}
       InputProps={{
-        startAdornment: <InputAdornment position="start">$</InputAdornment>
+        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        autoComplete: "off"
       }} />
   );
 }
@@ -230,30 +203,44 @@ export const InventoryItemCodeInput = () => {
   const translate = useTranslate();
   const { setError, clearErrors } = useFormContext();
 
+  const inventory_item_category_id = useWatch({ name: "inventory_item_category_id" });
   const code = useWatch({ name: "code" });
-  const attribute = useWatch({ name: "attribute" });
 
-  const getMaxLength = attribute === "M" ? 18 : 15;
+  const { data: category } = useGetOne('inventory-item-categories', 
+    { id: inventory_item_category_id },
+    { enabled: !!inventory_item_category_id }
+  );
+
+  const validateCode = useCallback((value) => {
+    if (!value) return undefined;
+    if (!category?.code) return undefined;
+      
+    const requiredLength = category.code === "130" ? 18 : 15;
+    return value.length === requiredLength 
+      ? undefined 
+      : translate(`resources.inventoryItems.detail.validation.exact_length_${requiredLength}`);
+  }, [category?.code, translate]);
 
   useEffect(() => {
-    if (code) {
-      if (attribute === "M" && code.length !== 18) {
-        setError("code", { type: "required", message: translate('resources.inventoryItems.detail.validation.exact_length_18') });
-      } else if (attribute !== "M" && code.length !== 15) {
-        setError("code", { type: "required", message: translate('resources.inventoryItems.detail.validation.exact_length_15') });
-      } else {
-        clearErrors("code");
-      }
+    const error = validateCode(code);
+    if (error) {
+      setError("code", { type: "manual", message: error });
+    } else {
+      clearErrors("code");
     }
-  }, [code, attribute, setError, clearErrors, translate]);
+  }, [code, category?.code, clearErrors, setError, validateCode]);
 
   return (
     <TextInput
       source="code"
       label={translate('resources.inventoryItems.detail.fields.code')}
-      placeholder="15或18碼"
-      inputProps={{ maxLength: getMaxLength }} 
+      placeholder={translate('resources.inventoryItems.detail.placeholders.code')}
       isRequired
+      inputProps={{
+        maxLength: category?.code === "130" ? 18 : 15,
+        autoComplete: "off"
+      }}
+      validate={validateCode} // 雙重驗證機制
     />
   );
 };
@@ -315,17 +302,23 @@ export const InventoryItemForm = ({ disabled = false }) => {
             <Grid item xs={12} sm={12}>
               <TextInput  source="name" label={translate('resources.inventoryItems.detail.fields.name')} 
                 isRequired={!disabled}
-                disabled={disabled} />
+                disabled={disabled}
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={12}>
               <TextInput 
                 source="specification" 
-                label={translate('resources.inventoryItems.detail.fields.specification')} 
-                inputProps={{ maxLength: 120 }}
+                label={translate('resources.inventoryItems.detail.fields.specification')}
                 multiline
                 rows={2} 
                 isRequired={!disabled}
-                disabled={disabled} />
+                disabled={disabled} 
+                inputProps={{
+                  maxLength: 120,
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomReferenceInput label={translate('resources.inventoryItems.detail.fields.unit')}  source="unit_id" reference="units" required={true} disabled={disabled} />
@@ -336,12 +329,17 @@ export const InventoryItemForm = ({ disabled = false }) => {
                 label={translate('resources.inventoryItems.detail.fields.inventory')} 
                 step={1}
                 format={(v) => Math.round(v)} 
-                disabled={disabled} />
+                disabled={disabled} 
+                inputProps={{
+                  autoComplete: "off"
+                }}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
               <NumberInput  source="unit_cost" label={translate('resources.inventoryItems.detail.fields.unit_cost')} 
                 InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  autoComplete: "off"
                 }}
                 format={(v) => {
                   return Math.round(v * 100) / 100;
@@ -353,7 +351,8 @@ export const InventoryItemForm = ({ disabled = false }) => {
                 ? <InventoryAmountInput /> 
                 : <NumberInput  source="inventory_amount" label={translate('resources.inventoryItems.detail.fields.inventory_amount')}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    autoComplete: "off"
                   }} disabled />
               }
             </Grid>
@@ -389,6 +388,7 @@ export const InventoryItemForm = ({ disabled = false }) => {
 
 const InventoryItemClone = () => {
   const { id } = useParams();
+  const dataProvider = useDataProvider()
   const translate = useTranslate();
   const notify = useNotify();
   /* const [key, setKey] = useState(0); */
@@ -403,6 +403,65 @@ const InventoryItemClone = () => {
     ...cloneData,
     effective_date: new Date().toISOString().split('T')[0]
   };
+
+  const validateForm = async (values) => {
+    const errors = {}
+    if (!values.inventory_item_category_id) {
+      errors.inventory_item_category_id = "ra.validation.required"
+    }
+    if (!values.code) {
+      errors.code = 'ra.validation.required';
+    } else {
+      try {
+        const { data: category } = await dataProvider.getOne('inventory-item-categories', {
+          id: values.inventory_item_category_id,
+        });
+
+        const requiredLength = category.code === '130' ? 18 : 15;
+
+        if (values.code.length !== requiredLength) {
+          errors.code = `resources.inventoryItems.detail.validation.exact_length_${requiredLength}`;
+        }
+      } catch (error) {
+        // 若找不到分類，仍可顯示錯誤
+        errors.code = 'resources.inventoryItems.detail.validation.category_not_found';
+      }
+    }
+    if (!values.name) {
+      errors.name = "ra.validation.required"
+    }
+    if (!values.specification) {
+      errors.specification = "ra.validation.required"
+    }
+    if (!values.unit_id) {
+      errors.unit_id = "ra.validation.required"
+    }
+    if (!values.warehouse_id) {
+      errors.warehouse_id = "ra.validation.required"
+    }
+    if (!values.inspection_method) {
+      errors.inspection_method = "ra.validation.required"
+    }
+    if (values.unit_std_material_cost === "") {
+      errors.unit_std_material_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_labor_cost === "") {
+      errors.unit_std_labor_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_manufacturing_cost === "") {
+      errors.unit_std_manufacturing_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_processing_cost === "") {
+      errors.unit_std_processing_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_processing_cost === "") {
+      errors.unit_std_processing_cost = "ra.validation.required"
+    }
+    if (!values.total_standard_cost === "") {
+      errors.total_standard_cost = "ra.validation.required"
+    }
+    return errors
+  }
 
   // const onSuccess = () => {
   //   notify("資料新增成功", { type: "success", autoHideDuration: 2000 });

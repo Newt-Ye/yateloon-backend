@@ -3,18 +3,80 @@ import {
   Edit,
   SimpleForm,
   useTranslate,
-  SaveButton
+  SaveButton,
+  useDataProvider
 } from "react-admin"
 import { Typography, Box } from "@mui/material"
 import { AuditFields } from "../components/AuditFields"
-import { validateForm, InventoryItemForm } from "./InventoryItemCreate"
+import { InventoryItemForm } from "./InventoryItemCreate"
 
 const InventoryItemTitle = () => {
   return <span>{'修改品號'}</span>;
 };
 
 const InventoryItemEdit = () => {
+  const dataProvider = useDataProvider()
   const translate = useTranslate();
+
+  const validateForm = async (values) => {
+    const errors = {}
+    if (!values.inventory_item_category_id) {
+      errors.inventory_item_category_id = "ra.validation.required"
+    }
+    if (!values.code) {
+      errors.code = 'ra.validation.required';
+    } else {
+      try {
+        const { data: category } = await dataProvider.getOne('inventory-item-categories', {
+          id: values.inventory_item_category_id,
+        });
+
+        const requiredLength = category.code === '130' ? 18 : 15;
+
+        if (values.code.length !== requiredLength) {
+          errors.code = `resources.inventoryItems.detail.validation.exact_length_${requiredLength}`;
+        }
+      } catch (error) {
+        // 若找不到分類，仍可顯示錯誤
+        errors.code = 'resources.inventoryItems.detail.validation.category_not_found';
+      }
+    }
+    if (!values.name) {
+      errors.name = "ra.validation.required"
+    }
+    if (!values.specification) {
+      errors.specification = "ra.validation.required"
+    }
+    if (!values.unit_id) {
+      errors.unit_id = "ra.validation.required"
+    }
+    if (!values.warehouse_id) {
+      errors.warehouse_id = "ra.validation.required"
+    }
+    if (!values.inspection_method) {
+      errors.inspection_method = "ra.validation.required"
+    }
+    if (values.unit_std_material_cost === "") {
+      errors.unit_std_material_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_labor_cost === "") {
+      errors.unit_std_labor_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_manufacturing_cost === "") {
+      errors.unit_std_manufacturing_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_processing_cost === "") {
+      errors.unit_std_processing_cost = "ra.validation.required"
+    }
+    if (!values.unit_std_processing_cost === "") {
+      errors.unit_std_processing_cost = "ra.validation.required"
+    }
+    if (!values.total_standard_cost === "") {
+      errors.total_standard_cost = "ra.validation.required"
+    }
+    return errors
+  }
+
   return (
     <>
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>

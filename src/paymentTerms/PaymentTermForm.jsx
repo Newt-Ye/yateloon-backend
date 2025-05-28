@@ -88,14 +88,22 @@ const PaymentTermForm = ({
             source="code"
             label={translate('resources.paymentTerms.commons.fields.code')}
             isRequired={!disabled}
-            readOnly={disabled} />
+            readOnly={disabled} 
+            inputProps={{
+              autoComplete: "off"
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextInput 
             source="name" 
             label={translate('resources.paymentTerms.commons.fields.name')}
             isRequired={!disabled}
-            readOnly={disabled} />
+            readOnly={disabled} 
+            inputProps={{
+              autoComplete: "off"
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <RadioButtonGroupInput 
@@ -131,10 +139,13 @@ const PaymentTermForm = ({
               {translate('resources.paymentTerms.detail.fields.after_settlement')}
             </Typography>
             <Box sx={{ width: '100px' }}>
-              <TextInput 
+              <NumberInput 
                 source="after_settlement_days"
                 label={false}
                 readOnly={disabled}
+                inputProps={{
+                  autoComplete: "off"
+                }}
               />
             </Box>
             <Typography variant="subtitle1">
@@ -159,6 +170,9 @@ const PaymentTermForm = ({
                 source="after_settlement_months" 
                 label={false}
                 readOnly={disabled}
+                inputProps={{
+                  autoComplete: "off"
+                }}
               />
             </Box>
             <Typography variant="subtitle1">
@@ -169,6 +183,9 @@ const PaymentTermForm = ({
                 source="fixed_day_of_month" 
                 label={false}
                 readOnly={disabled}
+                inputProps={{
+                  autoComplete: "off"
+                }}
               />
             </Box>
             <Typography variant="subtitle1">

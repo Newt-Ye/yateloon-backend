@@ -288,19 +288,40 @@ const UserEdit = () => {
               <BooleanInput label={translate('resources.users.detail.fields.super_user')} source="is_admin" helperText={false} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="account" label={translate('resources.users.detail.fields.account')} readOnly isRequired />
+              <TextInput 
+                autoFocus 
+                source="account" 
+                label={translate('resources.users.detail.fields.account')} 
+                readOnly 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <StatusInput readOnly={readOnly} setReadOnly={setReadOnly} setDateReadOnly={setDateReadOnly} setExpiredDateReadOnly={setExpiredDateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label={translate('resources.users.detail.fields.name')} isRequired />
+              <TextInput 
+                source="name" 
+                label={translate('resources.users.detail.fields.name')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <EffectiveDateInput setReadOnly={setReadOnly} dateReadOnly={dateReadOnly} setDateReadOnly={setDateReadOnly} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput type="email" source="email" label={translate('resources.users.detail.fields.email')} isRequired />
+              <TextInput 
+                type="email" 
+                source="email" 
+                label={translate('resources.users.detail.fields.email')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <ExpiredDateInput setReadOnly={setReadOnly} expiredDateReadOnly={expiredDateReadOnly} setExpiredDateReadOnly={setExpiredDateReadOnly} />

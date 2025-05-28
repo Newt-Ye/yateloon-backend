@@ -58,7 +58,10 @@ const DepartmentForm = ({
               "resources.departments.commons.fields.code"
             )} 
             isRequired={formType === 'show' ? false : true}
-            readOnly={formType === 'create' ? false : true} />
+            readOnly={formType === 'create' ? false : true} 
+            inputProps={{
+              autoComplete: "off"
+            }} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextInput 
@@ -67,7 +70,10 @@ const DepartmentForm = ({
               "resources.departments.commons.fields.name"
             )} 
             isRequired={formType === 'show' ? false : true}
-            readOnly={formType === 'create' ? false : true} />
+            readOnly={formType === 'create' ? false : true} 
+            inputProps={{
+              autoComplete: "off"
+            }} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <ReferenceInput 

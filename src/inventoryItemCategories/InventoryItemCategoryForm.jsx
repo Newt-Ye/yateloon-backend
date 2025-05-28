@@ -77,6 +77,9 @@ const InventoryItemCategoryForm = ({
                 isRequired={!disabled}
                 disabled={disabled} 
                 autoFocus={!disabled} 
+                inputProps={{
+                  autoComplete: "off"
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -85,6 +88,9 @@ const InventoryItemCategoryForm = ({
                 label={translate('resources.inventoryItemCategories.detail.fields.name')}
                 isRequired={!disabled}
                 disabled={disabled} 
+                inputProps={{
+                  autoComplete: "off"
+                }}
               />
             </Grid>
           </Grid>

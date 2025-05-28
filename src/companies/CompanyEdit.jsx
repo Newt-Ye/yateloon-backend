@@ -66,10 +66,22 @@ const CompanyEdit = () => {
               <ShortNameInput />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label={translate('resources.companies.detail.fields.name')} isRequired />
+              <TextInput 
+                source="name" 
+                label={translate('resources.companies.detail.fields.name')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="responsible_person" label={translate('resources.companies.detail.fields.responsible_person')} isRequired />
+              <TextInput 
+                source="responsible_person" 
+                label={translate('resources.companies.detail.fields.responsible_person')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectInput source="region_type" label={translate('resources.companies.detail.fields.region_type')} choices={[
@@ -78,13 +90,30 @@ const CompanyEdit = () => {
               ]} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="phone" label={translate('resources.companies.detail.fields.phone')} isRequired />
+              <TextInput 
+                source="phone" 
+                label={translate('resources.companies.detail.fields.phone')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="fax" label={translate('resources.companies.detail.fields.fax')} />
+              <TextInput 
+                source="fax" 
+                label={translate('resources.companies.detail.fields.fax')} 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12}>
-              <TextInput source="address" label={translate('resources.companies.detail.fields.address')} isRequired />
+              <TextInput 
+                source="address" 
+                label={translate('resources.companies.detail.fields.address')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
           </Grid>
           <AuditFields />

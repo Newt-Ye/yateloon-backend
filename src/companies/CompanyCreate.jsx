@@ -55,7 +55,14 @@ export const ShortNameInput = () => {
   };
 
   return (
-    <TextInput source="short_name" label={translate('resources.companies.detail.fields.short_name')} onBlur={handleShortNameBlur} isRequired />
+    <TextInput 
+      source="short_name" 
+      label={translate('resources.companies.detail.fields.short_name')} 
+      onBlur={handleShortNameBlur} 
+      isRequired 
+      inputProps={{
+        autoComplete: "off"
+      }} />
   );
 }
 
@@ -101,7 +108,14 @@ const CompanyCreate = () => {
           </Box>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextInput autoFocus source="code" label={translate('resources.companies.detail.fields.code')} isRequired />
+              <TextInput 
+                autoFocus 
+                source="code" 
+                label={translate('resources.companies.detail.fields.code')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectInput source="status" label={translate('resources.companies.detail.fields.status')} isRequired choices={[
@@ -114,10 +128,22 @@ const CompanyCreate = () => {
               <ShortNameInput />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="name" label={translate('resources.companies.detail.fields.name')} isRequired />
+              <TextInput 
+                source="name" 
+                label={translate('resources.companies.detail.fields.name')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="responsible_person" label={translate('resources.companies.detail.fields.responsible_person')} isRequired />
+              <TextInput 
+                source="responsible_person" 
+                label={translate('resources.companies.detail.fields.responsible_person')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectInput source="region_type" label={translate('resources.companies.detail.fields.region_type')} choices={[
@@ -126,13 +152,30 @@ const CompanyCreate = () => {
               ]} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="phone" label={translate('resources.companies.detail.fields.phone')} isRequired />
+              <TextInput 
+                source="phone" 
+                label={translate('resources.companies.detail.fields.phone')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextInput source="fax" label={translate('resources.companies.detail.fields.fax')} />
+              <TextInput 
+                source="fax" 
+                label={translate('resources.companies.detail.fields.fax')} 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
             <Grid item xs={12}>
-              <TextInput source="address" label={translate('resources.companies.detail.fields.address')} isRequired />
+              <TextInput 
+                source="address" 
+                label={translate('resources.companies.detail.fields.address')} 
+                isRequired 
+                inputProps={{
+                  autoComplete: "off"
+                }} />
             </Grid>
           </Grid>
         </SimpleForm>

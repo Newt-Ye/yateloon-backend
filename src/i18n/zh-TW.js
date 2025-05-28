@@ -331,6 +331,9 @@ const customChineseTWMessages = {
         fieldGroups: {
           basic_info: "基本資料",
         },
+        placeholders: {
+          code: "15碼或18碼"
+        },
         page: {
         },
         errors: {

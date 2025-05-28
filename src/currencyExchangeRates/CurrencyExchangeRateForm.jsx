@@ -90,6 +90,9 @@ const CurrencyExchangeRateForm = ({
                     label={translate('resources.currencyExchangeRates.commons.fields.bank_buy_rate')} 
                     isRequired={!disabled}
                     readOnly={disabled}
+                    inputProps={{
+                      autoComplete: "off"
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -98,6 +101,9 @@ const CurrencyExchangeRateForm = ({
                     label={translate('resources.currencyExchangeRates.commons.fields.bank_sell_rate')}
                     isRequired={!disabled} 
                     readOnly={disabled}
+                    inputProps={{
+                      autoComplete: "off"
+                    }}
                   />
                 </Grid>
               </>

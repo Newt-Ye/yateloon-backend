@@ -32,6 +32,7 @@ const CurrencyForm = ({
       defaultValues={{
         code: "",
         name: "",
+        unit_price_precision: '0',
         amount_precision: '0',
         unit_cost_precision: '0',
         total_cost_precision: '0',
@@ -49,10 +50,13 @@ const CurrencyForm = ({
           <TextInput 
             autoFocus 
             source="code" 
-            label={translate('resources.currencies.commons.fields.code')} 
-            inputProps={{ maxLength: 3 }} 
+            label={translate('resources.currencies.commons.fields.code')}
             isRequired={!disabled}
             readOnly={disabled}
+            inputProps={{
+              maxLength: 3,
+              autoComplete: "off"
+            }} 
           />
         </Grid>
         <Grid item xs={12}>
@@ -61,6 +65,9 @@ const CurrencyForm = ({
             label={translate('resources.currencies.commons.fields.name')} 
             isRequired={!disabled}
             readOnly={disabled}
+            inputProps={{
+              autoComplete: "off"
+            }}
           />
         </Grid>
         <Grid item xs={12}>

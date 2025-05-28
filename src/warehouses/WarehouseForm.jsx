@@ -84,14 +84,20 @@ const WarehouseForm = ({
               source="code" 
               label={translate('resources.warehouses.commons.fields.code')}
               isRequired={!disabled}
-              readOnly={disabled} />
+              readOnly={disabled} 
+              inputProps={{
+                autoComplete: "off"
+              }} />
           </Grid>
           <Grid item xs={12}>
             <TextInput 
               source="name" 
               label={translate('resources.warehouses.commons.fields.name')}  
               isRequired={!disabled}
-              readOnly={disabled} />
+              readOnly={disabled} 
+              inputProps={{
+                autoComplete: "off"
+              }} />
           </Grid>
           <Grid item xs={6} sm={4}>
             <BooleanInput 

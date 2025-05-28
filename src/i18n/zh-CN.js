@@ -331,6 +331,9 @@ const customChineseMessages = {
         fieldGroups: {
           basic_info: "基本资料",
         },
+        placeholders: {
+          code: "15码或18码"
+        },
         page: {
         },
         errors: {

@@ -46,14 +46,20 @@ const FactoryForm = ({
               source="code"
               label={translate('resources.factories.commons.fields.code')}
               isRequired={!disabled}
-              readOnly={disabled} />
+              readOnly={disabled}
+              inputProps={{
+                autoComplete: "off"
+              }} />
           </Grid>
           <Grid item xs={12}>
             <TextInput 
               source="name" 
               label={translate('resources.factories.commons.fields.name')}
               isRequired={!disabled}
-              readOnly={disabled} />
+              readOnly={disabled} 
+              inputProps={{
+                autoComplete: "off"
+              }} />
           </Grid>
           {WarehouseList && <WarehouseList />}
       </Grid>

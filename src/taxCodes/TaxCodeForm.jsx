@@ -63,14 +63,22 @@ const TaxCodeForm = ({
             source="code"
             label={translate('resources.taxCodes.commons.fields.code')}
             isRequired={!disabled}
-            readOnly={disabled} />
+            readOnly={disabled} 
+            inputProps={{
+              autoComplete: "off"
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextInput 
             source="name" 
             label={translate('resources.taxCodes.commons.fields.name')}
             isRequired={!disabled}
-            readOnly={disabled} />
+            readOnly={disabled} 
+            inputProps={{
+              autoComplete: "off"
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <RadioButtonGroupInput 
@@ -116,7 +124,8 @@ const TaxCodeForm = ({
             label={translate('resources.taxCodes.commons.fields.tax_rate')}
             format={v => v ? Math.round(v) : ""}
             InputProps={{
-              endAdornment: <InputAdornment position="start">%</InputAdornment>
+              endAdornment: <InputAdornment position="start">%</InputAdornment>,
+              autoComplete: "off"
             }} 
             readOnly={disabled} />
         </Grid>
