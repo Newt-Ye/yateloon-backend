@@ -281,7 +281,7 @@ const ApprovalSettingForm = ({
         <NumberInput 
           source="multi_approver_count" 
           label={translate('resources.approvalSettings.detail.fields.multi_approver_count')} 
-          readOnly={disabled}
+          readOnly={formType === 'show' ? true : disabled ? true : false}
           min={1}
         />
       )
@@ -639,10 +639,19 @@ const ApprovalSettingForm = ({
                   }} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <ApprovalFormSelector/>
+                <TotalStepsInput/>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TotalStepsInput/>
+                <SelectInput source="is_enabled" label={translate('resources.approvalSettings.commons.fields.is_enabled')} 
+                  choices={[
+                    { id: 0, name: '未啟用' },
+                    { id: 1, name: '啟用中' }
+                  ]}  
+                  isRequired={formType === 'show' ? false : true}
+                  readOnly={formType === 'show' ? true : false}/>
+              </Grid>
+              <Grid item xs={12}>
+                <ApprovalFormSelector/>
               </Grid>
               <Grid item xs={12}>
                 <TextInput source="note"
