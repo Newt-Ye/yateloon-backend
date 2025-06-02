@@ -14,7 +14,8 @@ import {
   useDataProvider,
   AutocompleteArrayInput,
   useNotify,
-  useGetList
+  useGetList,
+  Toolbar
 } from "react-admin"
 import {
   Box,
@@ -88,6 +89,30 @@ const validateForm = values => {
     }
   }
   return errors
+}
+
+// 自訂一個固定右上角的 Toolbar
+const FixedSaveToolbar = ({ formType }) => {
+  if (formType === "show") return null
+  return (
+    <Toolbar
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 10,
+        p: 2,
+        // backgroundColor: 'transparent',
+        backgroundColor: 'white',
+        boxShadow: 'none',
+        width: '99%',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}
+    >
+      <SaveButton/>
+    </Toolbar>
+  )
 }
 
 const ApprovalSettingForm = ({ 
@@ -324,7 +349,7 @@ const ApprovalSettingForm = ({
           notify("resources.approvalSettings.detail.errors.single_approver_required", { type: "error", autoHideDuration: 2000 });
           return;
         }
-        setValue(`steps.${index}.approver_ids`, selected);
+        setValue(`steps.${index}.approver_ids`, selected, {shouldDirty: true});
         handleClose()
       };
 
@@ -551,88 +576,104 @@ const ApprovalSettingForm = ({
   };
 
   return (
-    <SimpleForm
-      key={formKey}
-      defaultValues={{
-        name: "",
-        code: "",
-        total_steps: 1,
-        is_enabled: 1,
-        steps: [
-          {
-            step_name: "",
-            approval_type: "user",
-            approval_department_id: "",
-            approver_ids: [],
-            allow_self_assign: 0,
-            multi_approver_enabled: 0,
-            multi_approver_rule: "all",
-            multi_approver_count: "",
-            reject_behavior: "previous"
-          }
-        ]
+    <Box
+      sx={{
+        position: "relative",
+        height: "80vh",
+        display: "flex",
+        flexDirection: "column",
       }}
-      validate={validateForm}
-      toolbar={false}
     >
-      <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
-        <SaveButton />
+      <Box
+        sx={{
+          flex: 1,
+          overflow: "auto",
+          padding: 2,
+          paddingTop: formType !== "show" ? 8 : 2, // 預留 SaveButton 空間
+        }}
+      >
+        <SimpleForm
+          key={formKey}
+          defaultValues={{
+            name: "",
+            code: "",
+            total_steps: 1,
+            is_enabled: 1,
+            steps: [
+              {
+                step_name: "",
+                approval_type: "user",
+                approval_department_id: "",
+                approver_ids: [],
+                allow_self_assign: 0,
+                multi_approver_enabled: 0,
+                multi_approver_rule: "all",
+                multi_approver_count: "",
+                reject_behavior: "previous"
+              }
+            ]
+          }}
+          validate={validateForm}
+          toolbar={<FixedSaveToolbar formType={formType} />}
+        >
+          <Grid container width={{ xs: "100%", xl: 900 }} spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextInput 
+                  autoFocus 
+                  source="code"
+                  label={translate('resources.approvalSettings.commons.fields.code')}
+                  isRequired={formType === 'show' ? false : true}
+                  readOnly={formType === 'show' ? true : false} 
+                  inputProps={{
+                    autoComplete: "off"
+                  }} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextInput 
+                  source="name" 
+                  label={translate('resources.approvalSettings.commons.fields.name')}
+                  isRequired={formType === 'show' ? false : true}
+                  readOnly={formType === 'show' ? true : false} 
+                  inputProps={{
+                    autoComplete: "off"
+                  }} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <ApprovalFormSelector/>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TotalStepsInput/>
+              </Grid>
+              <Grid item xs={12}>
+                <TextInput source="note"
+                  label={translate('resources.approvalSettings.commons.fields.note')}
+                  multiline
+                  rows={4}
+                  readOnly={formType === 'show' ? true : false} 
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Card>
+                  <CardContent>
+                    <Box sx={{ 
+                      display: "flex",
+                      justifyContent: "left",
+                      alignItems: "center",
+                      mb: 2 }} >
+                      <Typography variant="h6" gutterBottom>
+                        {translate('resources.approvalSettings.detail.fieldGroups.approval_steps')}
+                      </Typography>
+                    </Box>
+                    <ApprovalStepsGrid/>
+                  </CardContent>
+                </Card>
+              </Grid>
+          </Grid>
+          
+          {AuditFields && <AuditFields />}
+        </SimpleForm>
       </Box>
-      <Grid container width={{ xs: "100%", xl: 900 }} spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextInput 
-              autoFocus 
-              source="code"
-              label={translate('resources.approvalSettings.commons.fields.code')}
-              isRequired={formType === 'show' ? false : true}
-              readOnly={formType === 'show' ? true : false} 
-              inputProps={{
-                autoComplete: "off"
-              }} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextInput 
-              source="name" 
-              label={translate('resources.approvalSettings.commons.fields.name')}
-              isRequired={formType === 'show' ? false : true}
-              readOnly={formType === 'show' ? true : false} 
-              inputProps={{
-                autoComplete: "off"
-              }} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <ApprovalFormSelector/>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TotalStepsInput/>
-          </Grid>
-          <Grid item xs={12}>
-            <TextInput source="note"
-              label={translate('resources.approvalSettings.commons.fields.note')}
-              multiline
-              rows={4}
-              readOnly={formType === 'show' ? true : false} 
-            />
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <Card>
-              <CardContent>
-                <Box sx={{ 
-                  display: "flex",
-                  justifyContent: "left",
-                  alignItems: "center",
-                  mb: 2 }} >
-                  <Typography variant="h6" gutterBottom>
-                    {translate('resources.approvalSettings.detail.fieldGroups.approval_steps')}
-                  </Typography>
-                </Box>
-                <ApprovalStepsGrid/>
-              </CardContent>
-            </Card>
-          </Grid>
-      </Grid>
-      {AuditFields && <AuditFields />}
-    </SimpleForm>
+    </Box>
   )
 }
 
