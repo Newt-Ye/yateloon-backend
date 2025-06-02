@@ -1,6 +1,7 @@
 import InventoryIcon from '@mui/icons-material/Inventory';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TuneIcon from '@mui/icons-material/Tune';
+import ApprovalIcon from '@mui/icons-material/Approval';
 
 export const menuItems = [
   {
@@ -11,6 +12,7 @@ export const menuItems = [
       { 
         resource: "inventory-item-categories", 
         primaryText: "品號類別",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' }
@@ -19,6 +21,7 @@ export const menuItems = [
       { 
         resource: "inventory-items", 
         primaryText: "品號資料",
+        isApprovalForm: true,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -36,6 +39,7 @@ export const menuItems = [
       { 
         resource: "users", 
         primaryText: "登入者代號",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -45,6 +49,7 @@ export const menuItems = [
       { 
         resource: "companies",
         primaryText: "公司資料",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -54,6 +59,7 @@ export const menuItems = [
       { 
         resource: "departments", 
         primaryText: "部門權限",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -63,6 +69,7 @@ export const menuItems = [
       { 
         resource: "permissions",
         primaryText: "使用者權限",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'edit', name: '修改' }
@@ -78,6 +85,7 @@ export const menuItems = [
       { 
         resource: "settings", 
         primaryText: "共同參數設定",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'edit', name: '修改' }
@@ -86,6 +94,7 @@ export const menuItems = [
       { 
         resource: "factories", 
         primaryText: "廠別資料",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -95,6 +104,7 @@ export const menuItems = [
       { 
         resource: "warehouses", 
         primaryText: "庫別資料",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -104,6 +114,7 @@ export const menuItems = [
       { 
         resource: "currencies", 
         primaryText: "幣別資料",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -113,6 +124,7 @@ export const menuItems = [
       { 
         resource: "currency-exchange-rates", 
         primaryText: "幣別匯率",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'edit', name: '修改' }
@@ -121,6 +133,7 @@ export const menuItems = [
       { 
         resource: "payment-terms", 
         primaryText: "付款條件",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -130,6 +143,7 @@ export const menuItems = [
       { 
         resource: "trading-partners", 
         primaryText: "交易對象",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -139,6 +153,7 @@ export const menuItems = [
       { 
         resource: "trading-terms", 
         primaryText: "交易條件",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },
@@ -148,6 +163,24 @@ export const menuItems = [
       { 
         resource: "tax-codes", 
         primaryText: "稅別碼",
+        isApprovalForm: false,
+        permissions: [
+          { id: 'view', name: '檢視' },
+          { id: 'create', name: '新增' },
+          { id: 'edit', name: '修改' }
+        ]
+      }
+    ]
+  },
+  {
+    key: "menuApproval",
+    name: "簽核模組",
+    icon: <ApprovalIcon />,
+    items: [
+      { 
+        resource: "approval-settings", 
+        primaryText: "簽核設定",
+        isApprovalForm: false,
         permissions: [
           { id: 'view', name: '檢視' },
           { id: 'create', name: '新增' },

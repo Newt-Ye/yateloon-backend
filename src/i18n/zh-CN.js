@@ -795,6 +795,60 @@ const customChineseMessages = {
         }
       }
     },
+    approvalSettings: {
+      name: "签核设定 |||| 签核设定",
+      amount: "1 签核设定 |||| %{smart_count} 签核设定",
+      title: "签核设定",
+      commons: {
+        fields: {
+          code: "签核流程代号",
+          name: "签核流程名称",
+          resources: "适用单据",
+          total_steps: "签核层级数量",
+          is_enabled: "启用状态",
+          note: "备註",
+          created_at: "建立时间",
+        },
+        choices: {
+        },
+      },
+      list: {
+        title: "签核设定列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          step_name: "层级名称",
+          approval_type: "签核类型",
+          approvers: "指定签核人员",
+          approval_department: "指定签核部门",
+          allow_self_assign: "是否可自行指定签核人",
+          multi_approver_enabled: "是否多人签核",
+          multi_approver_rule: "多人签核条件",
+          multi_approver_count: "自行指定签核人数",
+          reject_behavior: "驳回处理方式",
+        },
+        fieldGroups: {
+          approval_steps: "签核层级设定",
+        },
+        dialog: {
+          approvers: "签核人员",
+          department: "部门",
+          account: "登入代号",
+          user_name: "姓名",
+        },
+        action: {
+          select_approvers: "选择签核人员",
+        },
+        errors: {
+          min_one_step_required: "最少需设定一层层级设定",
+          single_approver_required: "只能选择1名签核人员"
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "创建人",

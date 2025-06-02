@@ -25,6 +25,7 @@ import paymentTerms from './paymentTerms';
 import tradingPartners from './tradingPartners';
 import tradingTerms from './tradingTerms';
 import taxCodes from './taxCodes';
+import approvalSettings from './approvalSettings';
 import i18nProvider from './i18n';
 import { Layout, Login } from "./layout";
 import InventoryItemClone  from "./inventoryItems/InventoryItemClone";
@@ -80,6 +81,7 @@ const AppWrapper = () => {
         <Resource name="trading-partners" {...tradingPartners} />
         <Resource name="trading-terms" {...tradingTerms} />
         <Resource name="tax-codes" {...taxCodes} />
+        <Resource name="approval-settings" {...approvalSettings} />
       </Admin>
     </StoreContextProvider>
   );

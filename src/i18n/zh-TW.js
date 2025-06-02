@@ -817,6 +817,60 @@ const customChineseTWMessages = {
         }
       }
     },
+    approvalSettings: {
+      name: "簽核設定 |||| 簽核設定",
+      amount: "1 簽核設定 |||| %{smart_count} 簽核設定",
+      title: "簽核設定",
+      commons: {
+        fields: {
+          code: "簽核流程代號",
+          name: "簽核流程名稱",
+          resources: "適用單據",
+          total_steps: "簽核層級數量",
+          is_enabled: "啟用狀態",
+          note: "備註",
+          created_at: "建立時間",
+        },
+        choices: {
+        },
+      },
+      list: {
+        title: "簽核設定列表",
+        fields: {
+        },
+        filters: {
+        }
+      },
+      detail: {
+        fields: {
+          step_name: "層級名稱",
+          approval_type: "簽核類型",
+          approvers: "指定簽核人員",
+          approval_department: "指定簽核部門",
+          allow_self_assign: "是否可自行指定簽核人",
+          multi_approver_enabled: "是否多人簽核",
+          multi_approver_rule: "多人簽核條件",
+          multi_approver_count: "自行指定簽核人數",
+          reject_behavior: "駁回處理方式",
+        },
+        fieldGroups: {
+          approval_steps: "簽核層級設定",
+        },
+        dialog: {
+          approvers: "簽核人員",
+          department: "部門",
+          account: "登入代號",
+          user_name: "姓名",
+        },
+        action: {
+          select_approvers: "選擇簽核人員",
+        },
+        errors: {
+          min_one_step_required: "最少需設定一層層級設定",
+          single_approver_required: "只能選擇1名簽核人員"
+        }
+      }
+    },
     common: {
       fields: {
         created_by: "建立者",
