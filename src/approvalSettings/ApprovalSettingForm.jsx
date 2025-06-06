@@ -143,17 +143,28 @@ const ApprovalSettingForm = ({
   )
 
   // 簽核層級數量
-  const TotalStepsInput = () => (
-    <NumberInput 
-      source="total_steps" 
-      label={translate('resources.approvalSettings.commons.fields.total_steps')}
-      isRequired={formType === 'show' ? false : true}
-      readOnly={formType === 'show' ? true : false} 
-      min={1}
-      inputProps={{
-        autoComplete: "off"
-      }}/>
-  )
+  const TotalStepsInput = () => {
+    const { setValue } = useFormContext();
+    const steps = useWatch({ name: 'steps' });
+    
+    const stepLength = useMemo(() => (steps || []).length, [steps]);
+
+    useEffect(() => {
+      setValue("total_steps", stepLength);
+    }, [stepLength, setValue]);
+
+    return (
+      <NumberInput 
+        source="total_steps" 
+        label={translate('resources.approvalSettings.commons.fields.total_steps')}
+        isRequired={formType === 'show' ? false : true}
+        readOnly={true}
+        min={1}
+        inputProps={{
+          autoComplete: "off"
+        }}/>
+      )
+  }
 
   // 簽核層級設定
   const ApprovalStepsGrid = () => {
@@ -513,63 +524,89 @@ const ApprovalSettingForm = ({
 
     return (
       <ArrayInput source="steps" label={false}>
-        <SimpleFormIterator getItemLabel={index => `#${index + 1}`} disableAdd disableRemove>
-          <TextInput 
-            source="step_name" 
-            label={translate('resources.approvalSettings.detail.fields.step_name')} 
-            readOnly={formType === 'show' ? true : false}
-          />
-          <SelectInput 
-            source="approval_type" 
-            label={translate('resources.approvalSettings.detail.fields.approval_type')} 
-            choices={[
-              {id: 'user', name: '指定使用者'},
-              {id: 'department', name: '指定部門'}
-            ]}
-            readOnly={formType === 'show' ? true : false}
-          />
-          <ApprovalDepartmentSelecter />
-          <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3, width: '100%' }}>
-            <ApproversSelecter formType={formType} />
-            <ApproverDialogButton formType={formType} />
-          </Stack>
-          <SelectInput 
-            source="multi_approver_enabled" 
-            label={translate('resources.approvalSettings.detail.fields.multi_approver_enabled')} 
-            choices={[
-              {id: 0, name: '否'},
-              {id: 1, name: '是'}
-            ]}
-            readOnly={formType === 'show' ? true : false}
-          />
-          <SelectInput 
-            source="multi_approver_rule" 
-            label={translate('resources.approvalSettings.detail.fields.multi_approver_rule')} 
-            choices={[
-              {id: 'any', name: '任一人'},
-              {id: 'all', name: '全部'}
-            ]}
-            readOnly={formType === 'show' ? true : false}
-          />
-          <SelectInput 
-            source="allow_self_assign" 
-            label={translate('resources.approvalSettings.detail.fields.allow_self_assign')} 
-            choices={[
-              {id: 0, name: '否'},
-              {id: 1, name: '是'}
-            ]}
-            readOnly={formType === 'show' ? true : false}
-          />
-          <MultiApproverCountInput />
-          <SelectInput 
-            source="reject_behavior" 
-            label={translate('resources.approvalSettings.detail.fields.reject_behavior')} 
-            choices={[
-              {id: 'previous', name: '退回上一層'},
-              {id: 'creator', name: '退回建立者'}
-            ]}
-            readOnly={formType === 'show' ? true : false}
-          />
+        <SimpleFormIterator getItemLabel={index => `#${index + 1}`}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextInput 
+                source="step_name" 
+                label={translate('resources.approvalSettings.detail.fields.step_name')} 
+                readOnly={formType === 'show' ? true : false}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SelectInput 
+                source="approval_type" 
+                label={translate('resources.approvalSettings.detail.fields.approval_type')} 
+                choices={[
+                  {id: 'user', name: '指定使用者'},
+                  {id: 'department', name: '指定部門'}
+                ]}
+                readOnly={formType === 'show' ? true : false}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SelectInput 
+                source="multi_approver_enabled" 
+                label={translate('resources.approvalSettings.detail.fields.multi_approver_enabled')} 
+                choices={[
+                  {id: 0, name: '否'},
+                  {id: 1, name: '是'}
+                ]}
+                readOnly={formType === 'show' ? true : false}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <ApprovalDepartmentSelecter fullWidth />
+            </Grid>
+            <Grid item xs={12}>
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ width: '100%' }}>
+                <ApproversSelecter formType={formType} />
+                <ApproverDialogButton formType={formType} />
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SelectInput 
+                source="multi_approver_rule" 
+                label={translate('resources.approvalSettings.detail.fields.multi_approver_rule')} 
+                choices={[
+                  {id: 'any', name: '任一人'},
+                  {id: 'all', name: '全部'}
+                ]}
+                readOnly={formType === 'show' ? true : false}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SelectInput 
+                source="allow_self_assign" 
+                label={translate('resources.approvalSettings.detail.fields.allow_self_assign')} 
+                choices={[
+                  {id: 0, name: '否'},
+                  {id: 1, name: '是'}
+                ]}
+                readOnly={formType === 'show' ? true : false}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MultiApproverCountInput fullWidth />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SelectInput 
+                source="reject_behavior" 
+                label={translate('resources.approvalSettings.detail.fields.reject_behavior')} 
+                choices={[
+                  {id: 'previous', name: '退回上一層'},
+                  {id: 'creator', name: '退回建立者'}
+                ]}
+                readOnly={formType === 'show' ? true : false}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
         </SimpleFormIterator>
       </ArrayInput>
     );
@@ -579,7 +616,7 @@ const ApprovalSettingForm = ({
     <Box
       sx={{
         position: "relative",
-        height: "80vh",
+        height: "85vh",
         display: "flex",
         flexDirection: "column",
       }}
@@ -599,6 +636,7 @@ const ApprovalSettingForm = ({
             code: "",
             total_steps: 1,
             is_enabled: 1,
+            allow_cancel: 0,
             steps: [
               {
                 step_name: "",
@@ -650,8 +688,18 @@ const ApprovalSettingForm = ({
                   isRequired={formType === 'show' ? false : true}
                   readOnly={formType === 'show' ? true : false}/>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <ApprovalFormSelector/>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <SelectInput source="allow_cancel" 
+                  label={translate('resources.approvalSettings.detail.fields.allow_cancel')} 
+                  choices={[
+                    { id: 0, name: "否" },
+                    { id: 1, name: "是" }
+                  ]}
+                  isRequired={formType === 'show' ? false : true}
+                  readOnly={formType === 'show' ? true : false}/>
               </Grid>
               <Grid item xs={12}>
                 <TextInput source="note"

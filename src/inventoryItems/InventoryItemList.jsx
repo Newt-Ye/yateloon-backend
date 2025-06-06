@@ -9,6 +9,7 @@ import {
   EditButton,
   usePermissions,
   useTranslate,
+  SelectField
 } from "react-admin"
 import { useMediaQuery, Typography } from "@mui/material"
 import { ListActions } from "../components/ListActions"
@@ -120,6 +121,19 @@ const InventoryItemList = () => {
                     />
                   }
                 />
+                <SelectField 
+                  source="last_approval_instances.status" 
+                  label={translate(
+                    "resources.inventoryItems.list.fields.approval_instance_status"
+                  )}
+                  choices={[
+                    { id: 'pending', name: 'ra.status.approval.pending' },
+                    { id: 'partially_approved', name: 'ra.status.approval.partially_approved' },
+                    { id: 'approved', name: 'ra.status.approval.approved' },
+                    { id: 'rejected', name: 'ra.status.approval.rejected' },
+                    { id: 'cancelled', name: 'ra.status.approval.cancelled' },
+                    { id: 'returned', name: 'ra.status.approval.returned' }
+                  ]} />
                 {(permissions === 'superuser' || permissions?.[resource]?.delete) && (
                   <DeleteWithConfirmButton
                     confirmTitle="確認刪除"

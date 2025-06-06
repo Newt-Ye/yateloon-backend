@@ -13,6 +13,7 @@ import { AuditFields } from "../components/AuditFields"
 import { InventoryItemForm } from "./InventoryItemCreate"
 import { Link } from 'react-router-dom';
 import { ContentCopy } from '@mui/icons-material';
+import ApprovalStatusAside from './ApprovalStatusAside';
 
 
 const CloneButton = () => {
@@ -44,7 +45,11 @@ const InventoryItemShow = () => {
       <Typography variant="h5" sx={{ mt: 1, color: 'black' }}>
         {translate('resources.inventoryItems.title')}
       </Typography>
-      <Edit actions={<Actions />} redirect="show">
+      <Edit 
+        actions={<Actions />} 
+        redirect="show"
+        aside={<ApprovalStatusAside />}
+      >
         <SimpleForm toolbar={false}>
           <InventoryItemForm disabled={true} />
           <AuditFields />

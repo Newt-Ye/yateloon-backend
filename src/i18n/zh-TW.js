@@ -198,6 +198,17 @@ const customChineseTWMessages = {
           tertiaryText: '第三文本',
       },
     },
+    status: {
+      approval: {
+        pending: "簽核中", 
+        partially_approved: "部分核准",
+        approved: "已核准", 
+        rejected: "已駁回",
+        cancelled: "已取消",
+        returned: "已退回",
+        completed: "已完成"
+      }
+    }
   }, 
   pos: {
     search: "搜尋",
@@ -283,7 +294,8 @@ const customChineseTWMessages = {
           name: "品名",
           specification: "規格",
           inventory: "庫存數量",
-          effective_date: "生效日期"
+          effective_date: "生效日期",
+          approval_instance_status: "簽核狀態"
         },
         filters: {
           attribute: "品號屬性",
@@ -852,6 +864,7 @@ const customChineseTWMessages = {
           multi_approver_rule: "多人簽核條件",
           multi_approver_count: "自行指定簽核人數",
           reject_behavior: "駁回處理方式",
+          allow_cancel: "是否可以取消簽核",
         },
         fieldGroups: {
           approval_steps: "簽核層級設定",

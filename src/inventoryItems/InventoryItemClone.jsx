@@ -14,10 +14,11 @@ import {
   useNotify,
   useTranslate,
   useGetOne,
+  useGetList,
   Loading
 } from "react-admin"
 import { Box, Grid, Card, CardContent, Tabs, Tab, Typography, InputAdornment } from "@mui/material"
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useFormState, useWatch, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
@@ -245,8 +246,107 @@ export const InventoryItemCodeInput = () => {
   );
 };
 
-export const InventoryItemForm = ({ disabled = false }) => {
+export const InventoryItemForm = ({ disabled = false, record }) => {
   const translate = useTranslate();
+
+  const InventoryItemCategorySelecter = () => {
+    const { setValue } = useFormContext();
+    const companyId = useWatch({ name: "company_id" });
+    const { data: categories, isPending } = useGetList(
+        'inventory-item-categories',
+        {
+          pagination: { page: 1, perPage: 100 },
+          sort: { field: 'created_at', order: 'ASC' },
+          filter: { company_id: companyId }
+        },
+        {
+          enabled: !!companyId
+        }
+    );
+    const isInitialMount = useRef(true);
+    const previousCompanyIdRef = useRef(companyId);
+    const currentCode = useRef("");
+
+    useEffect(() => {
+      if (!Array.isArray(categories)) return;
+
+      if (!isInitialMount.current && previousCompanyIdRef.current !== companyId) {
+        const currentCategory = categories.find((category) => category.code === currentCode.current);
+        setValue('inventory_item_category_id', currentCategory.id); 
+      }
+
+      // 處理首次掛載邏輯
+      if (isInitialMount.current) {
+        const currentCategory = categories.find((category) => category.id === record.inventory_item_category_id);
+        currentCode.current = currentCategory.code
+        isInitialMount.current = false;
+      }
+      
+      previousCompanyIdRef.current = companyId;
+
+    }, [companyId, setValue, categories]);
+
+    return (
+      <SelectInput 
+        source="inventory_item_category_id"
+        choices={categories}
+        label={translate('resources.inventoryItems.detail.fields.inventory_item_category')} 
+        isRequired={!disabled}
+        disabled={disabled} 
+        isPending={isPending} 
+      />
+    )
+  }
+
+  const WarehouseSelecter = () => {
+    const { setValue } = useFormContext();
+    const companyId = useWatch({ name: "company_id" });
+    const { data: warehouses, isPending } = useGetList(
+        'warehouses',
+        {
+          pagination: { page: 1, perPage: 100 },
+          sort: { field: 'created_at', order: 'ASC' },
+          filter: { company_id: companyId }
+        },
+        {
+          enabled: !!companyId
+        }
+    );
+    const isInitialMount = useRef(true);
+    const previousCompanyIdRef = useRef(companyId);
+    const currentCode = useRef("");
+
+    useEffect(() => {
+      if (!Array.isArray(warehouses)) return;
+
+      if (!isInitialMount.current && previousCompanyIdRef.current !== companyId) {
+        const currentWarehouse = warehouses.find((warehouse) => warehouse.code === currentCode.current);
+        setValue('warehouse_id', currentWarehouse.id); 
+      }
+
+      // 處理首次掛載邏輯
+      if (isInitialMount.current) {
+        const currentWarehouse = warehouses.find((warehouse) => warehouse.id === record.warehouse_id);
+        currentCode.current = currentWarehouse.code
+        isInitialMount.current = false;
+      }
+      
+      previousCompanyIdRef.current = companyId;
+
+    }, [companyId, setValue, warehouses]);
+
+    return (
+      <SelectInput 
+        source="warehouse_id"
+        choices={warehouses}
+        label={translate('resources.inventoryItems.detail.fields.warehouse')}
+        isRequired={!disabled}
+        disabled={disabled} 
+        isPending={isPending} 
+      />
+    )
+  }
+
   return (
     <>
       <Grid container width={{ xs: "100%", xl: 1200 }} spacing={2}>
@@ -267,14 +367,7 @@ export const InventoryItemForm = ({ disabled = false }) => {
               </ReferenceInput>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ReferenceInput source="inventory_item_category_id" 
-                reference="inventory-item-categories" 
-                sort={{ field: 'created_at', order: 'ASC' }}
-              >
-                <SelectInput optionText="name" label={translate('resources.inventoryItems.detail.fields.inventory_item_category')} 
-                  isRequired={!disabled}
-                  disabled={disabled} />
-              </ReferenceInput>
+              <InventoryItemCategorySelecter />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectInput source="attribute" label={translate('resources.inventoryItems.detail.fields.attribute')} choices={[
@@ -297,7 +390,7 @@ export const InventoryItemForm = ({ disabled = false }) => {
               }
             </Grid>
             <Grid item xs={12} sm={6}>
-              <CustomReferenceInput label={translate('resources.inventoryItems.detail.fields.warehouse')} source="warehouse_id" reference="warehouses" required={true} disabled={disabled} />
+              <WarehouseSelecter />
             </Grid>
             <Grid item xs={12} sm={12}>
               <TextInput  source="name" label={translate('resources.inventoryItems.detail.fields.name')} 
@@ -489,7 +582,7 @@ const InventoryItemClone = () => {
           <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
             <SaveButton />
           </Box>
-          <InventoryItemForm disabled={false} />
+          <InventoryItemForm disabled={false} record={record} />
         </SimpleForm>
       </Create>
     </>
